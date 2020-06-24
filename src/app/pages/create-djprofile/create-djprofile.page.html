@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-title>Create DJ Profile</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="createDJProfile" (ngSubmit)="createDJProfile()">
+    <ion-row>
+      <ion-col size='4' (click)='uploadImg()'>
+        <ion-avatar class="divImage">
+          <img *ngIf="base64Image!=''" [src]="base64Image">
+          <!-- <img *ngIf="base64Image=='' && pflImg==''" src="../../../assets/img/defaultImg.jpg"> -->
+          <img *ngIf="base64Image ==''" src="../../../assets/img/defaultImg.jpg">
+          <!-- <img *ngIf="base64Image=='' && pflImg!=''" [src]="pflImg"> -->
+          <span class="editICon">
+            <ion-icon name="add-circle"></ion-icon>
+          </span>
+        </ion-avatar>
+      </ion-col>
+      <ion-col size='8'>
+      </ion-col>
+    </ion-row>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">DJ Name</ion-label>
+        <ion-input type="text" formControlName="djname"></ion-input>
+      </ion-item>
+      <div *ngIf="!createDJProfile.controls.djname.valid && createDJProfile.controls.djname.dirty"
+        class="validator-error">
+        Please Enter your Name.
+      </div>
+      <ion-item>
+        <img class="flagIcon" src="../../../assets/img/india.png" />&nbsp;
+        <p> +91 </p>&nbsp;
+        <ion-input type="number" disabled formControlName="phone" value={{phoneNumber}}></ion-input>
+      </ion-item>
+      <!-- <ion-item>
+        <img class="flagIcon" src="../../../assets/img/india.png" />&nbsp;
+        <span> +91 </span>&nbsp;
+        <ion-input type="tel" formControlName="phone"></ion-input>
+      </ion-item> -->
+      <ion-item>
+        <ion-label position="floating">Email Address</ion-label>
+        <ion-input type="email" formControlName="email"
+          pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{2,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="!createDJProfile.controls.email.valid && createDJProfile.controls.email.dirty" class="validator-error">
+        Please enter a valid email.
+      </div>
+      <ion-item>
+        <ion-label position="floating">Address</ion-label>
+        <ion-input type="text" formControlName="address"></ion-input>
+      </ion-item>
+      <div *ngIf="!createDJProfile.controls.address.valid && createDJProfile.controls.address.dirty"
+        class="validator-error">
+        Please Enter your Address.
+      </div>
+      <ion-item>
+        <ion-label position="floating">About</ion-label>
+        <ion-input type="text" formControlName="about"></ion-input>
+      </ion-item>
+      <div *ngIf="!createDJProfile.controls.about.valid && createDJProfile.controls.about.dirty" class="validator-error">
+        Please write about your work
+      </div>
+      <ion-item>
+        <ion-label position="floating">Work History</ion-label>
+        <ion-input type="text" formControlName="workHistory"></ion-input>
+      </ion-item>
+      <div *ngIf="!createDJProfile.controls.workHistory.valid && createDJProfile.controls.workHistory.dirty" class="validator-error">
+        Please write your work History.
+      </div>
+    </ion-list>
+    <br />
+    <div class="button">
+      <ion-button color="dark" expand="round" (click)="createdjProfile()">Create Profile</ion-button>
+    </div>
+  </form>
+</ion-content>

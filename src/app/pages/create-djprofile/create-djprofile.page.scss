@@ -1,0 +1,30 @@
+ion-avatar {
+    height: 100%;
+    width: 100%;
+    margin-left: 12px;
+}
+.editICon {
+    position: absolute;
+    bottom: 10%;
+    left: 80%;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+}
+
+.editICon ion-icon {
+    position: absolute;
+    font-size: 25px;
+    left: -2px;
+    top: 2px;
+}
+
+.button {
+    text-align: center;
+}
+ion-button {
+    font-size: 18px;
+    height: 45px;
+    text-transform: capitalize;
+    width: 80%;
+}

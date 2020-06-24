@@ -1,0 +1,89 @@
+ion-content {
+  // --background: url("../../assets/images/banner.jpg") repeat 100% 100%;
+  --ion-background-color: #242132;
+}
+
+ion-card {
+  border-radius: 15px;
+  height: 55%;
+  --background: white;
+}
+
+.image {
+  text-align: center;
+  padding-top: 5%;
+}
+
+.picture {
+  display: initial;
+  width: auto;
+  height: auto;
+}
+
+table {
+  height: 100%;
+  width: 100%;
+}
+
+.tdclass {
+  vertical-align: middle;
+}
+.card-content-md h2 {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  color: #242132;
+}
+
+.validator-error {
+  color: red;
+  padding-left: 26%;
+  font-size: 15px;
+}
+
+.write {
+  text-align: center;
+  margin-top: 30%;
+}
+
+ion-button {
+  height: 55px;
+  font-size: 18px;
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.SubmitOTP {
+  margin-top: 2%;
+  text-align: center;
+}
+
+.number {
+  text-align: center;
+  margin-top: 8%;
+}
+
+ion-input {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 10%;
+  border: 1px solid #a6a6a6;
+}
+
+ion-row {
+  text-align: center;
+}
+.sc-ion-input-md-h {
+  --padding-top: 15px;
+  --padding-end: 0;
+  --padding-bottom: 15px;
+  --padding-start: 0px;
+  font-size: 20px;
+}

@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-title>Create Listener Profile</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="createProfile" (ngSubmit)="createlistenerProfile()">
+    <ion-row>
+      <ion-col size='4' (click)='uploadImg()'>
+        <ion-avatar class="divImage">
+          <img *ngIf="base64Image!=''" [src]="base64Image">
+          <!-- <img *ngIf="base64Image=='' && pflImg==''" src="../../../assets/img/defaultImg.jpg"> -->
+          <img *ngIf="base64Image ==''" src="../../../assets/img/defaultImg.jpg">
+          <!-- <img *ngIf="base64Image=='' && pflImg!=''" [src]="pflImg"> -->
+          <span class="editICon">
+            <ion-icon name="add-circle"></ion-icon>
+          </span>
+        </ion-avatar>
+      </ion-col>
+      <ion-col size='8'>
+      </ion-col>
+    </ion-row>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">First Name</ion-label>
+        <ion-input type="text" formControlName="fname"></ion-input>
+      </ion-item>
+      <div *ngIf="!createProfile.controls.fname.valid && createProfile.controls.fname.dirty" class="validator-error">
+        Please Enter your First Name.
+      </div>
+      <ion-item>
+        <ion-label position="floating">Last Name</ion-label>
+        <ion-input type="text" formControlName="lname"></ion-input>
+      </ion-item>
+      <div *ngIf="!createProfile.controls.lname.valid && createProfile.controls.lname.dirty" class="validator-error">
+        Please Enter your Last Name.
+      </div>
+      <ion-item>
+        <img class="flagIcon" src="../../../assets/img/india.png" />&nbsp;
+        <p> +91 </p>&nbsp;
+        <ion-input type="number" disabled formControlName="phone" value={{phoneNumber}}></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">City</ion-label>
+        <ion-input type="text" formControlName="city"></ion-input>
+      </ion-item>
+      <div *ngIf="!createProfile.controls.city.valid && createProfile.controls.city.dirty" class="validator-error">
+        Please Enter your Address.
+      </div>
+      <ion-item>
+        <ion-label position="floating">Email Address</ion-label>
+        <ion-input type="email" formControlName="email"
+          pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{2,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="!createProfile.controls.email.valid && createProfile.controls.email.dirty" class="validator-error">
+        Please enter a valid email.
+      </div>
+      <ion-item>
+        <ion-label>Role</ion-label>
+        <ion-select formControlName="role" interface="popover">
+          <ion-select-option value="user">User</ion-select-option>
+          <ion-select-option value="dj">DJ</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" formControlName="password">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="!createProfile.controls.password.valid && createProfile.controls.password.dirty" class="validator-error">
+        Please enter your 6 digit password.
+      </div>
+      <ion-item>
+        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-input type="password" formControlName="confirmpassword">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="!createProfile.controls.confirmpassword.valid && createProfile.controls.confirmpassword.dirty" class="validator-error">
+        Please enter your 6 digit Confirm password.
+      </div>
+    </ion-list>
+    <br />
+    <div class="button">
+      <ion-button color="dark" expand="round" (click)="createlistenerProfile()">Create Profile</ion-button>
+    </div>
+  </form>
+</ion-content>

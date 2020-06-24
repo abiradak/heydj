@@ -1,0 +1,39 @@
+<ion-content>
+  <table>
+    <tr>
+      <td class="tdclass">
+        <ion-card>
+          <div class="image">
+            <img class="picture" src="../../../assets/img/logo.png" />
+          </div>
+          <ion-card-content class="text-center">
+            <h2>Enter your mobile number to login</h2>
+
+            <form [formGroup]="loginForm" (ngSubmit)="loginsubmit()">
+              <ion-list>
+                <ion-item lines="none" style="margin-top: 5%;">
+                  <span class="itemLeft">
+                    <span class="imgSpan"><img src="../../../assets/img/india.png" /></span>
+                    <span> +91 </span>
+                  </span>
+                  &nbsp;
+                  <ion-input (keyup)="Phonekeyup($event)" type="tel" formControlName="phone"
+                    placeholder="Mobile Number">
+                  </ion-input>
+                </ion-item>
+
+                <div *ngIf="!loginForm.controls.phone.valid && loginForm.controls.phone.dirty" class="validator-error">
+                  Enter 10 digit Phone No.
+                </div>
+              </ion-list>
+              <h2 class="notifyError">{{nnotifyError}}</h2>
+              <ion-button [disabled]="!loginForm.controls.phone.valid && loginForm.controls.phone.dirty" color="dark" expand="block"
+                (click)="loginsubmit()">Login/SignUp&nbsp;<ion-icon name="arrow-forward"></ion-icon>
+              </ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </td>
+    </tr>
+  </table>
+</ion-content>
