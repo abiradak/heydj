@@ -5,7 +5,7 @@ import { CheckTutorial } from './providers/check-tutorial.service';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/tutorial',
+    redirectTo: '/mainhome',
     pathMatch: 'full'
   },
   {
@@ -48,6 +48,14 @@ const routes: Routes = [
   {
     path: 'create-djprofile',
     loadChildren: () => import('./pages/create-djprofile/create-djprofile.module').then( m => m.CreateDJprofilePageModule)
+  },
+  {
+    path: 'modal',
+    loadChildren: () => import('./pages/modal/modal.module').then( m => m.ModalPageModule)
+  },
+  {
+    path: 'mainhome',
+    loadChildren: () => import('./pages/mainhome/mainhome.module').then( m => m.MainhomePageModule)
   }
 
 

@@ -67,7 +67,6 @@ export class LoginPage {
   //   this.router.navigate(['signup']);
   // }
   loginsubmit() {
-    //  let appVersionNumber: any;
     if (this.loginForm.value.phone === '') {
       this.apiGenerate.present('Please enter your phone number');
       return false;

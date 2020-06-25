@@ -33,3 +33,24 @@
  */
 
 @import "./app/app.scss";
+
+@font-face {
+  font-family: 'Gotham Narrow';
+  src: url(./assets/fonts/GothamNarrow-Medium.ttf);
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gotham Narrow';
+  src: url(./assets/fonts/GothamNarrow-Book.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TwCenMTStd';
+  src: url(./assets/fonts/TwCenMTStd.ttf);
+  font-weight: 500;
+  font-style: normal;
+}

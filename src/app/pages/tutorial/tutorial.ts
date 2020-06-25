@@ -1,16 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { MenuController, IonSlides } from '@ionic/angular';
-
 import { Storage } from '@ionic/storage';
+import { ModalController } from '@ionic/angular';
+import { ModalPage } from '../modal/modal.page';
+
 
 @Component({
   selector: 'page-tutorial',
   templateUrl: 'tutorial.html',
   styleUrls: ['./tutorial.scss'],
 })
-export class TutorialPage {
+export class TutorialPage implements OnInit{
   showSkip = true;
 
   @ViewChild('slides', { static: true }) slides: IonSlides;
@@ -18,20 +19,19 @@ export class TutorialPage {
   constructor(
     public menu: MenuController,
     public router: Router,
-    public storage: Storage
+    public storage: Storage,
+    public modalController: ModalController
   ) {}
 
-  startApp() {
-    this.router
-      .navigateByUrl('login', { replaceUrl: true })
-      .then(() => this.storage.set('ion_did_tutorial', true));
+  ngOnInit() {
+
   }
 
-  onSlideChangeStart(event) {
-    event.target.isEnd().then(isEnd => {
-      this.showSkip = !isEnd;
-    });
-  }
+  // onSlideChangeStart(event) {
+  //   event.target.isEnd().then(isEnd => {
+  //     this.showSkip = !isEnd;
+  //   });
+  // }
 
   // ionViewWillEnter() {
   //   this.storage.get('ion_did_tutorial').then(res => {
@@ -43,8 +43,19 @@ export class TutorialPage {
   //   this.menu.enable(false);
   // }
 
-  ionViewDidLeave() {
-    // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true);
+  // ionViewDidLeave() {
+  //   this.menu.enable(true);
+  // }
+
+  loginWithOtp() {
+    this.presentModal();
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'des'
+    });
+    return await modal.present();
   }
 }

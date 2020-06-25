@@ -28,3 +28,54 @@ ion-button {
     text-transform: capitalize;
     width: 80%;
 }
+
+.header-logo{
+  width: 100%;
+  background: #242232;
+  text-align: center;
+  padding:10px 0px;
+}
+.header-logo img{
+  width: 70px;
+}
+
+.registration-form {
+  width: 100%;
+  background: #202020;
+  padding: 15px 25px 50px 15px;
+  font-family: 'Gotham Narrow';
+}
+
+.registration-form  .col-form-label{
+  padding-right: 0px;
+  font-size: 14px;
+  color: #fff;
+}
+.ccode{
+  padding-right: 0px;
+}
+.registration-form p{
+  margin: 0px;
+  font-size: 12px;
+  display: block;
+  line-height: 20px;
+  color: #fff;
+  padding-top: 3px;
+}
+.cstm-btn {
+  width: 100%;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+}
+.form-group {
+  margin-bottom: 5px;
+}
+.cstm-btn {
+  width: 100%;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+}
