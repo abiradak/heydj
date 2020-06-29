@@ -19,6 +19,7 @@ export class HelperService {
   private messageSource = new BehaviorSubject("");
   currentMessage = this.messageSource.asObservable();
   loading: any;
+  globaldata: any;
 
   emitChange(data: string) {
     this.emitChangeSource.next(data);
@@ -42,6 +43,7 @@ export class HelperService {
       message: message,
       color: color,
       position: 'top',
+      duration: 2000,
       buttons: [
         {
           text: 'Close',
@@ -127,5 +129,19 @@ export class HelperService {
     const  formated = date.toString().substring(0, 10);
     let arr = formated.split('-');
     return `${arr[0]}/${arr[1]}/${arr[2]}`;
+  }
+
+  setvalue(data) {
+    this.globaldata = data;
+  }
+
+  getvalue() {
+    return new Promise((resolve, reject) => {
+      if (this.globaldata) {
+        resolve({ data: this.globaldata });
+      } else {
+        reject({ data: null });
+      }
+    });
   }
 }

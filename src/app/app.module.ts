@@ -12,11 +12,15 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
 import { Camera } from '@ionic-native/camera/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { ModalPage } from './pages/modal/modal.page';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+  AmazonLoginProvider,
+} from 'angularx-social-login';
 
 @NgModule({
   imports: [
@@ -24,6 +28,7 @@ import { ModalPage } from './pages/modal/modal.page';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    SocialLoginModule,
     ReactiveFormsModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
@@ -38,7 +43,31 @@ import { ModalPage } from './pages/modal/modal.page';
     SplashScreen,
     StatusBar,
     Camera,
-    Keyboard
+    Keyboard,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              'clientId'
+            ),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('clientId'),
+          },
+          {
+            id: AmazonLoginProvider.PROVIDER_ID,
+            provider: new AmazonLoginProvider(
+              'clientId'
+            ),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent]
 })

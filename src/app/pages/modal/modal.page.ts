@@ -5,6 +5,9 @@ import { ModalController, AlertController } from '@ionic/angular';
 import { ApiGenerateService } from '../../api-generate.service';
 import { HelperService } from '../../helper.service';
 import { NavigationExtras, Router } from '@angular/router';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { Storage } from '@ionic/storage';
+import * as jwt_decode from "jwt-decode";
 
  
 @Component({
@@ -15,6 +18,10 @@ import { NavigationExtras, Router } from '@angular/router';
 export class ModalPage implements OnInit {
   loginForm: FormGroup;
   phone: AbstractControl
+  phonenumber: Promise<void>;
+  showSuccessTd: boolean;
+  token: any;
+  userInfo: Promise<void>;
   constructor(
     public formbuilder: FormBuilder,
     public modalController: ModalController,
@@ -22,6 +29,8 @@ export class ModalPage implements OnInit {
     public helper: HelperService,
     public router: Router,
     private alertCtrl: AlertController,
+    private keyboard: Keyboard,
+    private storage: Storage,
   ) { 
     this.loginForm = formbuilder.group({
       country_code: [''],
@@ -48,12 +57,11 @@ export class ModalPage implements OnInit {
           country_code: 91
         }];
         // console.log('sending>>>>>>>>>' , data);
-        // this.apiGenerate.presentLoadingWithOptions();
+        this.phonenumber = data[0].country_code+data[0].phone;
         this.helper.presentLoading();
-        this.apiGenerate.sendHttpCall('', '/api/auth/otp?phonenumber=' + data[0].country_code+data[0].phone, 'get').subscribe((response) => {
-          // console.log('success', response);
+        this.apiGenerate.sendHttpCall('', '/api/auth/otp?phonenumber=' + this.phonenumber, 'get').subscribe((response) => {
           if (response) {
-            this.presentAlertPrompt();
+            this.presentAlertPrompt(this.phonenumber);
             // this.apiGenerate.setvalue(success);
             // const navigationExtras: NavigationExtras = {
             //   state: {
@@ -64,10 +72,11 @@ export class ModalPage implements OnInit {
             this.helper.hideLoading();
           } else {
             this.helper.hideLoading();
-            // this.loginForm.value = null;
           }
         }, err => {
           console.log(err.error);
+          this.helper.presentToast(err.error, 'danger');
+          this.helper.hideLoading();
         });
       }
     } else {
@@ -76,7 +85,7 @@ export class ModalPage implements OnInit {
   }
 
   //For the Otp Box
-  async presentAlertPrompt() {
+  async presentAlertPrompt(phonenum) {
     const alert = await this.alertCtrl.create({
       header: 'Otp Box',
       inputs: [
@@ -98,16 +107,12 @@ export class ModalPage implements OnInit {
         {
           text: 'Resend',
           handler: () => {
-            const sendData = [{
-              phone: this.loginForm.value.phone,
-              country_code: 91
-            }];
             this.helper.presentLoading();
-            this.apiGenerate.sendHttpCall('', '/api/auth/otp?phonenumber=' + sendData[0].country_code+sendData[0].phone, 'get').subscribe((response) => {
+            this.apiGenerate.sendHttpCall('', '/api/auth/otp?phonenumber=' + phonenum, 'get').subscribe((response) => {
               // console.log('success', response);
               if (response) {
                 this.helper.hideLoading();
-                this.presentAlertPrompt();
+                this.presentAlertPrompt(phonenum);
               } else {
                 this.helper.hideLoading();
               }
@@ -119,11 +124,29 @@ export class ModalPage implements OnInit {
         {
           text: 'Ok',
           handler: (data) => {
-            let sendData = {
-             otp: data.otp
-            }
             if(data.otp){
-              // this.keyboard.hide();
+              this.keyboard.hide();
+              const OTPdata = {
+                OTP: data.otp,
+                phone: phonenum
+              };
+              console.log('otp verify send data>>>>>>', OTPdata);
+              this.helper.presentLoading();
+              this.apiGenerate.sendHttpCall('', '/api/auth/otp/verify?phonenumber=' + OTPdata.phone + '&' + 'code=' + OTPdata.OTP, 'get').subscribe((response) => {
+                // console.log('otp verify resp>>>>>>' , response);
+                if (response) {
+                  this.token = response.headers.get('x-auth-token');
+                  localStorage.setItem('token' , JSON.stringify(this.token));
+                  localStorage.setItem('userInfo', JSON.stringify(response.body));
+                  this.helper.hideLoading();
+                  this.helper.presentToast('Login Successfull' , 'success');
+                }
+              }, err => {
+                this.helper.hideLoading();
+                this.helper.presentToast(err.error, 'warning');
+                this.presentAlertPrompt(phonenum);
+              });
+              this.helper.hideLoading();
             }
             else{
               this.helper.presentAlert("Enter The Otp","Warning!");
@@ -134,11 +157,13 @@ export class ModalPage implements OnInit {
     });
     await alert.present();
   }
-  // dismissmodal() {
-  //   // using the injected ModalController this page
-  //   // can "dismiss" itself and optionally pass back data
-  //   this.modalCtrl.dismiss({
-  //     'dismissed': true
-  //   });
-  // }
+
+  getDecodedAccessToken(token: string): any {
+    try{
+        return jwt_decode(token);
+    }
+    catch(Error){
+        return null;
+    }
+  }
 }

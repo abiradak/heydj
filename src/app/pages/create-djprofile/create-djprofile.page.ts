@@ -193,7 +193,7 @@ export class CreateDJprofilePage implements OnInit {
         console.log('body', data);
         this.storage.get('currentUser').then(value => {
           this.apiGenerate.sendHttpCallWithToken(data, '/api/user/dj',
-            'post', (value).api_token).subscribe((success: any) => {
+            'post').subscribe((success: any) => {
               console.log(success);
               // if (success.resp === 'true') {
               //   this.dismiss();

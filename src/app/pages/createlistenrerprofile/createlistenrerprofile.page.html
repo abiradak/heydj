@@ -5,7 +5,7 @@
     <img src="../../../assets/img/logo.png">
   </div>
   <div class="registration-form">
-  <form [formGroup]="createProfile" (ngSubmit)="createlistenerProfile()">
+  <form [formGroup]="updateProfile" (ngSubmit)="updateUserPrifile()">
     <ion-row>
       <ion-col size='4'>
       </ion-col>
@@ -27,37 +27,97 @@
     <div class="form-group row">
       <label for="inputtext" class="col-sm-2 col-form-label">First Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputtext">
+        <input type="text" class="form-control" id="inputtext" formControlName="fname">
+        <div *ngIf="updateProfile.controls?.fname?.invalid && updateProfile.controls?.fname?.touched"> 
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.fname?.errors?.required">
+            <p class="validation">* First Name Field is Required *</p>
+          </span>      
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.fname?.errors?.minlength">
+            <p class="validation">* Minimum 2 character *</p>
+          </span>
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.fname?.errors?.minlength">
+            <p class="validation">* Maxumum 30 character *</p>
+          </span>
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.fname?.errors?.pattern">
+            <p class="validation">* Please Enter Valid Firstname *</p>
+          </span>
+        </div>
       </div>
     </div>
     <div class="form-group row">
       <label for="lstnm" class="col-sm-2 col-form-label">last Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="lstnm">
+        <input type="text" class="form-control" id="lstnm" formControlName="lname">
+        <div *ngIf="updateProfile.controls?.lname?.invalid && updateProfile.controls?.lname?.touched">       
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.lname?.errors?.minlength">
+            <p class="validation">* Minimum 2 character *</p>
+          </span>
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.lname?.errors?.minlength">
+            <p class="validation">* Maxumum 30 character *</p>
+          </span>
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.lname?.errors?.pattern">
+            <p class="validation">* Please enter valid Firstname *</p>
+          </span>
+        </div>
       </div>
     </div>
     <div class="form-group row">
       <label for="lstnm" class="col-sm-2 col-form-label">Mobile</label>
       <div class="col-sm-2 col-2 ccode">
-        <input type="number" class="form-control" id="lstnm">
+        <input type="number" class="form-control" id="lstnm" formControlName="cuntrycode">
+        <div *ngIf="updateProfile.controls?.cuntrycode?.invalid && updateProfile.controls?.cuntrycode?.touched">  
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.cuntrycode?.errors?.required">
+            <p class="validation">* Country Code is Required *</p>
+          </span>   
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.cuntrycode?.errors?.minlength">
+            <p class="validation">* Minimum 2 character *</p>
+          </span>
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.cuntrycode?.errors?.pattern">
+            <p class="validation">* Please Enter valid Lastname *</p>
+          </span>
+        </div>
       </div>
       <div class="col-sm-8 col-10">
-        <input type="number" class="form-control">
+        <input type="number" class="form-control" formControlName="phone">
+        <div *ngIf="updateProfile.controls?.phone?.invalid && updateProfile.controls?.phone?.touched"> 
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.phone?.errors?.required">
+            <p class="validation">* Phone is Required *</p>
+          </span>   
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.phone?.errors?.minlength">
+            <p class="validation">* Minimum 10 character *</p>
+          </span>
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.phone?.errors?.pattern">
+            <p class="validation">* Please Enter valid Mobile *</p>
+          </span>
+        </div>
       </div>
     </div>
     <div class="form-group row">
       <label for="city" class="col-sm-2 col-form-label">City</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="city">
+        <input type="text" class="form-control" id="city" formControlName="city">
+        <div *ngIf="updateProfile.controls?.city?.invalid && updateProfile.controls?.city?.touched">       
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.city?.errors?.minlength">
+            <p class="validation">* Minimum 10 character *</p>
+          </span>
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.city?.errors?.pattern">
+            <p class="validation">* Please enter valid City *</p>
+          </span>
+        </div>
       </div>
     </div>
    <div class="form-group row">
       <label for="inputEmail3" class="col-sm-2 col-form-label">Mail ID</label>
       <div class="col-sm-10">
-        <input type="email" class="form-control" id="inputEmail3" >
+        <input type="email" class="form-control" id="inputEmail3" formControlName="email">
+        <div *ngIf="updateProfile.controls?.email?.invalid && updateProfile.controls?.email?.touched">       
+          <span class="hass-error-message" *ngIf="updateProfile.controls?.email?.errors?.pattern">
+            <p class="validation">* Please Enter Valid Email *</p>
+          </span>
+        </div>
       </div>
     </div>
-  <div class="form-group row">
+  <!-- <div class="form-group row">
     <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
     <div class="col-sm-10">
       <input type="password" class="form-control" id="inputPassword3">
@@ -70,12 +130,9 @@
       <input type="password" class="form-control" id="inputPassword2">
       <p>password should be atleast 6 characters</p>
     </div>
-  </div>
-
-
-
+  </div> -->
   <div class="col-md-12">
-    <button type="submit" class="cstm-btn">Continue</button>
+    <button type="submit" class="cstm-btn">Update Profile</button>
   </div>
   </form>
 </div>

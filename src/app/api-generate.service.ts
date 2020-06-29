@@ -7,10 +7,12 @@ export const apiUrl = 'https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/d
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiGenerateService {
   alert: any;
   globaldata: any;
   settedValue: any;
+  token = JSON.parse(localStorage.getItem('token'));
   constructor(
     private storage: Storage,
     public http: HttpClient,
@@ -19,18 +21,17 @@ export class ApiGenerateService {
     public loadingController: LoadingController,
     public navCtrl: NavController,
     public alertCtrl: AlertController) {
-
-    console.log('Hello ApiGenerateProvider Provider');
   }
 
-  sendHttpCallWithToken(data: any = '', url: any, method: any, token: string) {
+
+  sendHttpCallWithToken(data: any = '', url: any, method: any) {
     if (navigator.onLine === false) {
       this.showToast('Opps, unable to connect internet');
     } else {
       const httpOptions = {
         headers: new HttpHeaders({
-          'Accept': 'aplication/json',
-          Authorization: token
+          'accept': 'aplication/json',
+          Authorization: this.token
         })
       };
       console.log(httpOptions);
@@ -65,7 +66,7 @@ export class ApiGenerateService {
 
       case 'get':
         console.log(data);
-        return this.http.get<any>(apiUrl + url);
+        return this.http.get<any>(apiUrl + url , { observe: 'response' });
 
       case 'put':
         console.log(data);

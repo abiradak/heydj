@@ -60,6 +60,8 @@ export class AppComponent implements OnInit {
   loggedIn = false;
   dark = false;
   nav: any;
+  token: string;
+  isLoggedIn: boolean;
 
   constructor(
     private menu: MenuController,
@@ -103,43 +105,44 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
+      this.checkLoginStatus();
       this.splashScreen.hide();
     });
   }
 
-  checkLoginStatus() {
-    return this.userData.isLoggedIn().then(loggedIn => {
-      return this.updateLoggedInStatus(loggedIn);
-    });
-  }
+  // checkLoginStatus() {
+  //   return this.userData.isLoggedIn().then(loggedIn => {
+  //     return this.updateLoggedInStatus(loggedIn);
+  //   });
+  // }
 
-  updateLoggedInStatus(loggedIn: boolean) {
-    setTimeout(() => {
-      this.loggedIn = loggedIn;
-    }, 300);
-  }
+  // updateLoggedInStatus(loggedIn: boolean) {
+  //   setTimeout(() => {
+  //     this.loggedIn = loggedIn;
+  //   }, 300);
+  // }
 
   listenForLoginEvents() {
-    window.addEventListener('user:login', () => {
-      this.updateLoggedInStatus(true);
-    });
+    // window.addEventListener('user:login', () => {
+    //   this.updateLoggedInStatus(true);
+    // });
 
-    window.addEventListener('user:signup', () => {
-      this.updateLoggedInStatus(true);
-    });
+    // window.addEventListener('user:signup', () => {
+    //   this.updateLoggedInStatus(true);
+    // });
 
-    window.addEventListener('user:logout', () => {
-      this.updateLoggedInStatus(false);
-    });
+    // window.addEventListener('user:logout', () => {
+    //   this.updateLoggedInStatus(false);
+    // });
   }
 
-  openSub(page) {
-    if (this.selectedPage === page) {
-      this.selectedPage = '';
-    } else {
-      this.selectedPage = page;
-    }
-  }
+  // openSub(page) {
+  //   if (this.selectedPage === page) {
+  //     this.selectedPage = '';
+  //   } else {
+  //     this.selectedPage = page;
+  //   }
+  // }
 
   profile(page) {
     console.log(page);
@@ -152,10 +155,19 @@ export class AppComponent implements OnInit {
   }
 
 
-  logout() {
-    this.userData.logout().then(() => {
-      return this.router.navigateByUrl('/app/tabs/schedule');
-    });
+  // logout() {
+  //   this.userData.logout().then(() => {
+  //     return this.router.navigateByUrl('/app/tabs/schedule');
+  //   });
+  // }
+  checkLoginStatus() {
+    this.token = localStorage.getItem('token');
+    if (this.token) {
+      this.isLoggedIn = true;
+    } else {
+       this.isLoggedIn = false;
+       this.router.navigate(['mainhome']);
+    }
   }
 
   openTutorial() {
