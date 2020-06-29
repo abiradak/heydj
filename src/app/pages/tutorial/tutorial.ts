@@ -31,9 +31,12 @@ export class TutorialPage implements OnInit{
   ) {}
 
   ngOnInit() {
+    // this.authService.authState.subscribe((user) => {
+    //   this.user = user;
+    //   // this.loggedIn = (user != null);
+    // });
     this.authService.authState.subscribe((user) => {
       this.user = user;
-      this.loggedIn = (user != null);
     });
   }
 
