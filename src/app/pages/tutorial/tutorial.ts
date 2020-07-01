@@ -9,6 +9,7 @@ import { ModalPage } from '../modal/modal.page';
 // import { SocialUser } from "angularx-social-login";
 import { ApiGenerateService } from '../../api-generate.service';
 import { HelperService } from '../../helper.service'; 
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 @Component({
   selector: 'page-tutorial',
@@ -27,10 +28,9 @@ export class TutorialPage implements OnInit{
     public router: Router,
     public storage: Storage,
     public modalController: ModalController,
-    // private authService: SocialAuthService,
-    // private authService: AuthService
     public apiGenerate: ApiGenerateService,
     public helper: HelperService,
+    private deeplinks: Deeplinks
   ) {}
 
   ngOnInit() {
@@ -59,7 +59,21 @@ export class TutorialPage implements OnInit{
   
 
   signInWithGoogle(): void {
-    window.open("https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google", "_system");
+    // this.deeplinks.route({
+    //   'https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google': DjProfilePage
+    //   // '/about-us': AboutPage,
+    //   // '/universal-links-test': AboutPage,
+    //   // '/products/:productId': ProductPage
+    // }).subscribe(match => {
+    //   // match.$route - the route we matched, which is the matched entry from the arguments to route()
+    //   // match.$args - the args passed in the link
+    //   // match.$link - the full link data
+    //   console.log('Successfully matched route', match);
+    // }, nomatch => {
+    //   // nomatch.$link - the full link data
+    //   console.error('Got a deeplink that didn\'t match', nomatch);
+    // });
+    window.open("https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google", "_self");
   }
  
   signInWithFB(): void {

@@ -20,6 +20,7 @@ import { UserData } from './providers/user-data';
 export class AppComponent implements OnInit {
   selectedPage: any;
   pages: Array<{ title: string; component: any }>;
+  
   appPages = [
     {
       title: 'Dashboard',
@@ -62,6 +63,7 @@ export class AppComponent implements OnInit {
   nav: any;
   token: string;
   isLoggedIn: boolean;
+  isdj: any;
 
   constructor(
     private menu: MenuController,
@@ -80,7 +82,6 @@ export class AppComponent implements OnInit {
   async ngOnInit() {
     this.checkLoginStatus();
     this.listenForLoginEvents();
-
     this.swUpdate.available.subscribe(async res => {
       const toast = await this.toastCtrl.create({
         message: 'Update available!',
@@ -102,6 +103,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  isDj() {
+    this.isdj = localStorage.getItem('dj');
+  }
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -110,17 +114,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // checkLoginStatus() {
-  //   return this.userData.isLoggedIn().then(loggedIn => {
-  //     return this.updateLoggedInStatus(loggedIn);
-  //   });
-  // }
-
-  // updateLoggedInStatus(loggedIn: boolean) {
-  //   setTimeout(() => {
-  //     this.loggedIn = loggedIn;
-  //   }, 300);
-  // }
 
   listenForLoginEvents() {
     // window.addEventListener('user:login', () => {
@@ -136,14 +129,6 @@ export class AppComponent implements OnInit {
     // });
   }
 
-  // openSub(page) {
-  //   if (this.selectedPage === page) {
-  //     this.selectedPage = '';
-  //   } else {
-  //     this.selectedPage = page;
-  //   }
-  // }
-
   profile(page) {
     console.log(page);
     this.router.navigate(['createlistenrerprofile']);
@@ -154,12 +139,6 @@ export class AppComponent implements OnInit {
     this.router.navigate(['dj-profile']);
   }
 
-
-  // logout() {
-  //   this.userData.logout().then(() => {
-  //     return this.router.navigateByUrl('/app/tabs/schedule');
-  //   });
-  // }
   checkLoginStatus() {
     this.token = localStorage.getItem('token');
     if (this.token) {
@@ -170,9 +149,9 @@ export class AppComponent implements OnInit {
     }
   }
 
-  openTutorial() {
-    this.menu.enable(false);
-    this.storage.set('ion_did_tutorial', false);
-    this.router.navigateByUrl('/tutorial');
-  }
+  // openTutorial() {
+  //   this.menu.enable(false);
+  //   this.storage.set('ion_did_tutorial', false);
+  //   this.router.navigateByUrl('/tutorial');
+  // }
 }
