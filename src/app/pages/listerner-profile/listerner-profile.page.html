@@ -1,9 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>listernerProfile</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-title>Listener Profile</ion-title>
+    </ion-buttons>   
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-item *ngIf="userProfile == ''">
+    <h2 (click)="newuserProfile()">Please create your Profile</h2>
+  </ion-item>
+  <ion-card *ngIf="userProfile != null">
+    <ion-item>
+      <ion-label>
+        <h2>Name : {{userProfile?.firstName}} {{userProfile?.lastName}}</h2>&nbsp;
+        <h4>Email : {{userProfile?.emailId}}</h4>&nbsp;
+        <h4>Phone : {{userProfile?.phoneNumber}}</h4>&nbsp;
+        <h4>Address : {{userProfile?.city}}</h4>
+      </ion-label>
+      <ion-icon name="create" (click)="editMenu(userProfile)"></ion-icon>
+    </ion-item>
+  </ion-card>
 </ion-content>

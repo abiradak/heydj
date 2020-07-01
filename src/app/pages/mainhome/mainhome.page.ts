@@ -16,6 +16,26 @@ export class MainhomePage implements OnInit {
 
   ngOnInit() {
     this.logoText();
+    this.getUserInfo();
+  }
+
+  getUserInfo() {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    console.log(userInfo);
+    // this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
+    // 'get').subscribe((success: any) => {
+    //   console.log('get api result >>>>>>>>>' , success);
+    //   this.updateProfile.patchValue({
+    //     phone: userInfo.phoneNumber.slice(2,12),
+    //     cuntrycode: 91,
+    //     fname: success.firstName,
+    //     lname: success.lastName,
+    //     email: success.emailId,
+    //     city: success.city
+    //   });
+    // } , err => {
+    //   this.helper.presentToast(err.error, 'danger');
+    // })
   }
 
   logoText() {

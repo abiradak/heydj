@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Profile',
-      url: '/createlistenrerprofile',
+      url: '/dj-profile',
       icon: 'people-circle',
     },
     {

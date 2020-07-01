@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { ActionSheetController, LoadingController } from '@ionic/angular';
 import { ApiGenerateService } from '../../api-generate.service';
-import { Storage } from '@ionic/storage';
 import { HelperService } from '../../helper.service';
-
+import { ActionSheetController, LoadingController } from '@ionic/angular';
 @Component({
-  selector: 'app-createlistenrerprofile',
-  templateUrl: './createlistenrerprofile.page.html',
-  styleUrls: ['./createlistenrerprofile.page.scss'],
+  selector: 'app-editdjprofile',
+  templateUrl: './editdjprofile.page.html',
+  styleUrls: ['./editdjprofile.page.scss'],
 })
-export class CreatelistenrerprofilePage implements OnInit {
+export class EditdjprofilePage implements OnInit {
+  data: any;
   updateProfile: FormGroup;
   base64Image = '';
   updatePicture: boolean;
@@ -23,28 +22,60 @@ export class CreatelistenrerprofilePage implements OnInit {
   image: string;
   constructor(
     public router: Router,
-    private formBuilder: FormBuilder,
-    public actionSheetController: ActionSheetController,
+    private route: ActivatedRoute,
     public camera: Camera,
-    private storage: Storage,
+    private formBuilder: FormBuilder,
     public apiGenerate: ApiGenerateService,
-    public loadingCtrl: LoadingController,
     public helper: HelperService,
+    private loadingCtrl: LoadingController,
+    public actionSheetController: ActionSheetController,
   ) {
+    this.route.queryParams.subscribe(params => {
+      console.log('Edit Engineer Data', params);
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.data = this.router.getCurrentNavigation().extras.state.Profiledetails;
+        console.log('params item: ', this.data);
+      }
+    });
+
     this.updateProfile = this.formBuilder.group({
       fname: ['', [Validators.maxLength(20), Validators.minLength(4), Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]],
-      lname:['', [Validators.maxLength(20), Validators.minLength(4), Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]],
-      cuntrycode: ['', [Validators.required]],
+      lname:['', [Validators.maxLength(20), Validators.minLength(2), Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]],
+      cuntrycode: [+91, [Validators.required]],
       phone: [''],
       city: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]],
       email: ['', [Validators.required, Validators.email,Validators.pattern(
         /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
       )]],      
     });
-  }
+   }
 
   ngOnInit() {
     this.getUserInfo();
+  }
+
+ async getUserInfo() {
+    const loading = await this.loadingCtrl.create({
+      backdropDismiss: true
+    });
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    console.log(userInfo);
+    this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
+    'get').subscribe((success: any) => {
+      console.log('get api result >>>>>>>>>' , success);
+      loading.dismiss();
+      this.updateProfile.patchValue({
+        phone: userInfo.phoneNumber.slice(2,12),
+        cuntrycode: +91,
+        fname: success.firstName,
+        lname: success.lastName,
+        email: success.emailId,
+        city: success.city
+      });
+    } , err => {
+      this.helper.presentToast(err.error, 'danger');
+      loading.dismiss();
+    })
   }
 
   async uploadImg() {
@@ -106,29 +137,6 @@ export class CreatelistenrerprofilePage implements OnInit {
       }]
     });
     await actionSheet.present();
-  }
-
-  back() {
-    this.router.navigate(['/app/tabs/schedule']);
-  }
-
-  getUserInfo() {
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    console.log(userInfo);
-    this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
-    'get').subscribe((success: any) => {
-      console.log('get api result >>>>>>>>>' , success);
-      this.updateProfile.patchValue({
-        phone: userInfo.phoneNumber.slice(2,12),
-        cuntrycode: 91,
-        fname: success.firstName,
-        lname: success.lastName,
-        email: success.emailId,
-        city: success.city
-      });
-    } , err => {
-      this.helper.presentToast(err.error, 'danger');
-    })
   }
 
   updateUserPrifile(){
