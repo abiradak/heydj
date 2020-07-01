@@ -4,10 +4,11 @@ import { MenuController, IonSlides } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
-import { SocialAuthService } from "angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
-import { SocialUser } from "angularx-social-login";
- 
+// import { SocialAuthService } from "angularx-social-login";
+// import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+// import { SocialUser } from "angularx-social-login";
+import { ApiGenerateService } from '../../api-generate.service';
+import { HelperService } from '../../helper.service'; 
 
 @Component({
   selector: 'page-tutorial',
@@ -16,7 +17,7 @@ import { SocialUser } from "angularx-social-login";
 })
 export class TutorialPage implements OnInit{
   showSkip = true;
-  user: SocialUser;
+  // user: SocialUser;
   loggedIn: boolean;
 
   @ViewChild('slides', { static: true }) slides: IonSlides;
@@ -26,8 +27,10 @@ export class TutorialPage implements OnInit{
     public router: Router,
     public storage: Storage,
     public modalController: ModalController,
-    private authService: SocialAuthService,
+    // private authService: SocialAuthService,
     // private authService: AuthService
+    public apiGenerate: ApiGenerateService,
+    public helper: HelperService,
   ) {}
 
   ngOnInit() {
@@ -57,12 +60,14 @@ export class TutorialPage implements OnInit{
   //   this.menu.enable(true);
   // }
 
+  
+
   signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    window.open("https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google", "_system");
   }
  
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    window.open("https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/facebook", "_self");
   }
 
   loginWithOtp() {

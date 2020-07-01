@@ -151,7 +151,6 @@ export class CreatelistenrerprofilePage implements OnInit {
       }, err => {
         this.helper.presentToast(err.error , 'warning');
       });
-      
     } else {
       this.helper.presentAlert('Please Enter All Fields', 'Warning!');
     }

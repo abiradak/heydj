@@ -56,7 +56,8 @@ const routes: Routes = [
   {
     path: 'mainhome',
     loadChildren: () => import('./pages/mainhome/mainhome.module').then( m => m.MainhomePageModule)
-  },  {
+  },
+  {
     path: 'editlistenerprofile',
     loadChildren: () => import('./pages/editlistenerprofile/editlistenerprofile.module').then( m => m.EditlistenerprofilePageModule)
   },

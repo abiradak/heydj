@@ -135,11 +135,18 @@ export class ModalPage implements OnInit {
               this.apiGenerate.sendHttpCall('', '/api/auth/otp/verify?phonenumber=' + OTPdata.phone + '&' + 'code=' + OTPdata.OTP, 'get').subscribe((response) => {
                 // console.log('otp verify resp>>>>>>' , response);
                 if (response) {
+                  this.dismiss();
                   this.token = response.headers.get('x-auth-token');
                   localStorage.setItem('token' , JSON.stringify(this.token));
                   localStorage.setItem('userInfo', JSON.stringify(response.body));
-                  this.helper.hideLoading();
                   this.helper.presentToast('Login Successfull' , 'success');
+                  if(response.role && response.role == 'dj') {
+                    this.router.navigate(['dj-dashboard']);
+                  } else {
+                    
+                    this.router.navigate(['dj-dashboard']);
+                  }
+                  this.helper.hideLoading();
                 }
               }, err => {
                 this.helper.hideLoading();
