@@ -15,12 +15,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { ModalPage } from './pages/modal/modal.page';
-import { SocialLoginModule,  SocialAuthServiceConfig  } from 'angularx-social-login';
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-  AmazonLoginProvider,
-} from 'angularx-social-login';
+// import { SocialLoginModule,  SocialAuthServiceConfig  } from 'angularx-social-login';
+// import {
+//   GoogleLoginProvider,
+//   FacebookLoginProvider,
+//   AmazonLoginProvider,
+// } from 'angularx-social-login';
 
 
 @NgModule({
@@ -29,7 +29,7 @@ import {
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    SocialLoginModule,
+    // SocialLoginModule,
     ReactiveFormsModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
@@ -45,30 +45,30 @@ import {
     StatusBar,
     Camera,
     Keyboard,
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              'AIzaSyApLSc7Fw4kqb4TbKECvdG54gSpynTyufE'
-            ),
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('561602290896109'),
-          },
-          // {
-          //   id: AmazonLoginProvider.PROVIDER_ID,
-          //   provider: new AmazonLoginProvider(
-          //     'amzn1.application-oa2-client.f074ae67c0a146b6902cc0c4a3297935'
-          //   ),
-          // },
-        ],
-      } as SocialAuthServiceConfig,
-    }
+    // {
+    //   provide: 'SocialAuthServiceConfig',
+    //   useValue: {
+    //     autoLogin: false,
+    //     providers: [
+    //       {
+    //         id: GoogleLoginProvider.PROVIDER_ID,
+    //         provider: new GoogleLoginProvider(
+    //           '517879071923-03tpoilmesurse32765b7e1lfa7earpv.apps.googleusercontent.com'
+    //         ),
+    //       },
+    //       {
+    //         id: FacebookLoginProvider.PROVIDER_ID,
+    //         provider: new FacebookLoginProvider('553734171961383'),
+    //       },
+    //       // {
+    //       //   id: AmazonLoginProvider.PROVIDER_ID,
+    //       //   provider: new AmazonLoginProvider(
+    //       //     'amzn1.application-oa2-client.f074ae67c0a146b6902cc0c4a3297935'
+    //       //   ),
+    //       // },
+    //     ],
+    //   } as SocialAuthServiceConfig,
+    // }
   ],
   bootstrap: [AppComponent]
 })

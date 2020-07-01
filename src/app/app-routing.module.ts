@@ -38,7 +38,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/listerner-profile/listerner-profile.module').then(m => m.ListernerProfilePageModule)
   },
   {
-    path: 'dj-profile',
+    path: 'dj-dashboard',
     loadChildren: () => import('./pages/dj-profile/dj-profile.module').then(m => m.DjProfilePageModule)
   },
   {
@@ -56,9 +56,11 @@ const routes: Routes = [
   {
     path: 'mainhome',
     loadChildren: () => import('./pages/mainhome/mainhome.module').then( m => m.MainhomePageModule)
+  },
+  {
+    path: 'userdashboard',
+    loadChildren: () => import('./pages/userdashboard/userdashboard.module').then( m => m.UserdashboardPageModule)
   }
-
-
 ];
 
 @NgModule({
