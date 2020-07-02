@@ -9,6 +9,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Storage } from '@ionic/storage';
 import * as jwt_decode from "jwt-decode";
 
+
  
 @Component({
   selector: 'app-modal',
@@ -109,7 +110,6 @@ export class ModalPage implements OnInit {
           handler: () => {
             this.helper.presentLoading();
             this.apiGenerate.sendHttpCall('', '/api/auth/otp?phonenumber=' + phonenum, 'get').subscribe((response) => {
-              // console.log('success', response);
               if (response) {
                 this.helper.hideLoading();
                 this.presentAlertPrompt(phonenum);
@@ -133,7 +133,6 @@ export class ModalPage implements OnInit {
               console.log('otp verify send data>>>>>>', OTPdata);
               this.helper.presentLoading();
               this.apiGenerate.sendHttpCall('', '/api/auth/otp/verify?phonenumber=' + OTPdata.phone + '&' + 'code=' + OTPdata.OTP, 'get').subscribe((response) => {
-                // console.log('otp verify resp>>>>>>' , response);
                 if (response) {
                   this.helper.hideLoading();
                   this.dismiss();
@@ -143,9 +142,9 @@ export class ModalPage implements OnInit {
                   this.helper.presentToast('Login Successfull' , 'success');
                   if(response.role && response.role == 'dj') {
                     this.router.navigate(['dj-dashboard']);
-                    localStorage.setItem('dj', response.dj);
+                    localStorage.setItem('dj', response.role);
                   } else {
-                    this.router.navigate(['dj-dashboard']);
+                    this.router.navigate(['mainhome']);
                   }
                 }
               }, err => {

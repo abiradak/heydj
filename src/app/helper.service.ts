@@ -82,6 +82,15 @@ export class HelperService {
   await alert.present();
 }
 
+isToken() {
+  const token = localStorage.getItem('token');
+  if (token == null) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
   async presentAlertForEmpty() {
     const alert = await this.alertCtrl.create({
       header: 'Warning',

@@ -21,49 +21,40 @@ export class AppComponent implements OnInit {
   selectedPage: any;
   pages: Array<{ title: string; component: any }>;
   
-  appPages = [
-    {
-      title: 'Dashboard',
-      url: '/app/tabs/schedule',
-      icon: 'home'
-    },
-    {
-      title: 'Profile',
-      url: '/createlistenrerprofile',
-      icon: 'people-circle',
-    },
-    {
-      title: 'Playlist',
-      url: '/app/tabs/map',
-      icon: 'map'
-    },
-    {
-      title: 'Messages',
-      url: '/app/tabs/about',
-      icon: 'information-circle'
-    },
-    {
-      title: 'Subcription',
-      url: '/app/tabs/about',
-      icon: 'information-circle'
-    },
-    {
-      title: 'Account',
-      url: '/app/tabs/about',
-      icon: 'information-circle'
-    },
-    {
-      title: 'Support',
-      url: '/app/tabs/about',
-      icon: 'information-circle'
-    }
-  ];
+  // appPages = [
+  //   {
+  //     title: 'Dashboard',
+  //     url: '/app/tabs/schedule',
+  //     icon: 'home'
+  //   },
+  //   {
+  //     title: 'Profile',
+  //     url: '/createlistenrerprofile',
+  //     icon: 'people-circle',
+  //   },
+  //   {
+  //     title: 'Playlist',
+  //     url: '/app/tabs/map',
+  //     icon: 'map'
+  //   },
+  //   {
+  //     title: 'Messages',
+  //     url: '/app/tabs/about',
+  //     icon: 'information-circle'
+  //   },
+  //   {
+  //     title: 'Subcription',
+  //     url: '/app/tabs/about',
+  //     icon: 'information-circle'
+  //   },
+  // ];
   loggedIn = false;
-  dark = false;
+  // dark = false;
   nav: any;
   token: string;
   isLoggedIn: boolean;
   isdj: any;
+  appPages: { title: string; url: string; icon: string; }[];
 
   constructor(
     private menu: MenuController,
@@ -71,17 +62,16 @@ export class AppComponent implements OnInit {
     private router: Router,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private storage: Storage,
-    private userData: UserData,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
   ) {
+    this.sideMenu();
     this.initializeApp();
   }
 
   async ngOnInit() {
-    this.checkLoginStatus();
-    this.listenForLoginEvents();
+    
+    //this.listenForLoginEvents();
     this.swUpdate.available.subscribe(async res => {
       const toast = await this.toastCtrl.create({
         message: 'Update available!',
@@ -93,9 +83,7 @@ export class AppComponent implements OnInit {
           }
         ]
       });
-
       await toast.present();
-
       toast
         .onDidDismiss()
         .then(() => this.swUpdate.activateUpdate())
@@ -114,29 +102,60 @@ export class AppComponent implements OnInit {
     });
   }
 
-
-  listenForLoginEvents() {
-    // window.addEventListener('user:login', () => {
-    //   this.updateLoggedInStatus(true);
-    // });
-
-    // window.addEventListener('user:signup', () => {
-    //   this.updateLoggedInStatus(true);
-    // });
-
-    // window.addEventListener('user:logout', () => {
-    //   this.updateLoggedInStatus(false);
-    // });
-  }
-
-  profile(page) {
-    console.log(page);
-    this.router.navigate(['createlistenrerprofile']);
-  }
-
-  profileOther(page) {
-    console.log(page);
-    this.router.navigate(['dj-profile']);
+  sideMenu(){
+    const isdj = localStorage.getItem('dj');
+    if(isdj && isdj == 'dj') {
+      this.appPages = [
+        {
+          title: 'Dashboard',
+          url: 'dj-dashboard',
+          icon: 'home'
+        },
+        {
+          title: 'Profile',
+          url: '/createlistenrerprofile',
+          icon: 'people-circle',
+        },
+        {
+          title: 'My Dj',
+          url: '/mainhome',
+          icon: 'map'
+        },
+        {
+          title: 'Messages',
+          url: '/mainhome',
+          icon: 'information-circle'
+        },
+        {
+          title: 'Subcription',
+          url: '/mainhome',
+          icon: 'information-circle'
+        },
+      ]  
+    } else {
+      this.appPages = [
+        {
+          title: 'Profile',
+          url: '/createlistenrerprofile',
+          icon: 'people-circle',
+        },
+        {
+          title: 'Playlist',
+          url: '/userdashboard',
+          icon: 'map'
+        },
+        {
+          title: 'Messages',
+          url: '/mainhome',
+          icon: 'information-circle'
+        },
+        {
+          title: 'Subcription',
+          url: '/mainhome',
+          icon: 'information-circle'
+        },
+      ]  
+    }
   }
 
   checkLoginStatus() {

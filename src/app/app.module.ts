@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { ModalPage } from './pages/modal/modal.page';
+import { ActiveGuardService } from './active-guard.service';
+import { HelperService } from './helper.service';
+
 
 @NgModule({
   imports: [
@@ -36,8 +40,16 @@ import { ModalPage } from './pages/modal/modal.page';
     SplashScreen,
     StatusBar,
     Camera,
-    Keyboard
+    Keyboard,
+    ActiveGuardService,
+    HelperService,
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+
+    }
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

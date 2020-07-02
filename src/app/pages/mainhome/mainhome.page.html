@@ -21,19 +21,10 @@
               <button type="submit" class="srch-song"><i class="fa fa-search" aria-hidden="true"></i></button>
             </form>
           </div>
-          <div class="menu-list">
-            <ul>
-              <li>Home</li>
-              <li>Browse</li>
-              <li>Podcasts</li>
-              <li>My Music</li>
-            </ul>
-          </div>
         </div>
         <div class="dj-profile">
           <i *ngIf="text === 'Login'" class="fa fa-sign-in" (click)="process()" aria-hidden="true"></i>
           <i *ngIf="text === 'Logout'" class="fa fa-sign-out" (click)="logout()" aria-hidden="true"></i>
-          <!-- <img src="../../../assets/img/defaultImg.jpg"> -->
           <span>{{ text }}</span>
         </div>
       </div>

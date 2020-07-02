@@ -9,7 +9,7 @@ import { ModalPage } from '../modal/modal.page';
 // import { SocialUser } from "angularx-social-login";
 import { ApiGenerateService } from '../../api-generate.service';
 import { HelperService } from '../../helper.service'; 
-import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+// import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 @Component({
   selector: 'page-tutorial',
@@ -30,7 +30,7 @@ export class TutorialPage implements OnInit{
     public modalController: ModalController,
     public apiGenerate: ApiGenerateService,
     public helper: HelperService,
-    private deeplinks: Deeplinks
+    // private deeplinks: Deeplinks
   ) {}
 
   ngOnInit() {

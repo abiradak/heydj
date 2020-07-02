@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ActionSheetController, LoadingController } from '@ionic/angular';
 import { ApiGenerateService } from '../../api-generate.service';
 import { Storage } from '@ionic/storage';
 import { HelperService } from '../../helper.service';
+import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
+import {
+  FileTransfer,
+  FileUploadOptions
+} from "@ionic-native/file-transfer/ngx";
+
 
 @Component({
   selector: 'app-createlistenrerprofile',
@@ -21,6 +26,9 @@ export class CreatelistenrerprofilePage implements OnInit {
   userId: any;
   userInfo: any;
   image: string;
+  imageURI: any;
+  image_path: any;
+  transfer: any;
   constructor(
     public router: Router,
     private formBuilder: FormBuilder,
@@ -66,36 +74,67 @@ export class CreatelistenrerprofilePage implements OnInit {
             correctOrientation: true,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
           };
-          this.camera.getPicture(options).then((imageData) => {
-            this.image = imageData;
-            this.updatePicture = true;
-          }, (err) => {
-          });
+          
+          this.camera.getPicture(options).then(
+            imageData => {
+              this.imageURI = imageData;
+              console.log('image data.............',imageData);
+              const fileTransfer: any = this.transfer.create();
+              let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+              const form  = new FormData();
+              form.append('image' , this.imageURI)
+              this.apiGenerate.sendHttpCallWithToken(form, `/api/user/${userInfo.id}`,
+              'put').subscribe((success) => {
+                console.log('profile image upload>>>>>>' , success);
+              }, err => {
+                console.log('profile image error>>>>>>' , err.error);
+              })
+              // let options: FileUploadOptions = {
+              //   fileKey: "photo",
+              //   fileName: "ionicfile.jpg",
+              //   chunkedMode: false,
+              //   mimeType: "image/jpeg/png",
+              //   headers: { 
+              //     Authorization: JSON.parse(localStorage.getItem('token'))
+              //   },
+              //   params: {
+              //     id: localStorage.getItem('UserId')
+              //   }
+              // };
+              
+              // fileTransfer
+              //   .upload(
+              //     this.imageURI,
+              //     'https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/user',
+              //     options
+              //   )
+              //   .then(
+              //     data => {
+              //       let pic = JSON.parse(data.response);
+              //       console.log('proposer response.......',pic);
+              //       let message = pic.message;
+              //       if(pic.status == 'SUCCESS'){
+              //         this.image_path = pic.image_path;
+              //         localStorage.setItem('ImagePath',this.image_path);
+              //         this.helper.presentToast(message,"success");
+              //       }
+              //       else {
+              //         this.helper.presentToast("Something Went Wrong!","danger");
+              //       }
+              //     },
+              //     err => {
+              //       console.log(err);
+              //       alert(JSON.stringify(err));
+              //     }
+              //   );
+            },
+            err => {
+              console.log(err);
+              //this.presentToast(err);
+            }
+          );
         }
-      }, {
-        text: 'Capture',
-        icon: 'camera',
-        handler: () => {
-          console.log('camera clicked');
-          const options: CameraOptions = {
-            quality: 100,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            correctOrientation: true,
-            sourceType: this.camera.PictureSourceType.CAMERA,
-            allowEdit: true,
-            targetHeight: 720,
-            targetWidth: 720,
-          };
-
-          this.camera.getPicture(options).then((imageData) => {
-            this.image = imageData;
-            this.updatePicture = true;
-          }, (err) => {
-          });
-        }
-      },
+      }, 
       {
         text: 'Cancel',
         icon: 'close',
