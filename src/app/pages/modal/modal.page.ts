@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FormBuilder, FormControl, Validators , AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
 import { ApiGenerateService } from '../../api-generate.service';
 import { HelperService } from '../../helper.service';
@@ -9,7 +9,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Storage } from '@ionic/storage';
 import * as jwt_decode from "jwt-decode";
 
- 
+
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.page.html',
@@ -31,7 +31,7 @@ export class ModalPage implements OnInit {
     private alertCtrl: AlertController,
     private keyboard: Keyboard,
     private storage: Storage,
-  ) { 
+  ) {
     this.loginForm = formbuilder.group({
       country_code: [''],
       phone: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
@@ -57,7 +57,7 @@ export class ModalPage implements OnInit {
           country_code: 91
         }];
         // console.log('sending>>>>>>>>>' , data);
-        this.phonenumber = data[0].country_code+data[0].phone;
+        this.phonenumber = data[0].country_code + data[0].phone;
         this.helper.presentLoading();
         this.apiGenerate.sendHttpCall('', '/api/auth/otp?phonenumber=' + this.phonenumber, 'get').subscribe((response) => {
           if (response) {
@@ -120,11 +120,11 @@ export class ModalPage implements OnInit {
               console.log(err.error);
             });
           }
-        }, 
+        },
         {
           text: 'Ok',
           handler: (data) => {
-            if(data.otp){
+            if (data.otp) {
               this.keyboard.hide();
               const OTPdata = {
                 OTP: data.otp,
@@ -133,18 +133,18 @@ export class ModalPage implements OnInit {
               console.log('otp verify send data>>>>>>', OTPdata);
               this.helper.presentLoading();
               this.apiGenerate.sendHttpCall('', '/api/auth/otp/verify?phonenumber=' + OTPdata.phone + '&' + 'code=' + OTPdata.OTP, 'get').subscribe((response) => {
-                // console.log('otp verify resp>>>>>>' , response);
+                console.log('otp verify resp>>>>>>', response);
+                console.log(response.body);
                 if (response) {
                   this.dismiss();
                   this.token = response.headers.get('x-auth-token');
-                  localStorage.setItem('token' , JSON.stringify(this.token));
+                  localStorage.setItem('token', JSON.stringify(this.token));
                   localStorage.setItem('userInfo', JSON.stringify(response.body));
-                  this.helper.presentToast('Login Successfull' , 'success');
-                  if(response.role && response.role == 'dj') {
-                    this.router.navigate(['dj-dashboard']);
+                  this.helper.presentToast('Login Successfull', 'success');
+                  if (response.body.role === 'dj') {
+                    this.router.navigate(['djmainhome']);
                   } else {
-                    
-                    this.router.navigate(['dj-dashboard']);
+                    this.router.navigate(['mainhome']);
                   }
                   this.helper.hideLoading();
                 }
@@ -155,8 +155,8 @@ export class ModalPage implements OnInit {
               });
               this.helper.hideLoading();
             }
-            else{
-              this.helper.presentAlert("Enter The Otp","Warning!");
+            else {
+              this.helper.presentAlert("Enter The Otp", "Warning!");
             }
           }
         }
@@ -166,11 +166,11 @@ export class ModalPage implements OnInit {
   }
 
   getDecodedAccessToken(token: string): any {
-    try{
-        return jwt_decode(token);
+    try {
+      return jwt_decode(token);
     }
-    catch(Error){
-        return null;
+    catch (Error) {
+      return null;
     }
   }
 }

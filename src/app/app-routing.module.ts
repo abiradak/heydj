@@ -64,6 +64,10 @@ const routes: Routes = [
   {
     path: 'editdjprofile',
     loadChildren: () => import('./pages/editdjprofile/editdjprofile.module').then( m => m.EditdjprofilePageModule)
+  },
+  {
+    path: 'djmainhome',
+    loadChildren: () => import('./pages/djmainhome/djmainhome.module').then( m => m.DjmainhomePageModule)
   }
 
 

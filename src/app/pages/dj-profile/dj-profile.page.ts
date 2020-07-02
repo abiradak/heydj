@@ -28,7 +28,6 @@ export class DjProfilePage implements OnInit {
     });
     loading.present();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
     console.log(userInfo);
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
       'get').subscribe((success: any) => {
