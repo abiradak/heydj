@@ -39,10 +39,10 @@ const routes: Routes = [
     path: 'listerner-profile', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/listerner-profile/listerner-profile.module').then(m => m.ListernerProfilePageModule)
   },
-  {
-    path: 'dj-dashboard', canActivate: [ActiveGuardService],
-    loadChildren: () => import('./pages/dj-profile/dj-profile.module').then(m => m.DjProfilePageModule)
-  },
+  // {
+  //   path: 'dj-profile', canActivate: [ActiveGuardService],
+  //   loadChildren: () => import('./pages/dj-profile/dj-profile.module').then(m => m.DjProfilePageModule)
+  // },
   {
     path: 'createlistenrerprofile', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/createlistenrerprofile/createlistenrerprofile.module').then(m => m.CreatelistenrerprofilePageModule)
@@ -62,7 +62,18 @@ const routes: Routes = [
   {
     path: 'userdashboard', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/userdashboard/userdashboard.module').then( m => m.UserdashboardPageModule)
+  },
+  {
+    path: 'editdjprofile', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./pages/editdjprofile/editdjprofile.module').then( m => m.EditdjprofilePageModule)
+  },
+  {
+    path: 'djmainhome', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./pages/djmainhome/djmainhome.module').then( m => m.DjmainhomePageModule)
   }
+
+
+
 ];
 
 @NgModule({

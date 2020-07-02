@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DjProfilePageRoutingModule } from './dj-profile-routing.module';
+import { DjmainhomePageRoutingModule } from './djmainhome-routing.module';
 
-import { DjProfilePage } from './dj-profile.page';
+import { DjmainhomePage } from './djmainhome.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DjProfilePageRoutingModule
+    DjmainhomePageRoutingModule
   ],
-  declarations: [DjProfilePage]
+  declarations: [DjmainhomePage]
 })
-export class DjProfilePageModule {}
+export class DjmainhomePageModule {}

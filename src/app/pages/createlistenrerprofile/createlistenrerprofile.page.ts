@@ -153,6 +153,7 @@ export class CreatelistenrerprofilePage implements OnInit {
 
   getUserInfo() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    console.log(userInfo);
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
     'get').subscribe((success: any) => {
       console.log('get api result >>>>>>>>>' , success);
@@ -177,12 +178,15 @@ export class CreatelistenrerprofilePage implements OnInit {
       form.append('phoneNumber' , this.updateProfile.value.cuntrycode + this.updateProfile.value.phone),
       form.append('city' , this.updateProfile.value.city),
       form.append('emailId' , this.updateProfile.value.email),
-      form.append('image' , this.image)
+     // form.append('image' , this.image)
+      console.log(form);
       let userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.apiGenerate.sendHttpCallWithToken(form, `/api/user/${userInfo.id}`,
       'put').subscribe((success: any) => {
+        console.log(success);
         this.getUserInfo();
         this.helper.presentToast('Profile Successfully Updated' , 'success');
+        this.router.navigate(['mainhome']);
       }, err => {
         this.helper.presentToast(err.error , 'warning');
       });

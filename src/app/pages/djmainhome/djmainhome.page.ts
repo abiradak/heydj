@@ -4,21 +4,20 @@ import { HelperService } from '../../helper.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-listerner-profile',
-  templateUrl: './listerner-profile.page.html',
-  styleUrls: ['./listerner-profile.page.scss'],
+  selector: 'app-djmainhome',
+  templateUrl: './djmainhome.page.html',
+  styleUrls: ['./djmainhome.page.scss'],
 })
-export class ListernerProfilePage implements OnInit {
-  userProfile: any;
+export class DjmainhomePage implements OnInit {
+  djProfile: any;
   constructor(
     public apiGenerate: ApiGenerateService,
     public helper: HelperService,
-    public router: Router
+    private router: Router
   ) { }
 
-
-  newuserProfile() {
-    this.router.navigate(['createlistenrerprofile']);
+  ngOnInit() {
+    this.getUserInfo();
   }
 
   getUserInfo() {
@@ -27,18 +26,16 @@ export class ListernerProfilePage implements OnInit {
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
       'get').subscribe((success: any) => {
         console.log('get api result >>>>>>>>>', success);
-          this.userProfile = success;
-          console.log(this.userProfile);
+        this.djProfile = success;
+        console.log(this.djProfile);
       }, err => {
         this.helper.presentToast(err.error, 'danger');
       })
   }
 
-  editMenu(userProfile) {
-    console.log(userProfile);
+  process() {
+    this.router.navigate(['editdjprofile']);
   }
-  ngOnInit() {
-    this.getUserInfo();
-  }
+  
 
 }

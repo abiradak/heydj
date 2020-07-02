@@ -62,7 +62,7 @@
     <div class="form-group row">
       <label for="lstnm" class="col-sm-2 col-form-label">Mobile</label>
       <div class="col-sm-2 col-2 ccode">
-        <input type="number" class="form-control" id="lstnm" formControlName="cuntrycode">
+        <input type="number" class="form-control" id="lstnm" formControlName="cuntrycode" placeholder="+91">
         <div *ngIf="updateProfile.controls?.cuntrycode?.invalid && updateProfile.controls?.cuntrycode?.touched">  
           <span class="hass-error-message" *ngIf="updateProfile.controls?.cuntrycode?.errors?.required">
             <p class="validation">* Country Code is Required *</p>

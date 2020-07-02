@@ -23,7 +23,7 @@
         </div>
         <div class="dj-profile" (click)="process()">
           <img src="../../../assets/img/defaultImg.jpg">
-          <span>John</span>
+          <span>{{djProfile?.firstName}}</span>
         </div>
       </div>
       </div>
@@ -54,9 +54,9 @@
                   <ion-icon name="add-circle"></ion-icon>
                 </span>
                 <div class="profile-details">
-                  <h4>John Doe</h4>
-                  <p><b>Executive Dj</b> at Soho , kolkata</p>
-                  <p><i class="fa fa-map-marker"></i> Kolkata, India</p>
+                  <h4>{{djProfile?.firstName}} {{djProfile?.lastName}}</h4>
+                  <p>+{{djProfile?.phoneNumber}}</p>
+                  <p><i class="fa fa-map-marker"></i> {{djProfile?.city}}</p>
                   <a href="#">More Info</a>
                 </div>
               </div>

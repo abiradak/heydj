@@ -104,16 +104,16 @@ export class AppComponent implements OnInit {
 
   sideMenu(){
     const isdj = localStorage.getItem('dj');
-    if(isdj && isdj == 'dj') {
+    if(isdj) {
       this.appPages = [
         {
           title: 'Dashboard',
-          url: 'dj-dashboard',
+          url: 'djmainhome',
           icon: 'home'
         },
         {
           title: 'Profile',
-          url: '/createlistenrerprofile',
+          url: '/editdjprofile',
           icon: 'people-circle',
         },
         {
@@ -133,6 +133,7 @@ export class AppComponent implements OnInit {
         },
       ]  
     } else {
+      console.log('hj');
       this.appPages = [
         {
           title: 'Profile',
