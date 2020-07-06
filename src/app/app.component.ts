@@ -133,7 +133,6 @@ export class AppComponent implements OnInit {
         },
       ]  
     } else {
-      console.log('hj');
       this.appPages = [
         {
           title: 'Profile',

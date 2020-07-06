@@ -10,6 +10,7 @@ import {
   FileTransfer,
   FileUploadOptions
 } from "@ionic-native/file-transfer/ngx";
+import { File } from '@ionic-native/file/ngx';
 
 
 @Component({
@@ -17,7 +18,7 @@ import {
   templateUrl: './createlistenrerprofile.page.html',
   styleUrls: ['./createlistenrerprofile.page.scss'],
 })
-export class CreatelistenrerprofilePage implements OnInit {
+export class CreatelistenrerprofilePage  {
   updateProfile: FormGroup;
   base64Image = '';
   updatePicture: boolean;
@@ -28,7 +29,19 @@ export class CreatelistenrerprofilePage implements OnInit {
   image: string;
   imageURI: any;
   image_path: any;
-  transfer: any;
+  successImage: any;
+  private win: any = window;
+
+  options: CameraOptions = {
+    quality: 30,
+    allowEdit: true,
+    targetHeight: 720,
+    targetWidth: 720,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    correctOrientation: true,
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+  };
+
   constructor(
     public router: Router,
     private formBuilder: FormBuilder,
@@ -38,6 +51,8 @@ export class CreatelistenrerprofilePage implements OnInit {
     public apiGenerate: ApiGenerateService,
     public loadingCtrl: LoadingController,
     public helper: HelperService,
+    private transfer: FileTransfer,
+    private file: File, 
   ) {
     this.updateProfile = this.formBuilder.group({
       fname: ['', [Validators.maxLength(20), Validators.minLength(4), Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]],
@@ -51,104 +66,52 @@ export class CreatelistenrerprofilePage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  // ngOnInit() {
+  //   this.getUserInfo();
+  // }
+  ionViewWillEnter() {
     this.getUserInfo();
   }
 
-  async uploadImg() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Select anyone',
-      buttons: [{
-        text: 'Album',
-        icon: 'albums',
-        handler: () => {
-          // console.log('albums clicked');
-          const options: CameraOptions = {
-            quality: 100,
-            allowEdit: true,
-            targetHeight: 720,
-            targetWidth: 720,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            correctOrientation: true,
-            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          };
-          
-          this.camera.getPicture(options).then(
-            imageData => {
-              this.imageURI = imageData;
-              console.log('image data.............',imageData);
-              const fileTransfer: any = this.transfer.create();
-              let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-              const form  = new FormData();
-              form.append('image' , this.imageURI)
-              this.apiGenerate.sendHttpCallWithToken(form, `/api/user/${userInfo.id}`,
-              'put').subscribe((success) => {
-                console.log('profile image upload>>>>>>' , success);
-              }, err => {
-                console.log('profile image error>>>>>>' , err.error);
-              })
-              // let options: FileUploadOptions = {
-              //   fileKey: "photo",
-              //   fileName: "ionicfile.jpg",
-              //   chunkedMode: false,
-              //   mimeType: "image/jpeg/png",
-              //   headers: { 
-              //     Authorization: JSON.parse(localStorage.getItem('token'))
-              //   },
-              //   params: {
-              //     id: localStorage.getItem('UserId')
-              //   }
-              // };
-              
-              // fileTransfer
-              //   .upload(
-              //     this.imageURI,
-              //     'https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/user',
-              //     options
-              //   )
-              //   .then(
-              //     data => {
-              //       let pic = JSON.parse(data.response);
-              //       console.log('proposer response.......',pic);
-              //       let message = pic.message;
-              //       if(pic.status == 'SUCCESS'){
-              //         this.image_path = pic.image_path;
-              //         localStorage.setItem('ImagePath',this.image_path);
-              //         this.helper.presentToast(message,"success");
-              //       }
-              //       else {
-              //         this.helper.presentToast("Something Went Wrong!","danger");
-              //       }
-              //     },
-              //     err => {
-              //       console.log(err);
-              //       alert(JSON.stringify(err));
-              //     }
-              //   );
-            },
-            err => {
-              console.log(err);
-              //this.presentToast(err);
-            }
-          );
-        }
-      }, 
-      {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
-    });
-    await actionSheet.present();
+  readFile(file: any) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const imgBlob = new Blob([reader.result], {
+        type: file.type
+      });
+      const formData = new FormData();
+      // formData.append('name', 'ionic');
+      formData.append('profileImage', imgBlob, file.name);
+      let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      this.helper.presentLoading();
+      this.apiGenerate.sendHttpCallWithToken(formData, `/api/user/${userInfo.id}`,
+        'put').subscribe((success) => {
+          this.helper.hideLoading();
+          console.log('profile image upload >>>>>>' , success);
+          this.successImage = success.profileImage
+        }, err => {
+          console.log('profile image error >>>>>>' , err.error);
+        })
+    };
+    reader.readAsArrayBuffer(file);
   }
 
+  uploadImg() {
+    this.camera.getPicture(this.options).then((imageData) => {
+      this.file.resolveLocalFilesystemUrl(imageData).then((entry: any) => {
+        entry.file(file => {
+          console.log('after resolve' , file);
+          this.readFile(file);
+        });
+      });
+    }, (err) => {
+      // Handle error
+    });
+    
+  }
+  
   back() {
-    this.router.navigate(['/app/tabs/schedule']);
+    this.helper.goBack();
   }
 
   getUserInfo() {
@@ -157,6 +120,7 @@ export class CreatelistenrerprofilePage implements OnInit {
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
     'get').subscribe((success: any) => {
       console.log('get api result >>>>>>>>>' , success);
+      this.successImage = success.profileImage,
       this.updateProfile.patchValue({
         phone: userInfo.phoneNumber.slice(2,12),
         cuntrycode: 91,
@@ -166,6 +130,7 @@ export class CreatelistenrerprofilePage implements OnInit {
         city: success.city
       });
     } , err => {
+      console.log('error coming >>>' , err);
       this.helper.presentToast(err.error, 'danger');
     })
   }
@@ -177,9 +142,8 @@ export class CreatelistenrerprofilePage implements OnInit {
       form.append('lastName' , this.updateProfile.value.lname),
       form.append('phoneNumber' , this.updateProfile.value.cuntrycode + this.updateProfile.value.phone),
       form.append('city' , this.updateProfile.value.city),
-      form.append('emailId' , this.updateProfile.value.email),
-     // form.append('image' , this.image)
-      console.log(form);
+      form.append('emailId' , this.updateProfile.value.email)
+      // form.append('profileImage' , this.imageURI)
       let userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.apiGenerate.sendHttpCallWithToken(form, `/api/user/${userInfo.id}`,
       'put').subscribe((success: any) => {

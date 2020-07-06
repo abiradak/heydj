@@ -2,6 +2,9 @@
   <div class="header-logo">
     <img src="../../../assets/img/logo.png">
   </div>
+  <div class="menubar">
+    <img src="assets/img/back.png" (click)="back()">
+  </div>
   <div class="registration-form">
   <form [formGroup]="updateProfile" (ngSubmit)="updateUserPrifile()">
     <ion-row>
@@ -9,9 +12,9 @@
       </ion-col>
       <ion-col size='4' (click)='uploadImg()'>
         <ion-avatar class="divImage">
-          <img *ngIf="base64Image!=''" [src]="base64Image">
+          <img *ngIf="successImage" [src]="successImage">
           <!-- <img *ngIf="base64Image=='' && pflImg==''" src="../../../assets/img/defaultImg.jpg"> -->
-          <img *ngIf="base64Image ==''" src="../../../assets/img/defaultImg.jpg">
+          <img *ngIf="!successImage" src="../../../assets/img/defaultImg.jpg">
           <!-- <img *ngIf="base64Image=='' && pflImg!=''" [src]="pflImg"> -->
           <span class="editICon">
             <ion-icon name="add-circle"></ion-icon>

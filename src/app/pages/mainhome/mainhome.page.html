@@ -37,12 +37,16 @@
       <div class="featured-play-list">
         <h3>Featured Playlists <span>More</span></h3>
         <div class="fe-song-list">
-          <ul>
-            <li><img src="../../../assets/img/playlist-1.png"></li>
-            <li><img src="../../../assets/img/playlist-2.png"></li>
+          <ul *ngFor = "let songs of songslist">
+            <li>
+              <img *ngIf = "!songs.thumbnail" src="../../../assets/img/playlist-1.png">
+              <img *ngIf = "songs.thumbnail" src="{{ songs.thumbnail }}" (click) = "playMusic(songs.id , songs.sampleContent)">
+              <h4 class="text">{{ songs.title }}</h4>
+            </li>
+            <!-- <li><img src="../../../assets/img/playlist-2.png"></li>
             <li><img src="../../../assets/img/playlist-3.png"></li>
             <li><img src="../../../assets/img/playlist-4.png"></li>
-            <li><img src="../../../assets/img/playlist-5.png"></li>
+            <li><img src="../../../assets/img/playlist-5.png"></li> -->
           </ul>
         </div>
       </div>

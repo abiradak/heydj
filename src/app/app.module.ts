@@ -13,11 +13,19 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Camera } from '@ionic-native/camera/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { ModalPage } from './pages/modal/modal.page';
 import { ActiveGuardService } from './active-guard.service';
 import { HelperService } from './helper.service';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { FilePath } from "@ionic-native/file-path/ngx";
+import {
+  FileTransfer,
+  FileUploadOptions,
+  FileTransferObject
+} from "@ionic-native/file-transfer/ngx";
+import { File } from "@ionic-native/file/ngx";
+import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 
 
 @NgModule({
@@ -40,6 +48,10 @@ import { HelperService } from './helper.service';
     SplashScreen,
     StatusBar,
     Camera,
+    FileTransfer,
+    File,
+    FilePath,
+    NativeAudio,
     Keyboard,
     ActiveGuardService,
     HelperService,
