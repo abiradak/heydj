@@ -13,6 +13,7 @@ import { Storage } from '@ionic/storage';
 export class CreateDJprofilePage implements OnInit {
   createDJProfile: any;
   base64Image = '';
+  base64ThumbnailImage = '';
   updatePicture: boolean;
   isLoading = false;
   user: any;
@@ -115,6 +116,75 @@ export class CreateDJprofilePage implements OnInit {
     await actionSheet.present();
   }
 
+  async uploadThumbnail() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Select anyone',
+      buttons: [{
+        text: 'Album',
+        icon: 'albums',
+        handler: () => {
+          console.log('albums clicked');
+          const options: CameraOptions = {
+            quality: 100,
+            allowEdit: true,
+            targetHeight: 720,
+            targetWidth: 720,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            encodingType: this.camera.EncodingType.JPEG,
+            mediaType: this.camera.MediaType.PICTURE,
+            correctOrientation: true,
+            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          };
+          this.camera.getPicture(options).then((imageData) => {
+            console.log(imageData);
+            this.base64ThumbnailImage = 'data:image/jpeg;base64,' + imageData;
+            console.log(this.base64ThumbnailImage);
+            this.updatePicture = true;
+            console.log(this.updatePicture);
+          }, (err) => {
+            console.log(err.error);
+          });
+        }
+      }, {
+        text: 'Capture',
+        icon: 'camera',
+        handler: () => {
+          console.log('camera clicked');
+          const options: CameraOptions = {
+            quality: 100,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            encodingType: this.camera.EncodingType.JPEG,
+            mediaType: this.camera.MediaType.PICTURE,
+            correctOrientation: true,
+            sourceType: this.camera.PictureSourceType.CAMERA,
+            allowEdit: true,
+            targetHeight: 720,
+            targetWidth: 720,
+          };
+
+          this.camera.getPicture(options).then((imageData) => {
+            console.log(imageData);
+            this.base64ThumbnailImage = 'data:image/jpeg;base64,' + imageData;
+            console.log(this.base64ThumbnailImage);
+            this.updatePicture = true;
+            console.log(this.updatePicture);
+          }, (err) => {
+            console.log(err.error);
+          });
+        }
+      },
+      {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
   async present() {
     this.isLoading = true;
     return await this.loadingCtrl.create({
@@ -132,10 +202,10 @@ export class CreateDJprofilePage implements OnInit {
 
   createdjProfile() {
     const emailPattern = /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/;
-    // if (this.base64Image === '') {
-    //   this.apiGenerate.present('Please upload your profile image');
-    //   return false;
-    // }
+    if (this.base64Image === '') {
+      this.apiGenerate.present('Please upload your profile image');
+      return false;
+    }
     if (this.createDJProfile.value.djname === '') {
       this.apiGenerate.present('Please Enter your Name.');
       return false;
@@ -165,6 +235,10 @@ export class CreateDJprofilePage implements OnInit {
       this.apiGenerate.present('Please write your work History.');
       return false;
     }
+    if (this.base64ThumbnailImage === '') {
+      this.apiGenerate.present('Please upload Thumbnail Image');
+      return false;
+    }
 
     if (this.createDJProfile.valid) {
       if (this.createDJProfile.value === null) {
@@ -182,13 +256,7 @@ export class CreateDJprofilePage implements OnInit {
           address: this.createDJProfile.value.address,
           about: this.createDJProfile.value.about,
           workHistory: this.createDJProfile.value.workHistory,
-          // eng_company_name: this.RegisterForm.value.companyName,
-          // role_id: '3',
-          // device_platform: this.device.platform,
-          // device_uuid: this.device.uuid,
-          // device_model: this.device.model,
-          // device_version: this.device.version,
-          // device_manufacturer: this.device.manufacturer
+          thumbnailImage: this.createDJProfile.value.base64ThumbnailImage
         }];
         console.log('body', data);
         this.storage.get('currentUser').then(value => {
