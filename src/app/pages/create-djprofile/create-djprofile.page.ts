@@ -1,23 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ActionSheetController, LoadingController } from '@ionic/angular';
 import { ApiGenerateService } from '../../api-generate.service';
 import { Storage } from '@ionic/storage';
+import { HelperService } from '../../helper.service';
+import {
+  FileTransfer,
+  FileUploadOptions
+} from "@ionic-native/file-transfer/ngx";
+import { File } from '@ionic-native/file/ngx';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ALLOWED_MIME_TYPE_VIDEO = 'video/mp4';
+const ALLOWED_MIME_TYPE_AUDIO = 'audio/mpeg';
+
 @Component({
   selector: 'app-create-djprofile',
   templateUrl: './create-djprofile.page.html',
   styleUrls: ['./create-djprofile.page.scss'],
 })
-export class CreateDJprofilePage implements OnInit {
-  createDJProfile: any;
-  base64Image = '';
-  base64ThumbnailImage = '';
-  updatePicture: boolean;
-  isLoading = false;
-  user: any;
-  phoneNumber: any;
+
+export class CreateDJprofilePage {
+
+  createDj: FormGroup;
+  progressbar: boolean;
+
+  options: CameraOptions = {
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    correctOrientation: true,
+  };
+  options2: CameraOptions = {
+    destinationType: this.camera.DestinationType.FILE_URI,
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    correctOrientation: true,
+    mediaType:this.camera.MediaType.ALLMEDIA,
+  };
+  successImage: any;
+  imgBlob: Blob;
+  contentBlob: Blob;
+  uploadedVideo: any;
+  selectedVideo: string;
+  typecontent: any;
+  progress: number;
+  
   constructor(
     public router: Router,
     private formBuilder: FormBuilder,
@@ -26,259 +55,143 @@ export class CreateDJprofilePage implements OnInit {
     private storage: Storage,
     public apiGenerate: ApiGenerateService,
     public loadingCtrl: LoadingController,
+    public helper: HelperService,
+    private file: File, 
+    private fileChooser: FileChooser
   ) {
-    this.createDJProfile = this.formBuilder.group({
-      djname: new FormControl('', [Validators.maxLength(20), Validators.required]),
-      phone: new FormControl(''),
-      // phone: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      address: new FormControl('', [Validators.required]),
-      about: new FormControl('', [Validators.required]),
-      workHistory: new FormControl('', [Validators.required]),
-    });
-    this.storage.get('currentUser').then(value => {
-      console.log(value);
-    });
-    this.apiGenerate.getvalue().then((success: any) => {
-      console.log(success);
-      this.phoneNumber = success.data;
-      console.log(this.phoneNumber);
-    }, (err) => {
-      console.log(err);
+    this.createDj = formBuilder.group({
+      title: [''],
+      ctype: [],
     });
   }
-  async uploadImg() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Select anyone',
-      buttons: [{
-        text: 'Album',
-        icon: 'albums',
-        handler: () => {
-          console.log('albums clicked');
-          const options: CameraOptions = {
-            quality: 100,
-            allowEdit: true,
-            targetHeight: 720,
-            targetWidth: 720,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            correctOrientation: true,
-            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          };
-          this.camera.getPicture(options).then((imageData) => {
-            console.log(imageData);
-            this.base64Image = 'data:image/jpeg;base64,' + imageData;
-            console.log(this.base64Image);
-            this.updatePicture = true;
-            console.log(this.updatePicture);
-          }, (err) => {
-            console.log(err.error);
-          });
-        }
-      }, {
-        text: 'Capture',
-        icon: 'camera',
-        handler: () => {
-          console.log('camera clicked');
-          const options: CameraOptions = {
-            quality: 100,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            correctOrientation: true,
-            sourceType: this.camera.PictureSourceType.CAMERA,
-            allowEdit: true,
-            targetHeight: 720,
-            targetWidth: 720,
-          };
-
-          this.camera.getPicture(options).then((imageData) => {
-            console.log(imageData);
-            this.base64Image = 'data:image/jpeg;base64,' + imageData;
-            console.log(this.base64Image);
-            this.updatePicture = true;
-            console.log(this.updatePicture);
-          }, (err) => {
-            console.log(err.error);
-          });
-        }
-      },
-      {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
-    });
-    await actionSheet.present();
+  ionViewWillEnter(){
+    this.typecontent = 'audio';
   }
 
-  async uploadThumbnail() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Select anyone',
-      buttons: [{
-        text: 'Album',
-        icon: 'albums',
-        handler: () => {
-          console.log('albums clicked');
-          const options: CameraOptions = {
-            quality: 100,
-            allowEdit: true,
-            targetHeight: 720,
-            targetWidth: 720,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            correctOrientation: true,
-            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          };
-          this.camera.getPicture(options).then((imageData) => {
-            console.log(imageData);
-            this.base64ThumbnailImage = 'data:image/jpeg;base64,' + imageData;
-            console.log(this.base64ThumbnailImage);
-            this.updatePicture = true;
-            console.log(this.updatePicture);
-          }, (err) => {
-            console.log(err.error);
-          });
-        }
-      }, {
-        text: 'Capture',
-        icon: 'camera',
-        handler: () => {
-          console.log('camera clicked');
-          const options: CameraOptions = {
-            quality: 100,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            correctOrientation: true,
-            sourceType: this.camera.PictureSourceType.CAMERA,
-            allowEdit: true,
-            targetHeight: 720,
-            targetWidth: 720,
-          };
-
-          this.camera.getPicture(options).then((imageData) => {
-            console.log(imageData);
-            this.base64ThumbnailImage = 'data:image/jpeg;base64,' + imageData;
-            console.log(this.base64ThumbnailImage);
-            this.updatePicture = true;
-            console.log(this.updatePicture);
-          }, (err) => {
-            console.log(err.error);
-          });
-        }
-      },
-      {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
-    });
-    await actionSheet.present();
+  openaudiovideo(type) {
+    console.log('databc>>>>>', type);
+    if(type == 'audio'){
+      this.typecontent = 'audio';
+      console.log('set data >>>>>>>' , this.typecontent);
+    }
+    else if(type == 'video'){
+      this.typecontent = 'video';
+      console.log('set data >>>>>>>' , this.typecontent);
+    }
   }
 
-  async present() {
-    this.isLoading = true;
-    return await this.loadingCtrl.create({
-      backdropDismiss: true
-    }).then(a => {
-      a.present().then(() => {
+
+  async uploadthumbnail() {
+    this.camera.getPicture(this.options).then((imageData) => {
+      console.log('image data >>>>>>>', imageData);
+      this.file.resolveLocalFilesystemUrl(imageData).then((entry: any) => {
+        entry.file(file => {
+          console.log('after resolve' , file);
+          this.readFileImage(file);
+        });
       });
+    }, (err) => {
+      console.log('error' , err.error);
     });
   }
 
-  async dismiss() {
-    this.isLoading = false;
-    this.loadingCtrl.dismiss();
+  async content() {
+    this.camera.getPicture(this.options2)
+      .then( async (videoUrl) => {
+        if (videoUrl) {
+          this.uploadedVideo = null;
+          
+          var filename = videoUrl.substr(videoUrl.lastIndexOf('/') + 1);
+          var dirpath = videoUrl.substr(0, videoUrl.lastIndexOf('/') + 1);
+
+          dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
+          
+          try {
+            var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
+            var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+          } catch(err) {
+            return this.helper.presentAlert("Something went wrong.", 'Warning!');
+          }
+          
+          retrievedFile.file( data => {
+            console.log('data///////' , data);
+              if (data.size > MAX_FILE_SIZE) return this.helper.presentToast('You cannot upload more than 5mb.' , 'danger');
+              if (data.type !== ALLOWED_MIME_TYPE_VIDEO) return this.helper.presentToast('Incorrect file type.' , 'danger');
+              this.readFileContent(data);
+          });
+        }
+      },
+      (err) => {
+        console.log(err);
+      });
   }
 
-  createdjProfile() {
-    const emailPattern = /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/;
-    if (this.base64Image === '') {
-      this.apiGenerate.present('Please upload your profile image');
-      return false;
-    }
-    if (this.createDJProfile.value.djname === '') {
-      this.apiGenerate.present('Please Enter your Name.');
-      return false;
-    }
-    // if (this.createDJProfile.value.phone === '' || this.createDJProfile.value.phone == null ||
-    //   this.createDJProfile.value.phone === undefined || this.createDJProfile.value.phone === this.user.phoneNumber) {
-    //   this.apiGenerate.present('Please enter your Phone Number');
-    //   return false;
-    // }
-    if (this.createDJProfile.value.email === '') {
-      this.apiGenerate.present('Please enter your Email (ex:abcd@email.com)');
-      return false;
-    }
-    if (!emailPattern.test(this.createDJProfile.value.email)) {
-      this.apiGenerate.present('Please enter valid Email (ex:abcd@email.com)');
-      return false;
-    }
-    if (this.createDJProfile.value.address === '') {
-      this.apiGenerate.present('Please enter your Address');
-      return false;
-    }
-    if (this.createDJProfile.value.about === '') {
-      this.apiGenerate.present('Please write about your work');
-      return false;
-    }
-    if (this.createDJProfile.value.workHistory === '') {
-      this.apiGenerate.present('Please write your work History.');
-      return false;
-    }
-    if (this.base64ThumbnailImage === '') {
-      this.apiGenerate.present('Please upload Thumbnail Image');
-      return false;
-    }
-
-    if (this.createDJProfile.valid) {
-      if (this.createDJProfile.value === null) {
-        this.present();
-        setTimeout(() => {
-          this.dismiss();
-        }, 3000);
-      } else {
-        this.present();
-        const data = [{
-          profile_picture: this.base64Image,
-          djname: this.createDJProfile.value.djname,
-          phone: this.createDJProfile.value.phone,
-          email: this.createDJProfile.value.email,
-          address: this.createDJProfile.value.address,
-          about: this.createDJProfile.value.about,
-          workHistory: this.createDJProfile.value.workHistory,
-          thumbnailImage: this.createDJProfile.value.base64ThumbnailImage
-        }];
-        console.log('body', data);
-        this.storage.get('currentUser').then(value => {
-          this.apiGenerate.sendHttpCallWithToken(data, '/api/user/dj',
-            'post').subscribe((success: any) => {
-              console.log(success);
-              // if (success.resp === 'true') {
-              //   this.dismiss();
-              //   this.router.navigate(['/tabs/home']);
-              // } else {
-              //   this.dismiss();
-              // }
-            }, err => {
-              console.log(err.error);
-            });
-          console.log(value);
+  async contenForAudio() {
+    this.fileChooser.open().then( async (audioData) => {
+      console.log('data >>>>>>>>>>', audioData);
+      if (audioData) {
+        this.file.resolveLocalFilesystemUrl(audioData).then((entry: any) => {
+          entry.file(file => {
+            console.log('after resolve' , file);
+            if (file.size > MAX_FILE_SIZE) return this.helper.presentToast('You cannot upload more than 5mb.' , 'danger');
+            if (file.type !== ALLOWED_MIME_TYPE_AUDIO) return this.helper.presentToast('Incorrect file type.' , 'danger');
+            this.readFileContent(file);
+          });
         });
       }
-    } else {
-    }
-  }
-  ngOnInit() {
+    }, (err) => {
+      console.log('error >>>>>>>>>', err);
+    })
   }
 
+  
+  readFileImage(file: any) {
+    console.log('file', file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.imgBlob = new Blob([reader.result], {
+        type: file.type
+      });
+    };
+    reader.readAsArrayBuffer(file);
+  }
+  readFileContent(file: any) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.contentBlob = new Blob([reader.result], {
+        type: file.type
+      });
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  createDjSubmit() {
+    if(this.createDj.value.title && this.imgBlob && this.contentBlob) {
+
+      const form = new FormData();
+      form.append('title', this.createDj.value.title),
+      form.append('thumbnail' , this.imgBlob),
+      form.append('content' , this.contentBlob)
+
+      this.helper.presentToast('Content is uploading....' , 'success');
+      setTimeout(() => {
+        
+        this.createDj.reset();
+        this.createDj.disable();
+        this.progress += .1
+      }, 5000);
+      this.apiGenerate.sendHttpCallWithToken(form, `/api/dj/content`,'post').subscribe((success) => {
+        console.log('profile image upload >>>>>>' , success);
+        this.helper.presentToast('Content uploaded successfully' , 'success');
+      }, err => {
+        console.log('profile image error >>>>>>' , err.error);
+        this.helper.presentToast(err.error , 'danger');
+      })
+    } else {
+      this.helper.presentToast('All Fields Are Required' , 'warning');
+    }
+  }
+  back() {
+    this.helper.goBack();
+  }
 }

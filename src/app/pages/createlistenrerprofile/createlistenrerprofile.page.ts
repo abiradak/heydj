@@ -66,9 +66,6 @@ export class CreatelistenrerprofilePage  {
     });
   }
 
-  // ngOnInit() {
-  //   this.getUserInfo();
-  // }
   ionViewWillEnter() {
     this.getUserInfo();
   }
@@ -107,7 +104,6 @@ export class CreatelistenrerprofilePage  {
     }, (err) => {
       // Handle error
     });
-    
   }
   
   back() {

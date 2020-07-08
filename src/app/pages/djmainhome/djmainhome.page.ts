@@ -8,34 +8,47 @@ import { Router } from '@angular/router';
   templateUrl: './djmainhome.page.html',
   styleUrls: ['./djmainhome.page.scss'],
 })
-export class DjmainhomePage implements OnInit {
+export class DjmainhomePage {
   djProfile: any;
+  image: any;
+
   constructor(
     public apiGenerate: ApiGenerateService,
     public helper: HelperService,
     private router: Router
-  ) { }
-
-  ngOnInit() {
+  ) {
+   }
+  ionViewWillEnter(){
     this.getUserInfo();
   }
 
-  getUserInfo() {
+  logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
+    this.router.navigate(['mainhome']);
+    this.helper.presentToast('Successfully Logged Out' , 'success');
+  }
+
+  async getUserInfo() {
+    // this.helper.presentLoading();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    console.log(userInfo);
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
       'get').subscribe((success: any) => {
         console.log('get api result >>>>>>>>>', success);
+        // this.helper.hideLoading();
         this.djProfile = success;
-        console.log(this.djProfile);
+        this.image = success.profileImage;
+        // this.helper.hideLoading();
       }, err => {
         this.helper.presentToast(err.error, 'danger');
+        // this.helper.hideLoading();
       })
   }
 
+  back() {
+    this.helper.goBack();
+  }
   process() {
     this.router.navigate(['editdjprofile']);
   }
-  
-
 }

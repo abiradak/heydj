@@ -21,9 +21,10 @@
   .dj-profile{
     width: 10%;
       float: left;
+      color: #fff;
       text-align: center;
-      margin-left: 0%;
-      padding-top: 25px;
+      margin-left: 15px;
+      padding-top: 10px;
   }
   .menu-list {
     width: 100%;
@@ -261,6 +262,13 @@
     background: transparent;
     border: none;
     color: #21668d;
+  }
+
+  .editbtn {
+    font-size: 15px;
+    height: 25px;
+    text-transform: capitalize;
+    width: 80%;
   }
   
   

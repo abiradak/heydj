@@ -26,6 +26,7 @@ import {
 } from "@ionic-native/file-transfer/ngx";
 import { File } from "@ionic-native/file/ngx";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
     FileTransfer,
     File,
     FilePath,
+    FileChooser,
     NativeAudio,
     Keyboard,
     ActiveGuardService,

@@ -122,6 +122,11 @@ export class AppComponent implements OnInit {
           icon: 'map'
         },
         {
+          title: 'Create Dj',
+          url: '/create-djprofile',
+          icon: 'map'
+        },
+        {
           title: 'Messages',
           url: '/mainhome',
           icon: 'information-circle'

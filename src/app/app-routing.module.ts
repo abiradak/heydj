@@ -71,9 +71,6 @@ const routes: Routes = [
     path: 'djmainhome', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/djmainhome/djmainhome.module').then( m => m.DjmainhomePageModule)
   }
-
-
-
 ];
 
 @NgModule({

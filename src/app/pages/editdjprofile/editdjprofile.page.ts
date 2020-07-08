@@ -83,6 +83,7 @@ export class EditdjprofilePage  {
     'get').subscribe((success: any) => {
       console.log('get api result >>>>>>>>>' , success);
       loading.dismiss();
+      this.successImage = success.profileImage;
       this.updateProfile.patchValue({
         phone: userInfo.phoneNumber.slice(2,12),
         cuntrycode: +91,

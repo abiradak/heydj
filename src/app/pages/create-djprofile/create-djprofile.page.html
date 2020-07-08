@@ -2,100 +2,85 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
-      <ion-title>Create DJ Profile</ion-title>
+      <ion-title>Create DJ</ion-title>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="createDJProfile" (ngSubmit)="createDJProfile()">
-    <ion-row>
-      <ion-col size='4'>
-      </ion-col>
-      <ion-col size='4' (click)='uploadImg()'>
-        <ion-avatar class="divImage">
-          <img *ngIf="base64Image!=''" [src]="base64Image">
-          <!-- <img *ngIf="base64Image=='' && pflImg==''" src="../../../assets/img/defaultImg.jpg"> -->
-          <img *ngIf="base64Image ==''" src="../../../assets/img/defaultImg.jpg">
-          <!-- <img *ngIf="base64Image=='' && pflImg!=''" [src]="pflImg"> -->
-          <span class="editICon">
-            <ion-icon name="add-circle"></ion-icon>
+  <div class="header-logo">
+    <img src="../../../assets/img/logo.png">
+  </div>
+  <div class="menubar">
+    <img src="assets/img/back.png" (click)="back()">
+  </div>
+  <ion-progress-bar *ngIf = 'progressbar === true' [value]="progress"></ion-progress-bar>  
+  <div class="registration-form">
+  <form [formGroup]="createDj">
+    <div class="form-group row">
+      <label for="inputtext" class="col-sm-2 col-form-label">Title</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputtext" formControlName="title">
+        <!-- <div *ngIf="createDj.controls?.fname?.invalid && createDj.controls?.fname?.touched"> 
+          <span class="hass-error-message" *ngIf="createDj.controls?.fname?.errors?.required">
+            <p class="validation">* First Name Field is Required *</p>
+          </span>      
+          <span class="hass-error-message" *ngIf="createDj.controls?.fname?.errors?.minlength">
+            <p class="validation">* Minimum 2 character *</p>
           </span>
-        </ion-avatar>
-      </ion-col>
-      <ion-col size='4'>
-      </ion-col>
-    </ion-row>
-
-    <ion-list>
-      <ion-item>
-        <ion-label position="floating">DJ Name</ion-label>
-        <ion-input type="text" formControlName="djname"></ion-input>
-      </ion-item>
-      <div *ngIf="!createDJProfile.controls.djname.valid && createDJProfile.controls.djname.dirty"
-        class="validator-error">
-        Please Enter your Name.
+          <span class="hass-error-message" *ngIf="createDj.controls?.fname?.errors?.minlength">
+            <p class="validation">* Maxumum 30 character *</p>
+          </span>
+          <span class="hass-error-message" *ngIf="createDj.controls?.fname?.errors?.pattern">
+            <p class="validation">* Please Enter Valid Firstname *</p>
+          </span>
+        </div> -->
       </div>
-      <ion-item>
-        <img class="flagIcon" src="../../../assets/img/india.png" />&nbsp;
-        <p> +91 </p>&nbsp;
-        <ion-input type="number" disabled formControlName="phone" value={{phoneNumber}}></ion-input>
-      </ion-item>
-      <!-- <ion-item>
-        <img class="flagIcon" src="../../../assets/img/india.png" />&nbsp;
-        <span> +91 </span>&nbsp;
-        <ion-input type="tel" formControlName="phone"></ion-input>
-      </ion-item> -->
-      <ion-item>
-        <ion-label position="floating">Email Address</ion-label>
-        <ion-input type="email" formControlName="email"
-          pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{2,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})">
-        </ion-input>
-      </ion-item>
-      <div *ngIf="!createDJProfile.controls.email.valid && createDJProfile.controls.email.dirty" class="validator-error">
-        Please enter a valid email.
-      </div>
-      <ion-item>
-        <ion-label position="floating">Address</ion-label>
-        <ion-input type="text" formControlName="address"></ion-input>
-      </ion-item>
-      <div *ngIf="!createDJProfile.controls.address.valid && createDJProfile.controls.address.dirty"
-        class="validator-error">
-        Please Enter your Address.
-      </div>
-      <ion-item>
-        <ion-label position="floating">About</ion-label>
-        <ion-input type="text" formControlName="about"></ion-input>
-      </ion-item>
-      <div *ngIf="!createDJProfile.controls.about.valid && createDJProfile.controls.about.dirty" class="validator-error">
-        Please write about your work
-      </div>
-      <ion-item>
-        <ion-label position="floating">Work History</ion-label>
-        <ion-input type="text" formControlName="workHistory"></ion-input>
-      </ion-item>
-      <div *ngIf="!createDJProfile.controls.workHistory.valid && createDJProfile.controls.workHistory.dirty" class="validator-error">
-        Please write your work History.
-      </div>
-      <ion-row>
-        <ion-col size='4' (click)='uploadThumbnail()'>
-          <ion-avatar class="divImage">
-            <img *ngIf="base64ThumbnailImage!=''" [src]="base64ThumbnailImage">
-            <!-- <img *ngIf="base64ThumbnailImage=='' && pflImg==''" src="../../../assets/img/defaultImg.jpg"> -->
-            <img *ngIf="base64ThumbnailImage ==''" src="../../../assets/img/defaultImg.jpg">
-            <!-- <img *ngIf="base64ThumbnailImage=='' && pflImg!=''" [src]="pflImg"> -->
-            <span class="editICon">
-              <ion-icon name="add-circle"></ion-icon>
-            </span>
-          </ion-avatar>
-        </ion-col>
-        <ion-col size='8'>
-        </ion-col>
-      </ion-row>
-    </ion-list>
-    <br />
-    <div class="button">
-      <ion-button color="dark" expand="round" (click)="createdjProfile()">Create Profile</ion-button>
     </div>
+    <div class="form-group row">
+      <label for="lstnm" class="col-sm-2 col-form-label">Thumbnail 
+      </label>
+      <div class="col-sm-3">
+        <ion-button class="imgupload" size="small" color="secondary" (click) = "uploadthumbnail()">Uplaod Thumbnail</ion-button>
+        <!-- <input type="file" size="60" class="form-control" id="lstnm" formControlName="thumbnail"> -->
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="lstnm" class="col-sm-2 col-form-label">Select Content Type to Upload
+      </label>
+      <div class="col-sm-10">
+      <ion-list>
+        <ion-radio-group allow-empty-selection value="audio">
+          <ion-item>
+            <ion-label>Audio</ion-label>
+            <ion-radio slot="end" color="secondary" (click) = "openaudiovideo('audio')" formControlName="ctype" value = 'audio'></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Video</ion-label>
+            <ion-radio slot="end" color="success" (click) = "openaudiovideo('video')" formControlName="ctype" value = 'video'></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </div>
+    </div>
+    <div *ngIf = "typecontent === 'video'" class="form-group row">
+      <label for="lstnm" class="col-sm-2 col-form-label">Video</label>
+      <div class="col-sm-2">
+        <!-- <input type="file" class="form-control" id="lstnm" formControlName="content"> -->
+        <ion-button class="imgupload" size="large" color="light" (click) = "content()">Uplaod Content</ion-button>
+      </div>
+    </div> 
+    <div *ngIf = "typecontent === 'audio'" class="form-group row">
+      <label for="lstnm" class="col-sm-2 col-form-label">Audio</label>
+      <div class="col-sm-2">
+        <!-- <input type="file" class="form-control" id="lstnm" formControlName="content"> -->
+        <ion-button class="imgupload" size="large" color="light" (click) = "contenForAudio()">Uplaod Content</ion-button>
+      </div>
+    </div>  
+  <div class="col-md-12">
+    <button type="submit" class="cstm-btn" (click)= "createDjSubmit()">Create DJ</button>
+  </div>
   </form>
+</div>
 </ion-content>
