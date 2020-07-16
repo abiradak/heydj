@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { StreamingMedia, StreamingVideoOptions , StreamingAudioOptions } from '@ionic-native/streaming-media/ngx';
 
 
 @Injectable({
@@ -7,42 +7,34 @@ import { NativeAudio } from '@ionic-native/native-audio/ngx';
 })
 export class MusicService {
 
+  optionsVideo: StreamingVideoOptions = {
+    successCallback: () => { console.log('Video played') },
+    errorCallback: (e) => {
+      console.log('Error streaming', e); 
+    },
+    orientation: 'landscape',
+    shouldAutoClose: true,
+    controls: true
+  };
+
+  optionsAudio: StreamingAudioOptions = {
+    successCallback: () => { console.log('Audio played') },
+    errorCallback: (e) => { 
+      console.log('Error streaming', e);
+    },
+    initFullscreen: false,
+    bgImage: localStorage.getItem('audioImage'),
+  };
+
   constructor(
-    private nativeAudio: NativeAudio
-  ) { 
+    private streamingMedia: StreamingMedia
+  ) { }
 
+  async playAudio(url) {
+    this.streamingMedia.playAudio(url , this.optionsAudio);
   }
 
-  preloadSimple(id , mp3) {
-    this.nativeAudio.preloadSimple(id, mp3).then((success) => {
-      console.log('ready simple >>>>' , success);
-    } , err => {
-      console.log('ready simple err >>>>' , err.error);
-    });
-  }
-  preloadComplex(id , mp3) {
-    this.nativeAudio.preloadComplex(id, mp3, 1, 1, 0).then((success) =>{
-      console.log('ready simple >>>>' , success);
-    } , err => {
-      console.log('ready simple err >>>>' , err.error);
-    });
-  }
-
-  play(id , mp3) {
-    this.preloadComplex(id , mp3);
-    this.preloadSimple(id , mp3);
-    this.nativeAudio.play(id).then((success) => {
-      console.log('playing......' , success);
-    }, err => {
-      console.log('not playing >>>>' , err.error);
-    });
-  }
-
-  stop(id , mp3) {
-    this.nativeAudio.stop(id).then( (success) => {
-      console.log('stop >>>>>>>' , success);
-    }, err => {
-      console.log('stopping >>>>' , err.error);
-    });
+  async PlayVideo(url) {
+    this.streamingMedia.playVideo(url, this.optionsVideo);
   }
 }

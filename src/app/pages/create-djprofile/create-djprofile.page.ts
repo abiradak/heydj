@@ -12,6 +12,7 @@ import {
 } from "@ionic-native/file-transfer/ngx";
 import { File } from '@ionic-native/file/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_MIME_TYPE_VIDEO = 'video/mp4';
@@ -26,7 +27,7 @@ const ALLOWED_MIME_TYPE_AUDIO = 'audio/mpeg';
 export class CreateDJprofilePage {
 
   createDj: FormGroup;
-  progressbar: boolean;
+  progressbar = false;
 
   options: CameraOptions = {
     sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
@@ -45,14 +46,20 @@ export class CreateDJprofilePage {
   uploadedVideo: any;
   selectedVideo: string;
   typecontent: any;
-  progress: number;
+  progress: any;
+  showSelectedImage: any;
+  showSelectedContent: any;
+  total: any;
+  contentName: any;
+  imageName: any;
+
+  
   
   constructor(
     public router: Router,
     private formBuilder: FormBuilder,
     public actionSheetController: ActionSheetController,
     public camera: Camera,
-    private storage: Storage,
     public apiGenerate: ApiGenerateService,
     public loadingCtrl: LoadingController,
     public helper: HelperService,
@@ -61,7 +68,8 @@ export class CreateDJprofilePage {
   ) {
     this.createDj = formBuilder.group({
       title: [''],
-      ctype: [],
+      ctype: [''],
+      type: ['']
     });
   }
   ionViewWillEnter(){
@@ -69,23 +77,24 @@ export class CreateDJprofilePage {
   }
 
   openaudiovideo(type) {
-    console.log('databc>>>>>', type);
     if(type == 'audio'){
+      // this.contentName = 'audio.mp3';
       this.typecontent = 'audio';
-      console.log('set data >>>>>>>' , this.typecontent);
+      // console.log('set data >>>>>>>' , this.typecontent);
     }
     else if(type == 'video'){
+      // this.contentName = 'video.mp4';
       this.typecontent = 'video';
-      console.log('set data >>>>>>>' , this.typecontent);
+      // console.log('set data >>>>>>>' , this.typecontent);
     }
   }
-
 
   async uploadthumbnail() {
     this.camera.getPicture(this.options).then((imageData) => {
       console.log('image data >>>>>>>', imageData);
       this.file.resolveLocalFilesystemUrl(imageData).then((entry: any) => {
         entry.file(file => {
+          this.showSelectedImage = file.localURL;
           console.log('after resolve' , file);
           this.readFileImage(file);
         });
@@ -95,44 +104,45 @@ export class CreateDJprofilePage {
     });
   }
 
-  async content() {
-    this.camera.getPicture(this.options2)
-      .then( async (videoUrl) => {
-        if (videoUrl) {
-          this.uploadedVideo = null;
+  // async content() {
+  //   this.camera.getPicture(this.options2)
+  //     .then( async (videoUrl) => {
+  //       if (videoUrl) {
+  //         this.uploadedVideo = null;
           
-          var filename = videoUrl.substr(videoUrl.lastIndexOf('/') + 1);
-          var dirpath = videoUrl.substr(0, videoUrl.lastIndexOf('/') + 1);
+  //         var filename = videoUrl.substr(videoUrl.lastIndexOf('/') + 1);
+  //         var dirpath = videoUrl.substr(0, videoUrl.lastIndexOf('/') + 1);
 
-          dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
+  //         dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
           
-          try {
-            var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
-            var retrievedFile = await this.file.getFile(dirUrl, filename, {});
-          } catch(err) {
-            return this.helper.presentAlert("Something went wrong.", 'Warning!');
-          }
+  //         try {
+  //           var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
+  //           var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+  //         } catch(err) {
+  //           return this.helper.presentAlert("Something went wrong.", 'Warning!');
+  //         }
           
-          retrievedFile.file( data => {
-            console.log('data///////' , data);
-              if (data.size > MAX_FILE_SIZE) return this.helper.presentToast('You cannot upload more than 5mb.' , 'danger');
-              if (data.type !== ALLOWED_MIME_TYPE_VIDEO) return this.helper.presentToast('Incorrect file type.' , 'danger');
-              this.readFileContent(data);
-          });
-        }
-      },
-      (err) => {
-        console.log(err);
-      });
-  }
+  //         retrievedFile.file( data => {
+  //           this.showSelectedContent = data.localURL;
+  //           console.log('data///////' , data);
+  //             if (data.size > MAX_FILE_SIZE) return this.helper.presentToast('You cannot upload more than 5mb.' , 'danger');
+  //             if (data.type !== ALLOWED_MIME_TYPE_VIDEO) return this.helper.presentToast('Incorrect file type.' , 'danger');
+  //             this.readFileContent(data);
+  //         });
+  //       }
+  //     },
+  //     (err) => {
+  //       console.log(err);
+  //     });
+  // }
 
   async contenForAudio() {
     this.fileChooser.open().then( async (audioData) => {
-      console.log('data >>>>>>>>>>', audioData);
+      console.log('Audio data >>>>>>>>>>', audioData);
       if (audioData) {
         this.file.resolveLocalFilesystemUrl(audioData).then((entry: any) => {
           entry.file(file => {
-            console.log('after resolve' , file);
+            this.showSelectedContent = file.localURL;
             if (file.size > MAX_FILE_SIZE) return this.helper.presentToast('You cannot upload more than 5mb.' , 'danger');
             if (file.type !== ALLOWED_MIME_TYPE_AUDIO) return this.helper.presentToast('Incorrect file type.' , 'danger');
             this.readFileContent(file);
@@ -144,9 +154,29 @@ export class CreateDJprofilePage {
     })
   }
 
+  async contenForVideo() {
+    this.fileChooser.open().then( async (videoData) => {
+      console.log('video data >>>>>>>>>>', videoData);
+      if (videoData) {
+        this.file.resolveLocalFilesystemUrl(videoData).then((entry: any) => {
+          entry.file(file => {
+            console.log('video type >>>><<<<' , file)
+            this.showSelectedContent = file.localURL;
+            if (file.size > MAX_FILE_SIZE) return this.helper.presentToast('You cannot upload more than 5mb.' , 'danger');
+            if (file.type !== ALLOWED_MIME_TYPE_VIDEO) return this.helper.presentToast('Incorrect file type.' , 'danger');
+            this.readFileContent(file);
+          });
+        });
+      }
+    }, (err) => {
+      console.log('error >>>>>>>>>', err);
+    })
+  }
+
   
   readFileImage(file: any) {
-    console.log('file', file);
+    console.log('image name >>>>>>>>', file);
+    this.imageName = file;
     const reader = new FileReader();
     reader.onloadend = () => {
       this.imgBlob = new Blob([reader.result], {
@@ -156,35 +186,125 @@ export class CreateDJprofilePage {
     reader.readAsArrayBuffer(file);
   }
   readFileContent(file: any) {
+    console.log('content name >>>>>>>>', file)
     const reader = new FileReader();
     reader.onloadend = () => {
       this.contentBlob = new Blob([reader.result], {
         type: file.type
       });
     };
+    // console.log('image data <<<<<<<<' , this.contentBlob)
     reader.readAsArrayBuffer(file);
   }
 
+  // createDjSubmit() {
+  //   if(this.createDj.value.title && this.imgBlob && this.contentBlob) {
+
+  //     const form = new FormData();
+  //     form.append('title', this.createDj.value.title),
+  //     form.append('thumbnail' , this.imgBlob, this.imageName),
+  //     form.append('content' , this.contentBlob , this.contentName)
+
+  //     // console.log('Full Form >>>>>>>>>' , form);
+
+  //     this.helper.presentToast('Content is uploading....' , 'success');
+  //     setTimeout(() => {
+  //       this.progressbar = true;
+  //       this.createDj.reset();
+  //       this.createDj.disable();
+  //     }, 2000);
+  //     this.apiGenerate.sendHttpForContentCreate(form, `/api/dj/content`).subscribe((event) => {
+  //       console.log('processing >>>>>>>>>>>' , event);
+  //       if (event.type === HttpEventType.UploadProgress) {
+  //         console.log("download progress");
+  //         const comingtotal =  event.total/1000000;
+  //         const comingprogress = event.loaded/1000000;
+  //         this.total = comingtotal.toFixed(1);
+  //         this.progress = comingprogress.toFixed(1);
+  //       }
+  //       if (event.type === HttpEventType.Response) {
+  //         this.helper.presentToast('Upload Complete' , 'success');
+  //         this.progressbar = false;
+  //         this.showSelectedContent = '';
+  //         this.createDj.enable();
+  //         console.log("Upload Complete");
+  //       }
+  //     }, err => {
+  //       console.log('error >>>>>>' , err.error);
+  //       this.helper.presentToast(err.error , 'danger');
+  //     })
+  //   } else {
+  //     this.helper.presentToast('All Fields Are Required' , 'warning');
+  //   }
+  // }
+
   createDjSubmit() {
     if(this.createDj.value.title && this.imgBlob && this.contentBlob) {
-
       const form = new FormData();
+      
       form.append('title', this.createDj.value.title),
-      form.append('thumbnail' , this.imgBlob),
-      form.append('content' , this.contentBlob)
+      form.append('thumbnail' , this.imgBlob, this.imageName),
+      form.append('type' , this.typecontent)
 
       this.helper.presentToast('Content is uploading....' , 'success');
       setTimeout(() => {
-        
+        this.progressbar = true;
         this.createDj.reset();
         this.createDj.disable();
-        this.progress += .1
-      }, 5000);
-      this.apiGenerate.sendHttpCallWithToken(form, `/api/dj/content`,'post').subscribe((success) => {
-        console.log('profile image upload >>>>>>' , success);
-        this.helper.presentToast('Content uploaded successfully' , 'success');
+      }, 2000);
+      this.apiGenerate.sendHttpForContentCreate(form, `/api/dj/v2/content`, 'post').subscribe((event: any) => {
+        console.log('hello success >>>>>>>>' , event);
+        // console.log('processing >>>>>>>>>>>' , event);
+        if (event.type === HttpEventType.UploadProgress) {
+          console.log("Upload progress");
+          const comingtotal =  event.total/1000000;
+          const comingprogress = event.loaded/1000000;
+          this.total = comingtotal.toFixed(1);
+          this.progress = comingprogress.toFixed(1);
+        }
+        if (event.type === HttpEventType.Response) {
+          console.log('Upload Complete');
+          let bodyData = event.body;
+          this.helper.presentToast('Thumbnail Upload Complete' , 'success');
+          const uploadUrl = bodyData.contentUploadUrl;
+          this.progressbar = false;
+          this.showSelectedContent = '';
+          this.createDj.enable();
+          // const form1 = new FormData();
+          // form1.append('content' , this.contentBlob);
+          this.helper.presentToast('Content is uploading....' , 'success');
+          setTimeout(() => {
+            this.progressbar = true;
+            this.createDj.reset();
+            this.createDj.disable();
+          }, 2000);
+          this.apiGenerate.sendHttpForContentCreate(this.contentBlob , uploadUrl , 'put').subscribe((event: any) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              console.log("Upload progress");
+              const comingtotal =  event.total/1000000;
+              const comingprogress = event.loaded/1000000;
+              this.total = comingtotal.toFixed(1);
+              this.progress = comingprogress.toFixed(1);
+            }
+            if (event.type === HttpEventType.Response) {
+              this.helper.presentToast('Thumbnail Upload Complete' , 'success');
+              this.progressbar = false;
+              this.showSelectedContent = '';
+              this.createDj.enable();
+            }
+          }, (err) => {
+            console.log('error >>>>>>' , err.error);
+            this.progressbar = false;
+            this.showSelectedContent = '';
+            this.createDj.enable();
+            this.helper.presentToast(err.error , 'danger');
+          })
+        }
       }, err => {
-        console.log('profile image error >>>>>>' , err.error);
+        console.log('error >>>>>>' , err.error);
+        this.progressbar = false;
+        this.showSelectedContent = '';
+        this.createDj.enable();
         this.helper.presentToast(err.error , 'danger');
       })
     } else {

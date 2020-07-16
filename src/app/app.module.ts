@@ -27,7 +27,8 @@ import {
 import { File } from "@ionic-native/file/ngx";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
-
+import { Media } from '@ionic-native/media/ngx';
+import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media/ngx';
 
 @NgModule({
   imports: [
@@ -51,6 +52,8 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
     Camera,
     FileTransfer,
     File,
+    Media,
+    StreamingMedia,
     FilePath,
     FileChooser,
     NativeAudio,

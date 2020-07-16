@@ -64,8 +64,7 @@ export class MainhomePage  {
   }
 
   playMusic(url , mp3){
-    this.music.play(url , mp3);
-    this.pausebutton = true;
+    
   }
 
   stopMusic() {

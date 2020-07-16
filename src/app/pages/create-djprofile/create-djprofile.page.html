@@ -14,38 +14,32 @@
   <div class="menubar">
     <img src="assets/img/back.png" (click)="back()">
   </div>
-  <ion-progress-bar *ngIf = 'progressbar === true' [value]="progress"></ion-progress-bar>  
+
   <div class="registration-form">
-  <form [formGroup]="createDj">
-    <div class="form-group row">
+  
+  <ion-progress-bar *ngIf = "progressbar === true"  class="progressbar" color="secondary" value = '{{ this.progress }}'></ion-progress-bar>  
+  <h4 *ngIf = "progressbar === true"  class="dtext">Your Content Is Uploading....{{ progress }}MB/{{ total }}MB</h4>
+  <h4 *ngIf = "progressbar === true"  class="dtext">Don Not turn off your Internet Connection</h4>
+  <h4 *ngIf = "progressbar === true"  class="dtext">You Can upload another content after this!!</h4>
+
+  <form [formGroup] = "createDj">
+    <div *ngIf = "progressbar === false" class="form-group row">
       <label for="inputtext" class="col-sm-2 col-form-label">Title</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="inputtext" formControlName="title">
-        <!-- <div *ngIf="createDj.controls?.fname?.invalid && createDj.controls?.fname?.touched"> 
-          <span class="hass-error-message" *ngIf="createDj.controls?.fname?.errors?.required">
-            <p class="validation">* First Name Field is Required *</p>
-          </span>      
-          <span class="hass-error-message" *ngIf="createDj.controls?.fname?.errors?.minlength">
-            <p class="validation">* Minimum 2 character *</p>
-          </span>
-          <span class="hass-error-message" *ngIf="createDj.controls?.fname?.errors?.minlength">
-            <p class="validation">* Maxumum 30 character *</p>
-          </span>
-          <span class="hass-error-message" *ngIf="createDj.controls?.fname?.errors?.pattern">
-            <p class="validation">* Please Enter Valid Firstname *</p>
-          </span>
-        </div> -->
       </div>
     </div>
-    <div class="form-group row">
+    <div *ngIf = "progressbar === false" class="form-group row">
       <label for="lstnm" class="col-sm-2 col-form-label">Thumbnail 
       </label>
       <div class="col-sm-3">
-        <ion-button class="imgupload" size="small" color="secondary" (click) = "uploadthumbnail()">Uplaod Thumbnail</ion-button>
+        <ion-button class="imgupload" size="small" color="light" (click) = "uploadthumbnail()">Uplaod Thumbnail</ion-button>
+        <img *ngIf = "showSelectedImage" class="thumbnail" src="{{ showSelectedImage }}" alt="" >
         <!-- <input type="file" size="60" class="form-control" id="lstnm" formControlName="thumbnail"> -->
       </div>
     </div>
-    <div class="form-group row">
+    
+    <div *ngIf = "progressbar === false" class="form-group row">
       <label for="lstnm" class="col-sm-2 col-form-label">Select Content Type to Upload
       </label>
       <div class="col-sm-10">
@@ -53,32 +47,34 @@
         <ion-radio-group allow-empty-selection value="audio">
           <ion-item>
             <ion-label>Audio</ion-label>
-            <ion-radio slot="end" color="secondary" (click) = "openaudiovideo('audio')" formControlName="ctype" value = 'audio'></ion-radio>
+            <ion-radio slot="end" color="secondary" (click) = "openaudiovideo('audio')" formControlName = "type" value = 'audio'></ion-radio>
           </ion-item>
 
           <ion-item>
             <ion-label>Video</ion-label>
-            <ion-radio slot="end" color="success" (click) = "openaudiovideo('video')" formControlName="ctype" value = 'video'></ion-radio>
+            <ion-radio slot="end" color="success" (click) = "openaudiovideo('video')" formControlName = "type" value = 'video'></ion-radio>
           </ion-item>
         </ion-radio-group>
       </ion-list>
     </div>
     </div>
-    <div *ngIf = "typecontent === 'video'" class="form-group row">
+    <div *ngIf = "typecontent === 'video' && progressbar === false" class="form-group row">
       <label for="lstnm" class="col-sm-2 col-form-label">Video</label>
-      <div class="col-sm-2">
+      <div class = "col-sm-2">
         <!-- <input type="file" class="form-control" id="lstnm" formControlName="content"> -->
-        <ion-button class="imgupload" size="large" color="light" (click) = "content()">Uplaod Content</ion-button>
+        <ion-button class="imgupload" size="large" color="light" (click) = "contenForVideo()">Uplaod Content</ion-button>
       </div>
+      <div *ngIf = "showSelectedContent" class="ttext">{{ showSelectedContent }}</div>
     </div> 
-    <div *ngIf = "typecontent === 'audio'" class="form-group row">
+    <div *ngIf = "typecontent === 'audio' && progressbar === false" class="form-group row">
       <label for="lstnm" class="col-sm-2 col-form-label">Audio</label>
       <div class="col-sm-2">
         <!-- <input type="file" class="form-control" id="lstnm" formControlName="content"> -->
         <ion-button class="imgupload" size="large" color="light" (click) = "contenForAudio()">Uplaod Content</ion-button>
       </div>
+     <div *ngIf = "showSelectedContent" class="ttext">{{ showSelectedContent }}</div>
     </div>  
-  <div class="col-md-12">
+  <div *ngIf = "progressbar === false" class="col-md-12">
     <button type="submit" class="cstm-btn" (click)= "createDjSubmit()">Create DJ</button>
   </div>
   </form>

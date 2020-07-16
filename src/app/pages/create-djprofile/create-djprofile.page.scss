@@ -35,6 +35,27 @@ ion-button {
     width: 80%;
 }
 
+ion-progress-bar.progressbar.ion-color.ion-color-secondary.md.progress-bar-determinate.hydrated {
+    margin-top: 60%;
+    height: 20px;
+    width: 300px;
+    margin-left: 55px;
+}
+.thumbnail {
+  margin-left: 25px;
+  height: 80px;
+  width: 80px;
+}
+.ttext {
+  color: #fff;
+  margin-left: 20px;
+  font-size: 15px;
+}
+.dtext {
+  color: #fff;
+  margin-left: 55px;
+}
+
 .header-logo{
   width: 100%;
   background: #242232;

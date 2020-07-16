@@ -13,6 +13,7 @@ export class ApiGenerateService {
   globaldata: any;
   settedValue: any;
   token = JSON.parse(localStorage.getItem('token'));
+
   constructor(
     private storage: Storage,
     public http: HttpClient,
@@ -38,7 +39,7 @@ export class ApiGenerateService {
       switch (method) {
         case 'post':
           console.log(data);
-          return this.http.post<any>(apiUrl + url, (data), httpOptions);
+          return this.http.post<any>(apiUrl + url, (data), httpOptions );
 
         case 'get':
           console.log(data);
@@ -78,6 +79,31 @@ export class ApiGenerateService {
 
       default:
         confirm('Add Method');
+    }
+  }
+
+  sendHttpForContentCreate(data: any = '', url: any , method: any) {
+    switch (method) {
+      case 'post':
+        return this.http.post<any>(apiUrl + url ,(data), {
+          reportProgress: true, observe: "events", headers: new HttpHeaders(
+            { 
+              'accept': 'application/json' ,
+               Authorization: this.token
+            },
+          )
+        });
+        break;
+    
+      case 'put':
+        return this.http.put(url , (data), {
+           reportProgress: true, observe: "events", headers: new HttpHeaders(
+            { 
+              'accept': 'application/json' ,
+            },
+          )
+        });
+        break;
     }
   }
 

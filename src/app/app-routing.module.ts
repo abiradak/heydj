@@ -70,7 +70,16 @@ const routes: Routes = [
   {
     path: 'djmainhome', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/djmainhome/djmainhome.module').then( m => m.DjmainhomePageModule)
+  },
+  {
+    path: 'create-playlist', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./create-playlist/create-playlist.module').then( m => m.CreatePlaylistPageModule)
+  },
+  {
+    path: 'content-update/:id', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./content-update/content-update.module').then( m => m.ContentUpdatePageModule)
   }
+
 ];
 
 @NgModule({

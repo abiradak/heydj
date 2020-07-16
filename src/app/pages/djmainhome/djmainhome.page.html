@@ -69,7 +69,7 @@
                   <h4>{{djProfile?.firstName}} {{djProfile?.lastName}}</h4>
                   <p>+{{djProfile?.phoneNumber}}</p>
                   <p><i class="fa fa-map-marker"></i> {{djProfile?.city}}</p>
-                  <a href="#">More Info</a>
+                  <!-- <a href="#">More Info</a> -->
                 </div>
               </div>
 
@@ -105,85 +105,31 @@
           <div class="tab-content">
             <div class="tab-pane active" id="tabs-1" role="tabpanel">
               <div class="song-tag-list">
-                <h6 class="song-tag">VIdeos</h6>
+                <h6 class="song-tag">Videos</h6>
               <div class="fe-song-list">
-
                 <ul>
-                  <li><div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
+                  <li *ngFor = "let videos of videoContent">
+                    <div class="track-list b-r1">
+										<img src="{{ videos?.thumbnail }}" (click) = "playVideo(videos)">
 										<div class="ttl">
-											<h3>Weekend: Starboy</h3>
+											<h3>{{ videos?.title }}</h3>
 											<span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
 										</div>
-									</div></li>
-                  <li><div class="track-list b-r1">
-                    <img src="../../../assets/img/genres-2.png">
-                    <div class="ttl">
-                      <h3>Weekend: Starboy</h3>
-                      <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
                     </div>
-                  </div></li>
-                  <li><div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
-										<div class="ttl">
-											<h3>Weekend: Starboy</h3>
-											<span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-										</div>
-									</div></li>
-                  <li><div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
-										<div class="ttl">
-											<h3>Weekend: Starboy</h3>
-											<span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-										</div>
-									</div></li>
-                  <li><div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
-										<div class="ttl">
-											<h3>Weekend: Starboy</h3>
-											<span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-										</div>
-									</div></li>
+                  </li>
+                  
                 </ul>
               </div>
               </div>
               <div class="song-tag-list">
                 <h6 class="song-tag">Audios</h6>
               <div class="fe-song-list">
-
                 <ul>
-                  <li><div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
+                  <li *ngFor = "let audios of audioContent">
+                    <div class="track-list">
+										<img src="{{ audios?.thumbnail }}" (click) = "playMusic(audios)">
 										<div class="ttl">
-											<h3>Weekend: Starboy</h3>
-											<span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-										</div>
-									</div></li>
-                  <li><div class="track-list b-r1">
-                    <img src="../../../assets/img/genres-2.png">
-                    <div class="ttl">
-                      <h3>Weekend: Starboy</h3>
-                      <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-                    </div>
-                  </div></li>
-                  <li><div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
-										<div class="ttl">
-											<h3>Weekend: Starboy</h3>
-											<span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-										</div>
-									</div></li>
-                  <li><div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
-										<div class="ttl">
-											<h3>Weekend: Starboy</h3>
-											<span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-										</div>
-									</div></li>
-                  <li><div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
-										<div class="ttl">
-											<h3>Weekend: Starboy</h3>
+											<h3>{{ audios?.title }}</h3>
 											<span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
 										</div>
 									</div></li>
