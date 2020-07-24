@@ -5,7 +5,7 @@ import { StreamingMedia, StreamingVideoOptions , StreamingAudioOptions } from '@
 @Injectable({
   providedIn: 'root'
 })
-export class MusicService {
+export class MusicService  {
 
   optionsVideo: StreamingVideoOptions = {
     successCallback: () => { console.log('Video played') },
@@ -29,6 +29,9 @@ export class MusicService {
   constructor(
     private streamingMedia: StreamingMedia
   ) { }
+
+
+  
 
   async playAudio(url) {
     this.streamingMedia.playAudio(url , this.optionsAudio);

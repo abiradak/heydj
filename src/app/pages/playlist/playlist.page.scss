@@ -107,6 +107,7 @@
     left: 0;
     bottom: 10px;
     z-index: 33;
+    background: #242232;
 }
 .song-icon{
   width: 20%;
@@ -143,4 +144,19 @@
 .custi {
   color: #fff;
   font-size: larger;
+}
+.subscrip-btn{
+  width: 100%;
+  display: inline-block;
+  margin: 50px 0px;
+}
+.subs-crib{
+  width: 46%;
+  margin: 0 2%;
+  padding: 12px 25px;
+  border-radius: 30px;
+  box-shadow: none;
+  background: #1ec498;
+  color: #fff;
+
 }

@@ -34,7 +34,7 @@
     <div class="row">
       <div class="play-list-content">
       <div class="featured-play-list">
-        <h3>Featured Playlists 
+        <h3>Featured Playlists
           <!-- <span (click)="showMorefe()">More</span>
           <span *ngIf = "lessfe === true" (click)="showLessfe()">Less</span> -->
         </h3>
@@ -43,7 +43,7 @@
             <li *ngFor = "let feature of featureList">
               <img *ngIf = "!feature.thumbnail" src="../../../assets/img/playlist-1.png">
               <img *ngIf = "feature.thumbnail" src="{{ feature.thumbnail }}" routerLink = '/'>
-              <h4 class="text">{{ feature.title }}</h4>
+              <!-- <h4 class="text">{{ feature.title }}</h4> -->
             </li>
           </ul>
         </div>
@@ -51,7 +51,7 @@
       </div>
       <div class="play-list-content">
       <div class="featured-play-list">
-        <h3>Genres 
+        <h3>Genres
           <span (click)="showMoregen()">More</span>
           <span *ngIf = "lessgen === true" (click)="showLessgen()">Less</span>
         </h3>
@@ -60,13 +60,13 @@
             <li *ngFor = "let genrelist of genereList | slice:start:endgen">
               <div class="track-list">
 										<img src="../../../assets/img/genres-1.png">
-										<div class="ttl">
-											<h3>{{ genrelist.name }}</h3>
+										<!-- <div class="ttl">
+											<h3>{{ genrelist.name }}</h3> -->
 											<!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
-										</div>
+										<!-- </div> -->
 									</div>
             </li>
-            
+
           </ul>
         </div>
       </div>
@@ -74,11 +74,35 @@
 
     <div class="play-list-content">
       <div class="featured-play-list">
-        <h3>
+        <h3>All Playlists
           <span (click)="showMore()">More</span>
           <span *ngIf = "less === true" (click)="showLess()">Less</span>
         </h3>
-        <div class="genrs-list nw-rl">
+        <div class="genrs-list">
+          <ul>
+            <li *ngFor = "let songs of songslist | slice:start:endall">
+              <div class="list-of-song">
+                <div *ngIf = "!songs.thumbnail" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
+                <div *ngIf = "songs.thumbnail" class="song-dp"><img src="{{ songs.thumbnail }}" [routerLink] = "['/playlist/', songs.id]"></div>
+                <div class="song-ttl">
+                  <h4>{{ songs.title }}</h4>
+                  <p>{{ songs.sampleType }}</p>
+                  <!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        </div>
+    </div>
+
+    <div class="play-list-content">
+      <div class="featured-play-list">
+        <h3> Profile
+          <span (click)="showMore()">More</span>
+          <span *ngIf = "less === true" (click)="showLess()">Less</span>
+        </h3>
+        <div class="genrs-list ">
           <ul>
             <li *ngFor = "let songs of songslist">
               <div class="list-of-song">
@@ -96,29 +120,8 @@
         </div>
     </div>
 
-    <div class="play-list-content">
-      <div class="featured-play-list">
-        <h3>All Playlists
-          <span (click)="showMore()">More</span>
-          <span *ngIf = "less === true" (click)="showLess()">Less</span>
-        </h3>
-        <div class="genrs-list nw-rl">
-          <ul>
-            <li *ngFor = "let songs of songslist | slice:start:endall">
-              <div class="list-of-song">
-                <div *ngIf = "!songs.thumbnail" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
-                <div *ngIf = "songs.thumbnail" class="song-dp"><img src="{{ songs.thumbnail }}" [routerLink] = "['/playlist/', songs.id]"></div>
-                <div class="song-ttl">
-                  <h4>{{ songs.title }}</h4>
-                  <p>{{ songs.sampleType }}</p>
-                  <!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        </div>
-    </div>
+    
     </div>
   </div>
 </ion-content>
+

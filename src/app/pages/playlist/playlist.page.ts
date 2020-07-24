@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiGenerateService } from '../../api-generate.service';
 import { MusicService } from '../../music.service';
 import { HelperService } from '../../helper.service';
+
 
 
 @Component({
@@ -10,7 +11,18 @@ import { HelperService } from '../../helper.service';
   templateUrl: './playlist.page.html',
   styleUrls: ['./playlist.page.scss'],
 })
-export class PlaylistPage {
+export class PlaylistPage implements  AfterViewInit {
+  
+
+  @Input() src: string;
+  @ViewChild('player') playerElementRef: ElementRef; 
+  isPlaying = false;
+  isLoading = false;
+  currentTime = 0;
+  duration = 0;
+  private _player: HTMLAudioElement;
+
+
   songsList: any;
   fullData: any;
   img: any;
@@ -33,6 +45,51 @@ export class PlaylistPage {
 
   ionViewWillEnter() {
     this.getPlaylist();
+  }
+
+  ngAfterViewInit(): void {
+    this._player = this.playerElementRef.nativeElement;
+    this._bindPlayerEvents();
+  }
+
+  play(): void {
+    this.playing = true ;
+    this._player.paused ? this._player.play() : this._player.pause();
+  }
+
+  seek({ detail: { value } }: { detail: { value: number } }): void {
+      this._player.currentTime = value;
+  }
+
+  private _bindPlayerEvents(): void {
+      this._player.addEventListener('playing', () => {
+          this.isPlaying = true;
+      });
+
+      this._player.addEventListener('pause', () => {
+          this.isPlaying = false;
+      });
+
+      this._player.addEventListener('timeupdate', () => {
+          this.currentTime = Math.floor(this._player.currentTime);
+      });
+
+      this._player.addEventListener('seeking', () => {
+          this.isLoading = true;
+      });
+
+      this._player.addEventListener('seeked', () => {
+          this.isLoading = false;
+      });
+
+      this._player.addEventListener('loadstart', () => {
+          this.isLoading = true;
+      });
+
+      this._player.addEventListener('loadeddata', () => {
+          this.isLoading = false;
+          this.duration = Math.floor(this._player.duration);
+      });
   }
 
   async back() {
