@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ContentUpdatePageRoutingModule } from './content-update-routing.module';
+import { FeaturePageRoutingModule } from './feature-routing.module';
 
-import { ContentUpdatePage } from './content-update.page';
+import { FeaturePage } from './feature.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ContentUpdatePageRoutingModule
+    FeaturePageRoutingModule
   ],
-  declarations: [ContentUpdatePage]
+  declarations: [FeaturePage]
 })
-export class ContentUpdatePageModule {}
+export class FeaturePageModule {}

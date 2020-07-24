@@ -31,7 +31,6 @@ export class ModalPage implements OnInit {
     public router: Router,
     private alertCtrl: AlertController,
     private keyboard: Keyboard,
-    private storage: Storage,
   ) {
     this.loginForm = formbuilder.group({
       country_code: [''],

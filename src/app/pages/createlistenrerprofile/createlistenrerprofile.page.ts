@@ -131,7 +131,7 @@ export class CreatelistenrerprofilePage  {
     })
   }
 
-  updateUserPrifile(){
+  updateUserProfile(){
     if(this.updateProfile.value.fname && this.updateProfile.value.phone) {
       const form = new FormData();
       form.append('firstName' , this.updateProfile.value.fname),

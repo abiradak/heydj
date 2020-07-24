@@ -107,6 +107,31 @@ export class ApiGenerateService {
     }
   }
 
+  sendHttpForPlaylistCreate(data: any = '', url: any , method: any) {
+    switch (method) {
+      case 'post':
+        return this.http.post<any>(apiUrl + url ,(data), {
+          reportProgress: true, observe: "events", headers: new HttpHeaders(
+            { 
+              'accept': 'application/json' ,
+               Authorization: this.token
+            },
+          )
+        });
+        break;
+    
+      case 'put':
+        return this.http.put(url , (data), {
+           reportProgress: true, observe: "events", headers: new HttpHeaders(
+            { 
+              'accept': 'application/json' ,
+            },
+          )
+        });
+        break;
+    }
+  }
+
 
   message(msg: string) {
     this.alert = this.alertController.create({

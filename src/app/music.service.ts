@@ -34,6 +34,10 @@ export class MusicService {
     this.streamingMedia.playAudio(url , this.optionsAudio);
   }
 
+  async stopAudio() {
+    this.streamingMedia.stopAudio();
+  }
+
   async PlayVideo(url) {
     this.streamingMedia.playVideo(url, this.optionsVideo);
   }

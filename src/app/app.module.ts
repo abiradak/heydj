@@ -1,5 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -21,14 +21,15 @@ import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { FilePath } from "@ionic-native/file-path/ngx";
 import {
   FileTransfer,
-  FileUploadOptions,
-  FileTransferObject
 } from "@ionic-native/file-transfer/ngx";
 import { File } from "@ionic-native/file/ngx";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { Media } from '@ionic-native/media/ngx';
-import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media/ngx';
+import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
+import { ActivatedRoute } from '@angular/router';
+
+
 
 @NgModule({
   imports: [

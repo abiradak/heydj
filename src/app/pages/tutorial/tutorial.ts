@@ -4,12 +4,9 @@ import { MenuController, IonSlides } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
-// import { SocialAuthService } from "angularx-social-login";
-// import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
-// import { SocialUser } from "angularx-social-login";
 import { ApiGenerateService } from '../../api-generate.service';
 import { HelperService } from '../../helper.service'; 
-// import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+
 
 @Component({
   selector: 'page-tutorial',
@@ -34,31 +31,7 @@ export class TutorialPage implements OnInit{
   ) {}
 
   ngOnInit() {
-    // this.authService.authState.subscribe((user) => {
-    //   this.user = user;
-    //   this.loggedIn = (user != null);
-    // });
   }
-
-  // onSlideChangeStart(event) {
-  //   event.target.isEnd().then(isEnd => {
-  //     this.showSkip = !isEnd;
-  //   });
-  // }
-
-  // ionViewWillEnter() {
-  //   this.storage.get('ion_did_tutorial').then(res => {
-  //     if (res === true) {
-  //       this.router.navigateByUrl('/app/tabs/schedule', { replaceUrl: true });
-  //     }
-  //   });
-
-  //   this.menu.enable(false);
-  // }
-
-  // ionViewDidLeave() {
-  //   this.menu.enable(true);
-  // }
 
   
 

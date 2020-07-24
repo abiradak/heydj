@@ -1,0 +1,120 @@
+ion-avatar {
+    height: 100%;
+    width: 100%;
+    margin-left: 12px;
+  }
+  .editICon {
+    position: absolute;
+    bottom: 10%;
+    left: 80%;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+  }
+  
+  .editICon ion-icon {
+    position: absolute;
+    font-size: 25px;
+    left: -2px;
+    top: 2px;
+  }
+  .imgupload {
+  font-size: 18px;
+  height: 80px;
+  text-transform: capitalize;
+  width: 60%;
+  }
+  
+  .button {
+    text-align: center;
+  }
+  ion-button {
+    font-size: 18px;
+    height: 45px;
+    text-transform: capitalize;
+    width: 80%;
+  }
+  
+  ion-progress-bar.progressbar.ion-color.ion-color-secondary.md.progress-bar-determinate.hydrated {
+    margin-top: 60%;
+    height: 20px;
+    width: 300px;
+    margin-left: 55px;
+  }
+  .thumbnail {
+  margin-left: 25px;
+  height: 80px;
+  width: 80px;
+  }
+  .ttext {
+  color: #fff;
+  margin-left: 20px;
+  font-size: 15px;
+  }
+  .dtext {
+  color: #fff;
+  margin-left: 55px;
+  }
+  
+  .header-logo{
+  width: 100%;
+  background: #242232;
+  text-align: center;
+  padding:10px 0px;
+  }
+  .header-logo img{
+  width: 70px;
+  }
+  
+  .registration-form {
+  height: 100%;
+  width: 100%;
+  background: #202020;
+  padding: 15px 25px 50px 15px;
+  font-family: 'Gotham Narrow';
+  }
+  
+  .registration-form  .col-form-label{
+  padding-right: 0px;
+  font-size: 14px;
+  color: #fff;
+  }
+  .ccode{
+  padding-right: 0px;
+  }
+  .registration-form p{
+  margin: 0px;
+  font-size: 12px;
+  display: block;
+  line-height: 20px;
+  color: #fff;
+  padding-top: 3px;
+  }
+  .cstm-btn {
+  width: 100%;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  }
+  .form-group {
+  margin-bottom: 5px;
+  }
+  .cstm-btn {
+  width: 100%;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  margin-top: 5%;
+  }
+  .validation {
+  color: red;
+  }
+  
+  .menubar{
+  z-index: 999;
+  top: -31px;
+  left: 22px;
+  background: rebeccapurple;
+  }

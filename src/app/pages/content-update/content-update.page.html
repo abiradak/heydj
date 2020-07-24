@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-title>Update Content</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="header-logo">
+    <img src="../../../assets/img/logo.png">
+  </div>
+  <div class="menubar">
+    <img src="assets/img/back.png" (click)="back()">
+  </div>
+
+  <div class="registration-form">
+  <form [formGroup]="updateDj">
+    <div *ngIf = "progressbar === false" class="form-group row">
+      <label for="inputtext" class="col-sm-2 col-form-label">Title</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputtext" formControlName="title">
+      </div>
+    </div>
+    <div *ngIf = "progressbar === false" class="form-group row">
+      <label for="lstnm" class="col-sm-2 col-form-label">Thumbnail 
+      </label>
+      <div class="col-sm-3">
+        <ion-button class="imgupload" size="small" color="light" (click) = "uploadthumbnail()">Uplaod Thumbnail</ion-button>
+        <img *ngIf = "showSelectedImage" class="thumbnail" src="{{ showSelectedImage }}" alt="" >
+        <!-- <input type="file" size="60" class="form-control" id="lstnm" formControlName="thumbnail"> -->
+      </div>
+    </div>
+  <div *ngIf = "progressbar === false" class="col-md-12">
+    <button type="submit" class="cstm-btn" (click)= "updateDjSubmit()">Update DJ</button>
+  </div>
+  </form>
+</div>
+</ion-content>

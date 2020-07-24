@@ -7,9 +7,6 @@ import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { Storage } from '@ionic/storage';
-
-import { UserData } from './providers/user-data';
 
 @Component({
   selector: 'app-root',
@@ -21,33 +18,6 @@ export class AppComponent implements OnInit {
   selectedPage: any;
   pages: Array<{ title: string; component: any }>;
   
-  // appPages = [
-  //   {
-  //     title: 'Dashboard',
-  //     url: '/app/tabs/schedule',
-  //     icon: 'home'
-  //   },
-  //   {
-  //     title: 'Profile',
-  //     url: '/createlistenrerprofile',
-  //     icon: 'people-circle',
-  //   },
-  //   {
-  //     title: 'Playlist',
-  //     url: '/app/tabs/map',
-  //     icon: 'map'
-  //   },
-  //   {
-  //     title: 'Messages',
-  //     url: '/app/tabs/about',
-  //     icon: 'information-circle'
-  //   },
-  //   {
-  //     title: 'Subcription',
-  //     url: '/app/tabs/about',
-  //     icon: 'information-circle'
-  //   },
-  // ];
   loggedIn = false;
   // dark = false;
   nav: any;
@@ -108,7 +78,7 @@ export class AppComponent implements OnInit {
       this.appPages = [
         {
           title: 'Dashboard',
-          url: 'djmainhome',
+          url: 'mainhome',
           icon: 'home'
         },
         {
@@ -118,7 +88,7 @@ export class AppComponent implements OnInit {
         },
         {
           title: 'My Dj',
-          url: '/mainhome',
+          url: '/djmainhome',
           icon: 'map'
         },
         {

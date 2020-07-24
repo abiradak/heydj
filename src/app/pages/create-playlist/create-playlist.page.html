@@ -1,0 +1,102 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+        <ion-title>Create Playlist</ion-title>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <div class="header-logo">
+      <img src="../../../assets/img/logo.png">
+    </div>
+    <div class="menubar">
+      <img src="assets/img/back.png" (click)="back()">
+    </div>
+  
+    <div class="registration-form">
+    
+    <ion-progress-bar *ngIf = "progressbar === true"  class="progressbar" color="secondary" value = '{{ this.progress }}'></ion-progress-bar>  
+    <h4 *ngIf = "progressbar === true"  class="dtext">Your Content Is Uploading....{{ progress }}MB/{{ total }}MB</h4>
+    <h4 *ngIf = "progressbar === true"  class="dtext">Don Not turn off your Internet Connection</h4>
+    <h4 *ngIf = "progressbar === true"  class="dtext">You Can upload another content after this!!</h4>
+  
+    <form [formGroup] = "playlist">
+      <div *ngIf = "progressbar === false" class="form-group row">
+        <label for="inputtext" class="col-sm-2 col-form-label">Title</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputtext" formControlName="title">
+        </div>
+      </div>
+      <div *ngIf = "progressbar === false" class="form-group row">
+        <label for="inputtext" class="col-sm-2 col-form-label">Price</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputtext" formControlName="price">
+        </div>
+      </div>
+      <div *ngIf = "progressbar === false" class="form-group row">
+        <label for="lstnm" class="col-sm-2 col-form-label">Thumbnail 
+        </label>
+        <div class="col-sm-3">
+          <ion-button class="imgupload" size="small" color="light" (click) = "uploadthumbnail()">Uplaod Thumbnail</ion-button>
+          <!-- <img *ngIf = "showSelectedImage" class="thumbnail" src="{{ showSelectedImage }}" alt="" > -->
+        </div>
+      </div>
+
+      <div *ngIf = "progressbar === false" class="form-group row">
+        <label for="lstnm" class="col-sm-2 col-form-label">Select Content Type to Upload
+        </label>
+        <div class="col-sm-10">
+        <ion-list>
+          <ion-radio-group allow-empty-selection value="audio">
+            <ion-item>
+              <ion-label>Audio</ion-label>
+              <ion-radio slot="end" color="secondary" (click) = "openaudiovideo('audio')" formControlName = "type" value = 'audio'></ion-radio>
+            </ion-item>
+  
+            <ion-item>
+              <ion-label>Video</ion-label>
+              <ion-radio slot="end" color="success" (click) = "openaudiovideo('video')" formControlName = "type" value = 'video'></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </div>
+      </div>
+      
+      <div *ngIf = "typecontent === 'video' && progressbar === false" class="form-group row">
+        <label for="lstnm" class="col-sm-2 col-form-label">Video</label>
+        <div class = "col-sm-2">
+          <!-- <input type="file" class="form-control" id="lstnm" formControlName="content"> -->
+          <ion-button class="imgupload" size="large" color="light" (click) = "sampleContenForVideo()">Sample Content</ion-button>
+        </div>
+        <div *ngIf = "showSelectedContent" class="ttext">{{ showSelectedContent }}</div>
+      </div> 
+      <div *ngIf = "typecontent === 'audio' && progressbar === false" class="form-group row">
+        <label for="lstnm" class="col-sm-2 col-form-label">Audio</label>
+        <div class = "col-sm-2">
+          <!-- <input type="file" class="form-control" id="lstnm" formControlName="content"> -->
+          <ion-button class="imgupload" size="large" color="light" (click) = "sampleContenForAudio()">Sample Content</ion-button>
+        </div>
+        <div *ngIf = "showSelectedContent" class="ttext">{{ showSelectedContent }}</div>
+      </div> 
+    <div *ngIf = "progressbar === false" class="col-md-12">
+      <button type="submit" class="cstm-btn" (click) = "createPlaylist()">Create Playlist</button>
+    </div>
+    </form>
+  </div>
+  </ion-content>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

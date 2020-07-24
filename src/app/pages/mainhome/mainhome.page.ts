@@ -15,6 +15,16 @@ export class MainhomePage  {
   text: string;
   songslist: any;
   pausebutton: boolean;
+  genereList: any;
+  start : number = 0;
+  endall : number = 6;
+  endgen: number = 6 ;
+  endfeture: number = 6;
+  less = false;
+  lessgen = false;
+  lessfe = false;
+  featureList: any;
+
   constructor(
     private router : Router,
     public helper: HelperService,
@@ -22,38 +32,46 @@ export class MainhomePage  {
     private music: MusicService,
   ) { }
 
-  // ngOnInit() {
-  //   this.logoText();
-  //   // this.getUserInfo();
-  //   this.getMusicContents();
-  // }
 
   ionViewWillEnter() {
     this.logoText();
-    // this.getUserInfo();
-    this.getMusicContents();
+    this.getAllContents();
+    this.getGenreList();
+    this.allFeaturePlaylist();
   }
 
-  // getUserInfo() {
-  //   let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  //   console.log(userInfo);
-  //    this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
-  //    'get').subscribe((success: any) => {
-  //      // console.log('get api result >>>>>>>>>' , success);
-  //   //   this.updateProfile.patchValue({
-  //   //     phone: userInfo.phoneNumber.slice(2,12),
-  //   //     cuntrycode: 91,
-  //   //     fname: success.firstName,
-  //   //     lname: success.lastName,
-  //   //     email: success.emailId,
-  //   //     city: success.city
-  //   //   });
-  //    } , err => {
-  //      this.helper.presentToast(err.error, 'danger');
-  //    })
-  // }
 
-  getMusicContents(){
+  async showMore(){
+    this.less = true;
+    this.endall = this.endall+6;
+  }
+
+  async showLess() {
+    this.endall = 6;
+    this.less = false;
+  }
+
+  async showMoregen() {
+    this.lessgen = true;
+    this.endgen = this.endgen+6;
+  }
+
+  async showLessgen() {
+    this.endgen = 6;
+    this.lessgen = false;
+  }
+
+  async showMorefe() {
+    this.lessfe = true;
+    this.endfeture = this.endfeture+6;
+  }
+
+  async showLessfe() {
+    this.endfeture = 6;
+    this.lessfe = false;
+  }
+
+  async getAllContents(){
     this.apiGenerate.sendHttpCall('', `/api/playlist?all=true`,
     'get').subscribe((response) => {
       console.log('music list>>>>>>>>', response.body.playlists);
@@ -63,12 +81,25 @@ export class MainhomePage  {
     });
   }
 
-  playMusic(url , mp3){
-    
+
+  async getGenreList() {
+    this.apiGenerate.sendHttpCall('' , '/api/genre' , 'get').subscribe((success) => {
+      console.log('genere list >>>' , success.body.genres);
+      this.genereList = success.body.genres;
+    })
   }
 
-  stopMusic() {
+  async getAllPlaylistByGenre(genreid) {
+    this.apiGenerate.sendHttpCall('' , '/api/playlist?genre=' + genreid , 'get').subscribe((success) => {
+      console.log('genre playlist >>>>>>' , success);
+    })
+  }
 
+  async allFeaturePlaylist() {
+    this.apiGenerate.sendHttpCall('' , '/api/featured' , 'get').subscribe((success) => {
+      console.log('feature list >>>>>>' , success.body.playlists);
+      this.featureList = success.body.playlists;
+    })
   }
 
   logoText() {

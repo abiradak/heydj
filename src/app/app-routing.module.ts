@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CheckTutorial } from './providers/check-tutorial.service';
 import { ActiveGuardService } from './active-guard.service';
 
 const routes: Routes = [
@@ -13,24 +12,15 @@ const routes: Routes = [
   //   path: 'login',
   //   loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
   // },
-  {
-    path: 'account', canActivate: [ActiveGuardService],
-    loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule),
+  // {
+  //   path: 'account', canActivate: [ActiveGuardService],
+  //   loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule),
     
-  },
+  // },
   {
     path: 'support', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/support/support.module').then(m => m.SupportModule)
   },
-  
-  // {
-  //   path: 'signup',
-  //   loadChildren: () => import('./pages/signup/signup.module').then(m => m.SignUpModule)
-  // },
-  // {
-  //   path: 'app',
-  //   loadChildren: () => import('./pages/tabs-page/tabs-page.module').then(m => m.TabsModule)
-  // },
   {
     path: 'tutorial',
     loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialModule),
@@ -39,10 +29,6 @@ const routes: Routes = [
     path: 'listerner-profile', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/listerner-profile/listerner-profile.module').then(m => m.ListernerProfilePageModule)
   },
-  // {
-  //   path: 'dj-profile', canActivate: [ActiveGuardService],
-  //   loadChildren: () => import('./pages/dj-profile/dj-profile.module').then(m => m.DjProfilePageModule)
-  // },
   {
     path: 'createlistenrerprofile', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/createlistenrerprofile/createlistenrerprofile.module').then(m => m.CreatelistenrerprofilePageModule)
@@ -73,12 +59,24 @@ const routes: Routes = [
   },
   {
     path: 'create-playlist', canActivate: [ActiveGuardService],
-    loadChildren: () => import('./create-playlist/create-playlist.module').then( m => m.CreatePlaylistPageModule)
+    loadChildren: () => import('./pages/create-playlist/create-playlist.module').then( m => m.CreatePlaylistPageModule)
   },
   {
     path: 'content-update/:id', canActivate: [ActiveGuardService],
-    loadChildren: () => import('./content-update/content-update.module').then( m => m.ContentUpdatePageModule)
-  }
+    loadChildren: () => import('./pages/content-update/content-update.module').then( m => m.ContentUpdatePageModule)
+  },
+  {
+    path: 'feature/:id', 
+    loadChildren: () => import('./pages/feature/feature.module').then( m => m.FeaturePageModule)
+  },
+  {
+    path: 'playlist/:id', 
+    loadChildren: () => import('./pages/playlist/playlist.module').then( m => m.PlaylistPageModule)
+  },
+  {
+    path: 'genre:/id', 
+    loadChildren: () => import('./pages/genre/genre.module').then( m => m.GenrePageModule)
+  },
 
 ];
 

@@ -3,8 +3,6 @@ import { NgForm } from '@angular/forms';
 import { Router,NavigationExtras } from '@angular/router';
 
 import { UserData } from '../../providers/user-data';
-
-import { UserOptions } from '../../interfaces/user-options';
 import { ApiGenerateService } from '../../api-generate.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { LoadingController, ToastController } from '@ionic/angular';

@@ -4,6 +4,9 @@ import { HelperService } from '../../helper.service';
 import { Router } from '@angular/router';
 import { MusicService } from '../../music.service';
 import { Media } from '@ionic-native/media/ngx';
+import { AlertController, ModalController } from '@ionic/angular';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+
 
 
 @Component({
@@ -17,6 +20,9 @@ export class DjmainhomePage {
   image: any;
   audioContent: any;
   videoContent: any;
+  checkbox = false;
+  contentArray: any[] = [];
+  isGreen = false;
 
   constructor(
     public apiGenerate: ApiGenerateService,
@@ -24,11 +30,15 @@ export class DjmainhomePage {
     private router: Router,
     private music: MusicService,
     private media: Media,
+    private alertCtrl: AlertController,
+    private keyboard: Keyboard,
+    public modalController: ModalController,
   ) {
    }
   ionViewWillEnter(){
     this.getUserInfo();
     this.getDjAllContent();
+    this.getPlaylist();
   }
 
   logout(){
@@ -50,6 +60,7 @@ export class DjmainhomePage {
       // this.helper.hideLoading();
     }, err => {
       this.helper.presentToast(err.error, 'danger');
+      this.getUserInfo();
       // this.helper.hideLoading();
     })
   }
@@ -72,32 +83,77 @@ export class DjmainhomePage {
 
   async playMusic(audio) {
     localStorage.setItem('audioImage', audio.thumbnail);
-    const url = audio.content.split('.com/');
-    const finalUrl = url[1].split('?');
-    let sendData = {
-      'key': finalUrl[0]
-    }
-    this.apiGenerate.sendHttpCall(sendData , '/api/content/url' , 'post').subscribe((success) => {
-      this.music.playAudio(success.url);
-    })
+    this.music.playAudio(audio.content);
+    // const url = audio.content.split('.com/');
+    // const finalUrl = url[1].split('?');
+    // let sendData = {
+    //   'key': finalUrl[0]
+    // }
+    // this.apiGenerate.sendHttpCall(sendData , '/api/content/url' , 'post').subscribe((success) => {
+    //   this.music.playAudio(success.url);
+    // })
   }
 
   async playVideo(video){
     localStorage.setItem('videoImage', video.thumbnail);
-    const url = video.content.split('.com/');
-    const finalUrl = url[1].split('?');
-    let sendData = {
-      'key': finalUrl[0]
-    }
-    this.apiGenerate.sendHttpCall(sendData , '/api/content/url' , 'post').subscribe((success) => {
-      this.music.PlayVideo(success.url);
-    })
+    this.music.PlayVideo(video.content);
+    // const url = video.content.split('.com/');
+    // const finalUrl = url[1].split('?');
+    // let sendData = {
+    //   'key': finalUrl[0]
+    // }
+    // this.apiGenerate.sendHttpCall(sendData , '/api/content/url' , 'post').subscribe((success) => {
+    //   this.music.PlayVideo(success.url);
+    // })
   }
 
-  async updateContent(content) {
-    const contentId = 'b717fae7-6e11-4768-a20d-37c73641344f';
-    this.router.navigate(['content-update']);
-    // this.apiGenerate.sendHttpCallWithToken(sendData , `/api/dj/content/'${content}` , '')
+  async deleteCotent(id) {
+    this.presentAlertPrompt(id);
+  }
+
+
+  async presentAlertPrompt(id) {
+    const alert = await this.alertCtrl.create({
+      header: 'Warning',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'cancelbtn',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Delete',
+          cssClass: 'deletebtn',
+          handler: () => {
+            this.helper.presentLoading();
+            this.apiGenerate.sendHttpCallWithToken('', '/api/dj/content/' + id, 'delete').subscribe((response: any) => {
+              this.helper.presentToast( response, 'success');
+              this.helper.hideLoading();
+            }, err => {
+              console.log(err.error);
+              this.helper.presentToast(err.error , 'danger');
+              this.helper.hideLoading();
+            });
+          }
+        },
+      ]
+    });
+    await alert.present();
+  }
+
+  async songs(id) {
+    this.contentArray.push(id);
+    console.log('songs array >>>>>' , this.contentArray);
+  }
+ 
+  async addPlaylist() {
+    this.checkbox = true;
+  }
+  async playList() {
+    this.router.navigate(['create-playlist', this.contentArray]);
   }
 
   back() {
@@ -105,5 +161,9 @@ export class DjmainhomePage {
   }
   process() {
     this.router.navigate(['editdjprofile']);
+  }
+
+  async getPlaylist() {
+    
   }
 }
