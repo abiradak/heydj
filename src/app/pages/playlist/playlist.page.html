@@ -1,7 +1,11 @@
 <audio
     #player
-    src="https://heydj-images-bucket-rt3ea5hg-dev.s3.ap-south-1.amazonaws.com/music/1595511183599-Admin-Playlist-Test.mp3">
+    src="https://heydj-images-bucket-rt3ea5hg-dev.s3.ap-south-1.amazonaws.com/music/1593726681354-testSong.mp3">
 </audio>
+<!-- <audio
+    #player
+    src="{{ songUrl }}">
+</audio> -->
 <ion-content>
   <div class="menubar">
     <img src="assets/img/back.png" (click)="back()">
@@ -18,7 +22,7 @@
             <ul>
               <li><i class="fa fa-angle-double-left"></i></li>
               <li><i *ngIf = "playing === false" class="fa fa-play" (click)="play()"></i></li>
-              <li><i *ngIf = "playing === true" class="fa fa-pause" (click)="play()"></i></li>
+              <li><i *ngIf = "playing === true" class="fa fa-pause" (click)="pause()"></i></li>
               <li><i class="fa fa-angle-double-right"></i></li>
             </ul>
           </div>
@@ -26,8 +30,8 @@
           <p>Download</p><span><svg height="20" viewBox="0 0 512 512" width="20" fill="#a2a2a2" xmlns="http://www.w3.org/2000/svg"><path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0"/></svg></span>
         </div> -->
         <div class="subscrip-btn">
-          <button class="subs-crib">Subscribe Now</button>
-          <button class="subs-crib">Subscribe Later</button>
+          <button class="subs-crib" (click) = subNow()>Subscribe Now</button>
+          <button class="subs-crib" (click) = subLater()>Subscribe Later</button>
         </div>
         <div class="download">
           <p>Get Subscription</p><span class="custi">{{ price }}<i class="fa fa-usd" aria-hidden="true"></i></span>
@@ -40,6 +44,15 @@
           <div class="dwnld"><svg height="20" viewBox="0 0 512 512" width="20" fill="#a2a2a2" xmlns="http://www.w3.org/2000/svg"><path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0"/></svg></div>
           <div class="track-option"><i class="fa  fa-ellipsis-v"></i></div>
         </div>
+        <ion-range
+          min="0"
+          [max]="duration"
+          [value]="currentTime"
+          (ionChange)="seek($event)"
+          color="light">
+          <ion-label color="light" slot="start">{{ currentTime }}</ion-label>
+          <ion-label color="light" slot="end">{{ duration }}</ion-label>
+        </ion-range>
         <div *ngIf = "playing === true" class="fixed-play-pause">
 
         <div class="song-icon">

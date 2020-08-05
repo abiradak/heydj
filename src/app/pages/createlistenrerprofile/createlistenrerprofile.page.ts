@@ -67,6 +67,7 @@ export class CreatelistenrerprofilePage  {
   }
 
   ionViewWillEnter() {
+    console.log('entering ');
     this.getUserInfo();
   }
 

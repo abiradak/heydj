@@ -42,7 +42,7 @@
           <ul>
             <li *ngFor = "let feature of featureList">
               <img *ngIf = "!feature.thumbnail" src="../../../assets/img/playlist-1.png">
-              <img *ngIf = "feature.thumbnail" src="{{ feature.thumbnail }}" routerLink = '/'>
+              <img *ngIf = "feature.thumbnail" src="{{ feature.thumbnail }}" [routerLink] = "['/playlist/', feature.id]">
               <!-- <h4 class="text">{{ feature.title }}</h4> -->
             </li>
           </ul>
@@ -59,7 +59,7 @@
           <ul>
             <li *ngFor = "let genrelist of genereList | slice:start:endgen">
               <div class="track-list">
-										<img src="../../../assets/img/genres-1.png">
+										<img src="../../../assets/img/genres-1.png" [routerLink] = "['/playlist/', genrelist.id]">
 										<!-- <div class="ttl">
 											<h3>{{ genrelist.name }}</h3> -->
 											<!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
@@ -102,16 +102,15 @@
           <span (click)="showMore()">More</span>
           <span *ngIf = "less === true" (click)="showLess()">Less</span>
         </h3>
-        <div class="genrs-list ">
+        <div class="genrs-list">
           <ul>
-            <li *ngFor = "let songs of songslist">
+            <li *ngFor = "let songs of songslist | slice:start:endgen">
               <div class="list-of-song">
                 <div *ngIf = "!songs.thumbnail" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
-                <div *ngIf = "songs.thumbnail" class="song-dp"><img src="{{ songs.thumbnail }}" [routerLink] = "['/playlist/', songs.id]"></div>
+                <div *ngIf = "songs.thumbnail" class="song-dp"><img src="{{ songs.thumbnail }}" [routerLink] = "['/portfolio/', '395b26ce-e955-41ce-9fbb-260593b0deab']"></div>
                 <div class="song-ttl">
                   <h4>{{ songs.title }}</h4>
                   <p>{{ songs.sampleType }}</p>
-                  <!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
                 </div>
               </div>
             </li>

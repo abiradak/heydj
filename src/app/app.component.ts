@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
 
   sideMenu(){
     const isdj = localStorage.getItem('dj');
-    if(isdj) {
+    if(isdj == 'dj') {
       this.appPages = [
         {
           title: 'Dashboard',
@@ -95,6 +95,11 @@ export class AppComponent implements OnInit {
           title: 'Create Dj',
           url: '/create-djprofile',
           icon: 'map'
+        },
+        {
+          title: 'Portfolio',
+          url: '/create-portfolio',
+          icon: 'home'
         },
         {
           title: 'Messages',

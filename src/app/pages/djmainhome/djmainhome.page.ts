@@ -35,6 +35,7 @@ export class DjmainhomePage {
     public modalController: ModalController,
   ) {
    }
+
   ionViewWillEnter(){
     this.getUserInfo();
     this.getDjAllContent();
@@ -48,7 +49,7 @@ export class DjmainhomePage {
     this.helper.presentToast('Successfully Logged Out' , 'success');
   }
 
-  async getUserInfo() {
+  getUserInfo() {
     // this.helper.presentLoading();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,

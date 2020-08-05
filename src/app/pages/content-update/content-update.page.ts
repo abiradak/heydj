@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { ActionSheetController, LoadingController } from '@ionic/angular';
 import { ApiGenerateService } from '../../api-generate.service';
-import { Storage } from '@ionic/storage';
 import { HelperService } from '../../helper.service';
 import {
   FileTransfer,

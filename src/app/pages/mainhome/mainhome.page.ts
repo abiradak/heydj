@@ -24,6 +24,7 @@ export class MainhomePage  {
   lessgen = false;
   lessfe = false;
   featureList: any;
+  portfolioList: any;
 
   constructor(
     private router : Router,
@@ -38,6 +39,7 @@ export class MainhomePage  {
     this.getAllContents();
     this.getGenreList();
     this.allFeaturePlaylist();
+    this.getAllArtist();
   }
 
 
@@ -74,7 +76,7 @@ export class MainhomePage  {
   async getAllContents(){
     this.apiGenerate.sendHttpCall('', `/api/playlist?all=true`,
     'get').subscribe((response) => {
-      console.log('music list>>>>>>>>', response.body.playlists);
+      console.log('music list>>>>>>>>', response.body);
       this.songslist = response.body.playlists;
     }, error => {
       console.log('music list>>>>>>>>', error.error);
@@ -102,6 +104,13 @@ export class MainhomePage  {
     })
   }
 
+  async getAllArtist() {
+    this.apiGenerate.sendHttpCall('' , '/api/portfolio' , 'get').subscribe((success) => {
+      console.log('portfolio list >>>>>>' , success);
+      this.portfolioList = success.body;
+    })
+  }
+
   logoText() {
     let token = JSON.parse(localStorage.getItem('token'));
     if(token) {
@@ -118,7 +127,13 @@ export class MainhomePage  {
   logout(){
     localStorage.removeItem('token');
     localStorage.removeItem('userInfo');
+    let isDj = localStorage.getItem('dj');
+    if(isDj == 'dj') {
+      localStorage.removeItem('dj');
+    }
     this.logoText();
     this.helper.presentToast('Successfully Logged Out' , 'success');
   }
+
+  
 }

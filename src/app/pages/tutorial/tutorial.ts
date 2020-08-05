@@ -6,6 +6,8 @@ import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
 import { ApiGenerateService } from '../../api-generate.service';
 import { HelperService } from '../../helper.service'; 
+import { InAppBrowser , InAppBrowserEvent } from '@ionic-native/in-app-browser/ngx';
+import * as jwt_decode from "jwt-decode";
 
 
 @Component({
@@ -27,6 +29,7 @@ export class TutorialPage implements OnInit{
     public modalController: ModalController,
     public apiGenerate: ApiGenerateService,
     public helper: HelperService,
+    public iab: InAppBrowser,
     // private deeplinks: Deeplinks
   ) {}
 
@@ -36,25 +39,71 @@ export class TutorialPage implements OnInit{
   
 
   signInWithGoogle(): void {
-    // this.deeplinks.route({
-    //   'https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google': DjProfilePage
-    //   // '/about-us': AboutPage,
-    //   // '/universal-links-test': AboutPage,
-    //   // '/products/:productId': ProductPage
-    // }).subscribe(match => {
-    //   // match.$route - the route we matched, which is the matched entry from the arguments to route()
-    //   // match.$args - the args passed in the link
-    //   // match.$link - the full link data
-    //   console.log('Successfully matched route', match);
-    // }, nomatch => {
-    //   // nomatch.$link - the full link data
-    //   console.error('Got a deeplink that didn\'t match', nomatch);
+    let browser = this.iab.create('https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google', '_blank', 'location=yes');
+
+    if (browser.on('loadstart').subscribe)
+    browser.on('loadstart').subscribe((e: InAppBrowserEvent) => {
+      console.log('loadstart >>>>>>>' , e);
+      let successUrl = e.url.split('=');
+      if (successUrl[0] === 'http://localhost:3000/login/success?state'){
+        let token = successUrl[1].split('#');
+        localStorage.setItem('token', JSON.stringify(token[0]));
+        browser.close();
+
+        let userInfo = this.getDecodedAccessToken(token[0]);
+        console.log('user Info >>>>>>>' , userInfo);
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+        if(userInfo.role == 'dj') {
+          localStorage.setItem('dj' , userInfo.role);
+          this.router.navigate(['djmainhome']);
+        } else {
+          this.router.navigate(['mainhome']);
+        }
+      }
+    });
+
+    // if (browser.on('exit').subscribe)
+    // browser.on('exit').subscribe((e: InAppBrowserEvent) => {
+    //   console.log('exit >>>>>>>>>' , e);
+    //   if (e.url){
+        
+    //   }
     // });
-    window.open("https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google", "_self");
   }
  
   signInWithFB(): void {
-    window.open("https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/facebook", "_self");
+    let browser = this.iab.create('https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/facebook', '_blank', 'location=yes');
+    if (browser.on('loadstart').subscribe)
+      browser.on('loadstart').subscribe((e: InAppBrowserEvent) => {
+        console.log('loadstart >>>>>>>' , e);
+        let successUrl = e.url.split('=');
+        if (successUrl[0] === 'http://localhost:3000/login/success?state'){
+          let token = successUrl[1].split('#');
+          localStorage.setItem('token', JSON.stringify(token[0]));
+          browser.close();
+
+          let userInfo = this.getDecodedAccessToken(token[0]);
+          console.log('user Info >>>>>>>' , userInfo);
+          localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+          if(userInfo.role == 'dj') {
+            localStorage.setItem('dj' , userInfo.role);
+            this.router.navigate(['djmainhome']);
+          } else {
+            this.router.navigate(['mainhome']);
+          }
+        }
+      });
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try{
+        return jwt_decode(token);
+    }
+    catch(Error){
+        return null;
+    }
   }
 
   loginWithOtp() {

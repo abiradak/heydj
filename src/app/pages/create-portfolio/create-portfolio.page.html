@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-title>My Portfolio</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="header-logo">
+    <img src="../../../assets/img/logo.png">
+  </div>
+  <div class="menubar">
+    <img src="assets/img/back.png" (click)="back()">
+  </div>
+
+  <div class="registration-form">
+  <form [formGroup]="createPortfolio">
+    <div class="form-group row">
+      <h3 class="col-sm-2" style="color: #FFF;">My Video</h3>
+      <label for="inputtext" class="col-sm-2 col-form-label">Video Url</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputtext" formControlName="url">
+        <button type="submit" class="cstm-btn" (click)= "addPortFolioUrls()">ADD</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div id="instructions">
+	<video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px" controls preload="none"
+		poster='http://video-js.zencoder.com/oceans-clip.jpg'
+		data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
+		<source src="https://vjs.zencdn.net/v/oceans.mp4" type='video/mp4' />
+	</video>
+	<button (click)="playPause()">Play/Pause</button>
+	<button (click)="makeBig()">Big</button>
+	<button (click)="makeSmall()">Small</button>
+	<button (click)="makeNormal()">Normal</button>
+	<button (click)="restart();">Restart</button>
+	<button (click)="skip(-10)">Rewind</button>
+	<button (click)="skip(10)">Fastforward</button>
+</div>
+</ion-content>
+

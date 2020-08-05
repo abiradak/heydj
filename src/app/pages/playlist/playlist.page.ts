@@ -3,8 +3,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiGenerateService } from '../../api-generate.service';
 import { MusicService } from '../../music.service';
 import { HelperService } from '../../helper.service';
+import { AlertController } from '@ionic/angular';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
-
+const opts = {
+  static: true,
+}
 
 @Component({
   selector: 'app-playlist',
@@ -13,9 +17,9 @@ import { HelperService } from '../../helper.service';
 })
 export class PlaylistPage implements  AfterViewInit {
   
-
   @Input() src: string;
-  @ViewChild('player') playerElementRef: ElementRef; 
+  @ViewChild('player', opts) playerElementRef: ElementRef; 
+
   isPlaying = false;
   isLoading = false;
   currentTime = 0;
@@ -32,15 +36,19 @@ export class PlaylistPage implements  AfterViewInit {
   sampleUrl: any;
   bottomSongImg: any;
   bottomSongname: any;
-  playing: boolean = false;
+  playing = false;
   price: any;
+  // songUrl: 'https://heydj-images-bucket-rt3ea5hg-dev.s3.ap-south-1.amazonaws.com/music/1593726681354-testSong.mp3';
+  
 
   constructor(
     public router: Router,
     private route: ActivatedRoute,
     public apiGenerate: ApiGenerateService,
     private music: MusicService,
-    private helper: HelperService
+    private helper: HelperService,
+    private alertCtrl: AlertController,
+    private keyboard: Keyboard,
   ) { }
 
   ionViewWillEnter() {
@@ -52,9 +60,17 @@ export class PlaylistPage implements  AfterViewInit {
     this._bindPlayerEvents();
   }
 
-  play(): void {
-    this.playing = true ;
-    this._player.paused ? this._player.play() : this._player.pause();
+  play(url): void {
+    this.playing = true;
+    // this.songUrl = url;
+    // console.log('hello >>>>>>>>>' , this.songUrl);
+    this.src = url;
+    this._player.play();
+  }
+
+  pause(): void {
+    this._player.pause();
+    this.playing = false;
   }
 
   seek({ detail: { value } }: { detail: { value: number } }): void {
@@ -117,7 +133,7 @@ export class PlaylistPage implements  AfterViewInit {
 
   async firstPlaySong() {
     if(this.data == 'audio') {
-      this.music.playAudio(this.sampleUrl);
+      this.play(this.sampleUrl);
       this.playing = true; 
       this.bottomSongImg = this.img;
       this.bottomSongname = this.playListName;
@@ -128,4 +144,277 @@ export class PlaylistPage implements  AfterViewInit {
       this.music.PlayVideo(this.sampleUrl);
     }
   }
+
+  async subNow() {
+    const token = localStorage.getItem('token');
+    if(token) {
+      this.subNowAlert();
+    } else {
+      this.helper.presentToast('Please Login For The Subscription!' , 'warning');
+      this.router.navigate(['tutorial']);
+    }
+  }
+
+  async subNowAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Subscribe Now',
+      inputs: [
+        {
+          name: 'hour',
+          type: 'number',
+          placeholder: 'Enter The Duration (Hours)'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Subscribe',
+          handler: (data) => {
+            if (data.hour) {
+              this.keyboard.hide();
+              const id = this.route.snapshot.paramMap.get('id');
+              const time = {
+                hours: data.hour,
+              };
+              console.log('otp verify send data>>>>>>', time);
+              this.helper.presentLoading();
+              this.apiGenerate.sendHttpCall(time , `/api/playlist/${id}/subscribe?now=true`, 'put').subscribe((response) => {
+                console.log('subs >>>>>', response);
+              }, err => {
+                this.helper.hideLoading();
+                this.helper.presentToast(err.error, 'warning');
+              });
+              this.helper.hideLoading();
+            }
+            else {
+              this.helper.presentAlert("Enter The Duration", "Warning!");
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async subLater() {
+    this.subLaterAlert();
+    // const token = localStorage.getItem('token');
+    // if(token) {
+    //   this.subNowAlert();
+    // } else {
+    //   this.helper.presentToast('Please Login For The Subscription!' , 'warning');
+    //   this.router.navigate(['tutorial']);
+    // }
+  }
+
+  async subLaterAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Subscribe Later',
+      inputs: [
+        {
+          name: 'hour',
+          type: 'number',
+          placeholder: 'Enter The Duration (Hours)'
+        },
+        {
+          name: 'date',
+          type: 'date',
+          placeholder: 'Enter The Date'
+        },
+        {
+          name: 'time',
+          type: 'time',
+          placeholder: 'Enter The time'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Subscribe',
+          handler: (data) => {
+            if (data.hour && data.time && data.date) {
+              const dateTime = `${data.date}T${data.time}:00+05:30`
+              console.log('concat >>>>>>>' , dateTime);
+              this.keyboard.hide();
+              const id = this.route.snapshot.paramMap.get('id');
+              const time = {
+                hours: data.hour,
+                dateTime: dateTime
+              };
+              this.helper.presentLoading();
+              this.apiGenerate.sendHttpCall(time , `/api/playlist/${id}/subscribe`, 'put').subscribe((response) => {
+                console.log('subs >>>>>', response);
+              }, err => {
+                this.helper.hideLoading();
+                this.helper.presentToast(err.error, 'warning');
+              });
+              this.helper.hideLoading();
+            }
+            else {
+              this.helper.presentAlert("Enter The Otp", "Warning!");
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+
+
+  // Razor Pay Code //
+  
+  // payWithRazor(val) {
+  //   console.log("payWithRazor called  >>>>>>>>>>>>>>> ");
+
+  //   const { amount, order_id, receipt, account_id } = val;
+  //   console.log(
+  //     "payWithRazor called  >>>>>>>>>>>>>>> ",
+  //     parseFloat(amount) * 100,
+  //     typeof amount
+  //   );
+
+  //   let razor_key = null;
+  //   switch (window.location.hostname) {
+  //     case "localhost":
+  //       razor_key = "rzp_test_partner_Et2MDRKfbn1S9w";
+  //       break;
+  //     case "testbookonline.tatamotors.com":
+  //       razor_key = "rzp_test_partner_Et2MDRKfbn1S9w";
+  //       break;
+  //     case "bookonline.tatamotors.com":
+  //       razor_key = "rzp_live_partner_Et2MDhsc5ExeDW";
+  //       break;
+  //     default:
+  //       razor_key = "rzp_test_partner_Et2MDRKfbn1S9w";
+  //       break;
+  //   }
+
+  //   let options: any = {
+  //     key: razor_key,
+  //     amount: amount, // amount should be in paise format to display Rs 1255 without decimal point
+  //     currency: "INR",
+  //     name: "TATA CV", // company name or product name
+  //     description: "TATA CV", // product description
+  //     image: `https://bookonline.tatamotors.com/cv/favicon.ico`, // company logo or product image
+  //     order_id: order_id, // order_id created by you in backend
+  //     account_id,
+  //     modal: {
+  //       escape: false,
+  //     },
+  //     notes: {},
+  //     theme: {
+  //       color: "#0c238a",
+  //     },
+  //   }
+    
+  //   options.handler = (response, error) => {
+  //     // options.response = response;
+  //     this.loading = true;
+  //     console.log(
+  //       "payWithRazor called  >>>>>>>>>>>>>>> ",
+  //       response,
+  //       "razorpay_order_id",
+  //       "razorpay_payment_id",
+  //       "razorpay_signature"
+  //     );
+  //     if (response) {
+  //       // this.loading = false;
+  //       this.formError = "";
+  //       this._api.payIdSignVerify(response).subscribe(
+  //         (data: any) => {
+  //           console.log(
+  //             "payIdSignVerify  >>>>>>>>>>>>>>>>>>>>>  ",
+  //             JSON.parse(atob(data))
+  //           );
+  //           if (data) {
+  //             // console.log('payIdSignVerify  >>>>>>>>>>>>>>>>>>>>>  ', JSON.parse(atob(data)));
+  //             data = JSON.parse(atob(data));
+  //             if (data.status == "1") {
+  //               sessionStorage.removeItem('custId');
+  //               window.location.href = data.response.redirect_url;
+  //               // this.loading = false;
+  //             } else {
+  //               this.loading = false;
+  //             }
+  //           }
+  //         },
+  //         (err) => {
+  //           console.log("error responce payIdSignVerify >>>>>>>>>>>>>  ", err);
+  //         }
+  //       );
+  //     } else if (error) {
+  //       console.log("payment error >>>>>>>>>>>  ", error);
+  //       this.loading = false;
+  //       this.formError = "Payment Failed";
+  //       setTimeout(() => {
+  //         this.otpError = "";
+  //         this.formError = "";
+  //       }, 5000);
+  //     }
+  //     // console.log('payWithRazor called  >>>>>>>>>>>>>>> ', options);
+  //     // call your backend api to verify payment signature & capture transaction
+  //   };
+  //   options.modal.ondismiss = () => {
+  //     // handle the case when user closes the form while transaction is in progress
+  //     console.log("Transaction cancelled.");
+  //   };
+  //   const rzp = new this.winRef.nativeWindow.Razorpay(options);
+  //   rzp.open();
+
+  //   rzp.on("payment.failed", (response) => {
+  //     console.log("payment failed  >>>>>>>>>>>>>>  ", response);
+  //     // alert('Error code:'+ ' '+response.error.code+ ' ' +'Error description:'+ ' '+response.error.description+ ' ' +'Metadata is:'+' ' +response.error.metadata.order_id+ ' '+response.error.metadata.payment_id);
+  //     // rzp.clos;
+  //     this.loading = true;
+
+  //     let payload = {
+  //       razorpay_order_id: response.error.metadata.order_id,
+  //       razorpay_payment_id: response.error.metadata.payment_id,
+  //       build_pin: sessionStorage.getItem("buildPin"),
+  //       reason: "payment-failed",
+  //     };
+
+  //     console.log("payment failed  api call data >>>>>>>>>>>>>>  ", payload);
+
+  //     this._api.paymentFail(payload).subscribe(
+  //       (data: any) => {
+  //         console.log(
+  //           "paymentFail  >>>>>>>>>>>>>>>>>>>>>  ",
+  //           JSON.parse(atob(data))
+  //         );
+  //         if (data) {
+  //           // console.log('payIdSignVerify  >>>>>>>>>>>>>>>>>>>>>  ', JSON.parse(atob(data)));
+  //           data = JSON.parse(atob(data));
+  //           if (data.status == "1") {
+  //             sessionStorage.removeItem('custId');
+  //             window.location.href = data.response.redirect_url;
+  //             // this.loading = false;
+  //           } else {
+  //             this.loading = false;
+  //           }
+  //         } else {
+  //           this.loading = false;
+  //         }
+  //       },
+  //       (err) => {
+  //         console.log("error responce paymentFail >>>>>>>>>>>>>  ", err);
+  //       }
+  //     );
+  //   });
+  // }
 }

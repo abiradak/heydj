@@ -1,0 +1,109 @@
+
+.profile-folio {
+  width: 100%;
+  background: #242232;
+  height: 100%;
+  padding: 25px 0px;
+}
+.user-info{
+  width: 50%;
+  text-align: center;
+  color: #fff;
+  float: left;
+}
+.user-info h4{
+  font-size: 16px;
+  margin: 0px;
+}
+.user-info ul{
+  padding: 0px;
+  margin: 0px;
+}
+.user-info p{
+  margin: 0;
+  padding-top: 2px;
+  font-size: 12px;
+}
+.user-info ul li a{
+  text-decoration: none;
+  color: #fff;
+  margin: 5px 8px;
+  font-size: 17px;
+  display: inline-block;
+}
+.user-info ul li {
+  display: inline;
+}
+.user-dp{
+    width: 50%;
+    float: left;
+    text-align: center;
+    padding-top: 4%;
+}
+.user-dp img{
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+}
+.featured-play {
+  width: 100%;
+  padding-top: 40px;
+}
+.featured-playlist{
+  width: 100%;
+  display: flex;
+  overflow: auto;
+}
+.featured-playlist ul{
+  // display: flex;
+  align-items: center;
+  /*justify-content: center;*/
+  flex-wrap: nowrap;
+}
+.featured-play span{
+    font-size: 20px;
+    color: #fff;
+
+}
+.featured-playlist ul{
+  padding: 0px;
+  margin: 0px;
+}
+.featured-play a, .genrs-list a{
+  text-decoration: none;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 1px 25px;
+  font-size: 17px;
+  border-radius: 50px;
+  background: #34566a;
+  margin-left: 20px;
+  font-family: 'TwCenMTStd';
+}
+.featured-playlist ul li{
+    width: 46%;
+    height: 100px;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    box-shadow: 5px 5px 0px #181722;
+    overflow: hidden;
+    display: inline-block;
+    margin: 3px 2%;
+}
+.featured-playlist ul li img{
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+.featured-playlist ul{
+  padding-top: 15px;
+}
+.paly-song{
+  width: 100%;
+  height: 50px;
+  background: blueviolet;
+  position: fixed;
+  bottom: 0px;
+  z-index: 99;
+}

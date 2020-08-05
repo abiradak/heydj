@@ -74,10 +74,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/playlist/playlist.module').then( m => m.PlaylistPageModule)
   },
   {
-    path: 'genre:/id', 
+    path: 'genre/:id', 
     loadChildren: () => import('./pages/genre/genre.module').then( m => m.GenrePageModule)
   },
-
+  {
+    path: 'portfolio/:id',
+    loadChildren: () => import('./pages/portfolio/portfolio.module').then( m => m.PortfolioPageModule)
+  },
+  {
+    path: 'create-portfolio',
+    loadChildren: () => import('./pages/create-portfolio/create-portfolio.module').then( m => m.CreatePortfolioPageModule)
+  },
 ];
 
 @NgModule({
