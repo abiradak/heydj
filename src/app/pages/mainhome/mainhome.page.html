@@ -98,19 +98,19 @@
 
     <div class="play-list-content">
       <div class="featured-play-list">
-        <h3> Profile
+        <h3> Artist
           <span (click)="showMore()">More</span>
           <span *ngIf = "less === true" (click)="showLess()">Less</span>
         </h3>
         <div class="genrs-list">
           <ul>
-            <li *ngFor = "let songs of songslist | slice:start:endgen">
+            <li *ngFor = "let portfolio of portfolioList | slice:start:endgen">
               <div class="list-of-song">
-                <div *ngIf = "!songs.thumbnail" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
-                <div *ngIf = "songs.thumbnail" class="song-dp"><img src="{{ songs.thumbnail }}" [routerLink] = "['/portfolio/', '395b26ce-e955-41ce-9fbb-260593b0deab']"></div>
+                <div *ngIf = "!portfolio.profileImage" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
+                <div *ngIf = "portfolio.profileImage" class="song-dp"><img src="{{ portfolio.profileImage }}" [routerLink] = "['/portfolio/', portfolio.id]"></div>
                 <div class="song-ttl">
-                  <h4>{{ songs.title }}</h4>
-                  <p>{{ songs.sampleType }}</p>
+                  <h4>{{ portfolio.firstName }} {{ portfolio.lastName }}</h4>
+                  <!-- <p>{{ portfolio.role }}</p> -->
                 </div>
               </div>
             </li>

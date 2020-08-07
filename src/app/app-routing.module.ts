@@ -8,15 +8,6 @@ const routes: Routes = [
     redirectTo: '/mainhome',
     pathMatch: 'full'
   },
-  // {
-  //   path: 'login',
-  //   loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
-  // },
-  // {
-  //   path: 'account', canActivate: [ActiveGuardService],
-  //   loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule),
-    
-  // },
   {
     path: 'support', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/support/support.module').then(m => m.SupportModule)

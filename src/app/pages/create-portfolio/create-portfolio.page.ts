@@ -1,4 +1,4 @@
-import { Component , ViewChild, ElementRef} from '@angular/core';
+import { Component , ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { ActionSheetController, LoadingController } from '@ionic/angular';
@@ -25,54 +25,62 @@ export class CreatePortfolioPage {
     private route: ActivatedRoute
   ) {
     this.createPortfolio = formBuilder.group({
-      url: [''],
+      youtubeurl: [''],
+      spotifyurl: ['']
     })
   }
 
-  ////// Video Code //////
-
-  @ViewChild("videoPlayer", { static: false }) videoplayer: ElementRef;
-  isPlay: boolean = false;
-  toggleVideo(event: any) {
-    this.videoplayer.nativeElement.play();
-  }
-  playPause() {
-    var myVideo: any = document.getElementById("my_video_1");
-    if (myVideo.paused) myVideo.play();
-    else myVideo.pause();
-  }
-
-  makeBig() {
-    var myVideo: any = document.getElementById("my_video_1");
-    myVideo.width = 560;
-  }
-
-  makeSmall() {
-    var myVideo: any = document.getElementById("my_video_1");
-    myVideo.width = 320;
-  }
-
-  makeNormal() {
-    var myVideo: any = document.getElementById("my_video_1");
-    myVideo.width = 420;
-  }
-
-  skip(value) {
-    let video: any = document.getElementById("my_video_1");
-    video.currentTime += value;
-  }
-
-  restart() {
-    let video: any = document.getElementById("my_video_1");
-    video.currentTime = 0;
-  }
-
-
-  ////// Video Code //////
-
-
   ionViewWillEnter() {
-    
+    this.myPortFolio();
+  }
+
+  ////// Video Code //////
+
+  // @ViewChild("videoPlayer", { static: false }) videoplayer: ElementRef;
+  // isPlay: boolean = false;
+  // toggleVideo(event: any) {
+  //   this.videoplayer.nativeElement.play();
+  // }
+  // playPause() {
+  //   var myVideo: any = document.getElementById("my_video_1");
+  //   if (myVideo.paused) myVideo.play();
+  //   else myVideo.pause();
+  // }
+
+  // makeBig() {
+  //   var myVideo: any = document.getElementById("my_video_1");
+  //   myVideo.width = 560;
+  // }
+
+  // makeSmall() {
+  //   var myVideo: any = document.getElementById("my_video_1");
+  //   myVideo.width = 320;
+  // }
+
+  // makeNormal() {
+  //   var myVideo: any = document.getElementById("my_video_1");
+  //   myVideo.width = 420;
+  // }
+
+  // skip(value) {
+  //   let video: any = document.getElementById("my_video_1");
+  //   video.currentTime += value;
+  // }
+
+  // restart() {
+  //   let video: any = document.getElementById("my_video_1");
+  //   video.currentTime = 0;
+  // }
+
+  ////// Video Code //////
+
+  async myPortFolio() {
+    this.apiGenerate.sendHttpCallWithToken('' , '/api/dj/portfolio' , 'get').subscribe((success) => {
+      console.log('my portfolio data >>>>>>>>>' , success);
+    } ,(err) => {
+      console.log('error >>>>>>>' , err.error);
+      this.helper.presentToast('You Dont have any PortFolio! Add Some Video' , 'warning');
+    })
   }
 
   async addPortFolioUrls() {

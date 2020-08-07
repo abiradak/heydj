@@ -28,6 +28,7 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { Media } from '@ionic-native/media/ngx';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { ActivatedRoute } from '@angular/router';
+import { Pipe, PipeTransform } from '@angular/core';
 
 
 

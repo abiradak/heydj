@@ -52,6 +52,7 @@ export class PlaylistPage implements  AfterViewInit {
   ) { }
 
   ionViewWillEnter() {
+    this.playAudio();
     this.getPlaylist();
   }
 
@@ -60,11 +61,20 @@ export class PlaylistPage implements  AfterViewInit {
     this._bindPlayerEvents();
   }
 
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "../../../assets/audio/alarm.wav";
+    audio.load();
+    audio.play();
+  }
+  
+  // https://heydj-images-bucket-rt3ea5hg-dev.s3.ap-south-1.amazonaws.com/music/1593726681354-testSong.mp3
   play(url): void {
     this.playing = true;
     // this.songUrl = url;
     // console.log('hello >>>>>>>>>' , this.songUrl);
     this.src = url;
+    console.log('hello >>>>>>>>>' , this.src);
     this._player.play();
   }
 
@@ -127,9 +137,6 @@ export class PlaylistPage implements  AfterViewInit {
     })
   }
 
-  async playSongs() {
-    
-  }
 
   async firstPlaySong() {
     if(this.data == 'audio') {

@@ -105,9 +105,9 @@ export class MainhomePage  {
   }
 
   async getAllArtist() {
-    this.apiGenerate.sendHttpCall('' , '/api/portfolio' , 'get').subscribe((success) => {
-      console.log('portfolio list >>>>>>' , success);
-      this.portfolioList = success.body;
+    this.apiGenerate.sendHttpCall('' , '/api/user/dj' , 'get').subscribe((success) => {
+      this.portfolioList = success.body.djs;
+      console.log('Artist >>>>>>>>>>>>' , this.portfolioList);
     })
   }
 

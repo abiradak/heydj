@@ -10,23 +10,23 @@
     <div class="row">
       <div class="col-12">
         <div class="user-dp">
-          <img src="../../../assets/img/user-img.png">
+          <img src="{{ userInfo.profileImage }}">
         </div>
         <div class="user-info">
-          <h4>John Doe</h4>
-          <p><i class="fa fa-map-marker"></i> Kolkata, India</p>
+          <h4>{{ userInfo.firstName }} {{ userInfo.lastName }}</h4>
+          <p><i class="fa fa-map-marker"></i> {{ userInfo.city }}, India</p>
           <ul>
             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
             <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
             <li><a href="#"><i class="fa fa-instagram"></i></a></li>
             <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
           </ul>
-          <p>+91 9789798985</p>
-          <p>john.doe@gmail.com</p>
-          <p>www.johndoe.co.in</p>
+          <p>+91 {{ userInfo.phoneNumber }}</p>
+          <p>{{ userInfo.emailId }}</p>
+          <!-- <p>www.johndoe.co.in</p> -->
         </div>
       </div>
-      <div class="col-12">
+      <!-- <div class="col-12">
         <div class="featured-play">
           <span>Featured Playlists <a href="#">More</a></span>
           <div class="featured-playlist">
@@ -39,7 +39,28 @@
           </ul>
           </div>
         </div>
+      </div> -->
+
+      <div *ngIf = 'isVideo === true' id="instructions" class="main">
+        <!-- <video *ngFor = 'let videos of portfolioDetails.videoUrls' id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px" controls preload="none"
+          poster='http://video-js.zencoder.com/oceans-clip.jpg'
+          data-setup='{ "aspectRatio":"500:267", "playbackRates": [1, 1.5, 2] }'>
+          <source src="https://www.youtube.com/embed/fqI-feIYfhY" type='video/mp4' />
+        </video> -->
+        <!-- <h6>{{ videos }}</h6> -->
+        <iframe *ngFor = 'let videos of this.youtubeUrls' width="400" height="200" id="my_video_1" class="video-js vjs-default-skin"
+        [src]="videos" frameborder="0"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+        <!-- <button (click)="playPause()">Play/Pause</button>
+        <button (click)="makeBig()">Big</button>
+        <button (click)="makeSmall()">Small</button>
+        <button (click)="makeNormal()">Normal</button>
+        <button (click)="restart();">Restart</button>
+        <button (click)="skip(-10)">Rewind</button>
+        <button (click)="skip(10)">Fastforward</button> -->
       </div>
+
       <div class="paly-song"></div>
     </div>
   </div>

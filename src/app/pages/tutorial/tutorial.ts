@@ -36,6 +36,9 @@ export class TutorialPage implements OnInit{
   ngOnInit() {
   }
 
+  back() {
+    this.helper.goBack();
+  }
   
 
   signInWithGoogle(): void {
@@ -60,6 +63,7 @@ export class TutorialPage implements OnInit{
         } else {
           this.router.navigate(['mainhome']);
         }
+        this.helper.presentToast('Login Successfull', 'success');
       }
     });
 
@@ -93,6 +97,7 @@ export class TutorialPage implements OnInit{
           } else {
             this.router.navigate(['mainhome']);
           }
+          this.helper.presentToast('Login Successfull', 'success');
         }
       });
   }
