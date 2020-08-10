@@ -29,6 +29,7 @@ import { Media } from '@ionic-native/media/ngx';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { ActivatedRoute } from '@angular/router';
 import { Pipe, PipeTransform } from '@angular/core';
+import { Network } from '@ionic-native/network/ngx';
 
 
 
@@ -62,6 +63,7 @@ import { Pipe, PipeTransform } from '@angular/core';
     Keyboard,
     ActiveGuardService,
     HelperService,
+    Network,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

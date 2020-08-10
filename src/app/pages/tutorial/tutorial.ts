@@ -30,7 +30,6 @@ export class TutorialPage implements OnInit{
     public apiGenerate: ApiGenerateService,
     public helper: HelperService,
     public iab: InAppBrowser,
-    // private deeplinks: Deeplinks
   ) {}
 
   ngOnInit() {
@@ -42,8 +41,7 @@ export class TutorialPage implements OnInit{
   
 
   signInWithGoogle(): void {
-    let browser = this.iab.create('https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google', '_blank', 'location=yes');
-
+    let browser = this.iab.create('https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/google', '_self', 'location=yes');
     if (browser.on('loadstart').subscribe)
     browser.on('loadstart').subscribe((e: InAppBrowserEvent) => {
       console.log('loadstart >>>>>>>' , e);
@@ -52,11 +50,9 @@ export class TutorialPage implements OnInit{
         let token = successUrl[1].split('#');
         localStorage.setItem('token', JSON.stringify(token[0]));
         browser.close();
-
         let userInfo = this.getDecodedAccessToken(token[0]);
         console.log('user Info >>>>>>>' , userInfo);
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-
         if(userInfo.role == 'dj') {
           localStorage.setItem('dj' , userInfo.role);
           this.router.navigate(['djmainhome']);
@@ -77,7 +73,7 @@ export class TutorialPage implements OnInit{
   }
  
   signInWithFB(): void {
-    let browser = this.iab.create('https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/facebook', '_blank', 'location=yes');
+    let browser = this.iab.create('https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev/api/auth/facebook', '_self', 'location=yes');
     if (browser.on('loadstart').subscribe)
       browser.on('loadstart').subscribe((e: InAppBrowserEvent) => {
         console.log('loadstart >>>>>>>' , e);

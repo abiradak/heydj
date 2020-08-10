@@ -101,12 +101,12 @@ ion-progress-bar.progressbar.ion-color.ion-color-secondary.md.progress-bar-deter
   margin-bottom: 5px;
 }
 .cstm-btn {
-  width: 30%;
+  width: 100%;
   border: none;
   padding: 10px 20px;
-  border-radius: 50px;
+  // border-radius: 50px;
   font-weight: bold;
-  margin-top: 5%;
+  // margin-top: 5%;
 }
 .validation {
   color: red;
@@ -117,4 +117,10 @@ ion-progress-bar.progressbar.ion-color.ion-color-secondary.md.progress-bar-deter
   top: -31px;
   left: 22px;
   background: rebeccapurple;
+}
+.main{
+  margin-top: 50px;
+}
+.sizes {
+  width: 70%;
 }

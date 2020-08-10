@@ -73,9 +73,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/portfolio/portfolio.module').then( m => m.PortfolioPageModule)
   },
   {
-    path: 'create-portfolio',
+    path: 'create-portfolio', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/create-portfolio/create-portfolio.module').then( m => m.CreatePortfolioPageModule)
   },
+  {
+    path: 'myplaylist', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./pages/myplaylist/myplaylist.module').then( m => m.MyplaylistPageModule)
+  },
+
 ];
 
 @NgModule({

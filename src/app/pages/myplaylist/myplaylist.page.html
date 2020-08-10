@@ -1,0 +1,65 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My-Playlists</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="row">
+      <div class="dj-header">
+        <div class="col-md-12">
+        <!-- <div class="dj-menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></div> -->
+        <div class="dj-logo"><img src="../../../assets/img/logo.png"></div>
+        <div class="dj-menu-list">
+          <div class="search">
+            <form>
+              <input type="text" placeholder="Search">
+              <button type="submit" class="srch-song"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="tab-content">
+        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+          <div class="song-tag-list">
+            <h6 class="song-tag">My Playlists <span>More</span></h6>
+          <div class="fe-song-list">
+            <ul>
+              <li *ngFor = "let item of playlist" class="edit-select">
+                <div class="track-list b-r1">
+                <img src="{{ item?.thumbnail }}" (click) = "playVideo(videos)">
+                <div class="ttl">
+                  <h3>{{ item?.title }}</h3>
+                  <span *ngIf = "checkbox === false">
+                    <i class="fa fa-edit" aria-hidden="true" [routerLink] = "['/content-update/', videos.id]"></i>
+                  </span>
+                  <span *ngIf = "checkbox === false">
+                    <i class="fa fa-trash iconc" aria-hidden="true" (click) = "deletePlaylist(videos.id)"></i>
+                  </span>
+                </div>
+                </div>
+              </li>
+  
+            </ul>
+          </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+    
+</ion-content>
+
+
+
+
+
+

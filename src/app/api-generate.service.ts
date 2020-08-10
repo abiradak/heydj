@@ -35,7 +35,7 @@ export class ApiGenerateService {
           Authorization: this.token
         })
       };
-      console.log(httpOptions);
+      console.log('check' , httpOptions);
       switch (method) {
         case 'post':
           console.log(data);

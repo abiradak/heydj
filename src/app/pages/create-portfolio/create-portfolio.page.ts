@@ -5,6 +5,9 @@ import { ActionSheetController, LoadingController } from '@ionic/angular';
 import { ApiGenerateService } from '../../api-generate.service';
 import { Storage } from '@ionic/storage';
 import { HelperService } from '../../helper.service';
+import { DomSanitizer} from '@angular/platform-browser';
+import { error } from 'protractor';
+
 
 @Component({
   selector: 'app-create-portfolio',
@@ -14,6 +17,10 @@ import { HelperService } from '../../helper.service';
 export class CreatePortfolioPage {
 
   createPortfolio: FormGroup
+  youtubeVideoUrls: any = [];
+  url: any;
+  isVideo = false;
+  youtubeUrls: any = [];
 
   constructor(
     public router: Router,
@@ -22,7 +29,8 @@ export class CreatePortfolioPage {
     public apiGenerate: ApiGenerateService,
     public loadingCtrl: LoadingController,
     public helper: HelperService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) {
     this.createPortfolio = formBuilder.group({
       youtubeurl: [''],
@@ -76,14 +84,65 @@ export class CreatePortfolioPage {
 
   async myPortFolio() {
     this.apiGenerate.sendHttpCallWithToken('' , '/api/dj/portfolio' , 'get').subscribe((success) => {
-      console.log('my portfolio data >>>>>>>>>' , success);
+      this.youtubeVideoUrls = success.videoUrls;
+      if(this.youtubeVideoUrls.length > 0) {
+        this.isVideo = true;
+        this.youtubeVideoUrls.forEach((element: string) => {
+          element = element.replace('https://www.youtube.com/watch?v=', 'https://youtube.com/embed/'); 
+          this.url = this.sanitizer.bypassSecurityTrustResourceUrl(element);
+          this.youtubeUrls.push(this.url);
+          console.log('new array >>>>>>>>>>' , this.youtubeUrls);
+        }, (error) => {
+          console.log('error coming >>>>>>>>>' , error);
+        });
+      }
+      
+      console.log('my portfolio data >>>>>>>>>' , success.videoUrls);
     } ,(err) => {
       console.log('error >>>>>>>' , err.error);
       this.helper.presentToast('You Dont have any PortFolio! Add Some Video' , 'warning');
     })
   }
 
-  async addPortFolioUrls() {
+  async addYoutubeUrls() {
+    if(this.createPortfolio.value.youtubeurl) {
+      console.log('fghjk' , this.youtubeVideoUrls);
+      if(this.youtubeVideoUrls.length > 0) {
+          let Urls = [
+            this.createPortfolio.value.youtubeurl
+          ]
+          let videoUrls = Urls.concat(this.youtubeVideoUrls);
+          var sendData = {
+            videoUrls: videoUrls
+          }
+          console.log('prepared array >>>>>>>' , sendData);
+        var method = 'put';
+      } else {
+        let sendData = {
+          videoUrls : [
+            this.createPortfolio.value.youtubeurl
+          ]
+        }
+        var method = 'post';
+      }
+      this.apiGenerate.sendHttpCallWithToken(sendData , '/api/dj/portfolio' , method).subscribe((success) => {
+        console.log('adding urs >>>>>>>>>' , success);
+        this.helper.presentToast('Video Added To Portfolio' , 'success');
+        this.createPortfolio.reset();
+        this.myPortFolio();
+      } , (error) => {
+        console.log('errors >>>>>>>' , error);
+      });
+    } else {
+      this.helper.presentToast('Enter Youtube Url' , 'danger');
+    }
+  }
 
+  async back() {
+    this.helper.goBack();
+  }
+
+  async deleteVideo() {
+    this.helper.presentAlert('Process is not Completed','Success');
   }
 }

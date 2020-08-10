@@ -42,13 +42,8 @@
       </div> -->
 
       <div *ngIf = 'isVideo === true' id="instructions" class="main">
-        <!-- <video *ngFor = 'let videos of portfolioDetails.videoUrls' id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px" controls preload="none"
-          poster='http://video-js.zencoder.com/oceans-clip.jpg'
-          data-setup='{ "aspectRatio":"500:267", "playbackRates": [1, 1.5, 2] }'>
-          <source src="https://www.youtube.com/embed/fqI-feIYfhY" type='video/mp4' />
-        </video> -->
         <!-- <h6>{{ videos }}</h6> -->
-        <iframe *ngFor = 'let videos of this.youtubeUrls' width="400" height="200" id="my_video_1" class="video-js vjs-default-skin"
+        <iframe *ngFor = 'let videos of youtubeUrls' width="400" height="200" id="my_video_1" class="video-js vjs-default-skin"
         [src]="videos" frameborder="0"
           allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
         </iframe>

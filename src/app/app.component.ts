@@ -6,6 +6,8 @@ import { MenuController, Platform, ToastController } from '@ionic/angular';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import { HelperService } from './helper.service';
 
 
 @Component({
@@ -34,6 +36,8 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
+    private network: Network,
+    private helper: HelperService
   ) {
     this.sideMenu();
     this.initializeApp();
@@ -59,11 +63,14 @@ export class AppComponent implements OnInit {
         .then(() => this.swUpdate.activateUpdate())
         .then(() => window.location.reload());
     });
+
+    //this.checkConnection();
   }
 
   isDj() {
     this.isdj = localStorage.getItem('dj');
   }
+
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -92,8 +99,13 @@ export class AppComponent implements OnInit {
           icon: 'map'
         },
         {
-          title: 'Create Dj',
+          title: 'Add Content',
           url: '/create-djprofile',
+          icon: 'map'
+        },
+        {
+          title: 'My Playlist',
+          url: '/myplaylist',
           icon: 'map'
         },
         {
@@ -107,7 +119,12 @@ export class AppComponent implements OnInit {
           icon: 'information-circle'
         },
         {
-          title: 'Subcription',
+          title: 'Earnings',
+          url: '/mainhome',
+          icon: 'information-circle'
+        },
+        {
+          title: 'Earnings',
           url: '/mainhome',
           icon: 'information-circle'
         },
@@ -138,6 +155,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // checkConnection() {
+  //   this.network.onDisconnect().subscribe(() => {
+  //     this.helper.presentToast('No Internet!' , 'danger')
+  //   });
+  // }
+
   checkLoginStatus() {
     this.token = localStorage.getItem('token');
     if (this.token) {
@@ -147,10 +170,4 @@ export class AppComponent implements OnInit {
        this.router.navigate(['mainhome']);
     }
   }
-
-  // openTutorial() {
-  //   this.menu.enable(false);
-  //   this.storage.set('ion_did_tutorial', false);
-  //   this.router.navigateByUrl('/tutorial');
-  // }
 }

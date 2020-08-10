@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiGenerateService } from '../../api-generate.service';
 import { HelperService } from '../../helper.service';
 import { Router } from '@angular/router';
@@ -31,7 +31,6 @@ export class DjmainhomePage {
     private music: MusicService,
     private media: Media,
     private alertCtrl: AlertController,
-    private keyboard: Keyboard,
     public modalController: ModalController,
   ) {
    }
@@ -39,7 +38,6 @@ export class DjmainhomePage {
   ionViewWillEnter(){
     this.getUserInfo();
     this.getDjAllContent();
-    this.getPlaylist();
   }
 
   logout(){
@@ -162,9 +160,5 @@ export class DjmainhomePage {
   }
   process() {
     this.router.navigate(['editdjprofile']);
-  }
-
-  async getPlaylist() {
-    
   }
 }

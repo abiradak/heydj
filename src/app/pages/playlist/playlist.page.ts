@@ -5,6 +5,7 @@ import { MusicService } from '../../music.service';
 import { HelperService } from '../../helper.service';
 import { AlertController } from '@ionic/angular';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { WindowRefService } from "../../window-ref.service";
 
 const opts = {
   static: true,
@@ -49,6 +50,7 @@ export class PlaylistPage implements  AfterViewInit {
     private helper: HelperService,
     private alertCtrl: AlertController,
     private keyboard: Keyboard,
+    private winRef: WindowRefService,
   ) { }
 
   ionViewWillEnter() {
@@ -182,7 +184,7 @@ export class PlaylistPage implements  AfterViewInit {
           }
         },
         {
-          text: 'Subscribe',
+          text: 'Proceed To Pay',
           handler: (data) => {
             if (data.hour) {
               this.keyboard.hide();
@@ -192,8 +194,10 @@ export class PlaylistPage implements  AfterViewInit {
               };
               console.log('otp verify send data>>>>>>', time);
               this.helper.presentLoading();
-              this.apiGenerate.sendHttpCall(time , `/api/playlist/${id}/subscribe?now=true`, 'put').subscribe((response) => {
+              this.apiGenerate.sendHttpCallWithToken(time , `/api/playlist/${id}/subscribe?now=true`, 'put').subscribe((response) => {
                 console.log('subs >>>>>', response);
+                this.helper.hideLoading();
+                this.payWithRazor(response);
               }, err => {
                 this.helper.hideLoading();
                 this.helper.presentToast(err.error, 'warning');
@@ -211,14 +215,13 @@ export class PlaylistPage implements  AfterViewInit {
   }
 
   async subLater() {
-    this.subLaterAlert();
-    // const token = localStorage.getItem('token');
-    // if(token) {
-    //   this.subNowAlert();
-    // } else {
-    //   this.helper.presentToast('Please Login For The Subscription!' , 'warning');
-    //   this.router.navigate(['tutorial']);
-    // }
+    const token = localStorage.getItem('token');
+    if(token) {
+      this.subLaterAlert();
+    } else {
+      this.helper.presentToast('Please Login For The Subscription!' , 'warning');
+      this.router.navigate(['tutorial']);
+    }
   }
 
   async subLaterAlert() {
@@ -263,8 +266,10 @@ export class PlaylistPage implements  AfterViewInit {
                 dateTime: dateTime
               };
               this.helper.presentLoading();
-              this.apiGenerate.sendHttpCall(time , `/api/playlist/${id}/subscribe`, 'put').subscribe((response) => {
+              this.apiGenerate.sendHttpCallWithToken(time , `/api/playlist/${id}/subscribe`, 'put').subscribe((response) => {
                 console.log('subs >>>>>', response);
+                this.helper.hideLoading();
+                this.payWithRazor(response);
               }, err => {
                 this.helper.hideLoading();
                 this.helper.presentToast(err.error, 'warning');
@@ -285,143 +290,112 @@ export class PlaylistPage implements  AfterViewInit {
 
   // Razor Pay Code //
   
-  // payWithRazor(val) {
-  //   console.log("payWithRazor called  >>>>>>>>>>>>>>> ");
+  payWithRazor(val) {
+    console.log("payWithRazor called  >>>>>>>>>>>>>>> ");
 
-  //   const { amount, order_id, receipt, account_id } = val;
-  //   console.log(
-  //     "payWithRazor called  >>>>>>>>>>>>>>> ",
-  //     parseFloat(amount) * 100,
-  //     typeof amount
-  //   );
+    const { amount, id } = val;
+    console.log(
+      "payWithRazor called  >>>>>>>>>>>>>>> ",
+      parseFloat(amount) * 100,
+      typeof amount
+    );
 
-  //   let razor_key = null;
-  //   switch (window.location.hostname) {
-  //     case "localhost":
-  //       razor_key = "rzp_test_partner_Et2MDRKfbn1S9w";
-  //       break;
-  //     case "testbookonline.tatamotors.com":
-  //       razor_key = "rzp_test_partner_Et2MDRKfbn1S9w";
-  //       break;
-  //     case "bookonline.tatamotors.com":
-  //       razor_key = "rzp_live_partner_Et2MDhsc5ExeDW";
-  //       break;
-  //     default:
-  //       razor_key = "rzp_test_partner_Et2MDRKfbn1S9w";
-  //       break;
-  //   }
+    let razor_key = null;
+    switch (window.location.hostname) {
+      case "localhost":
+        razor_key = "rzp_test_ZuG4AsF333ZWT4";
+        break;
+      case "testbookonline.tatamotors.com":
+        razor_key = "rzp_test_partner_Et2MDRKfbn1S9w";
+        break;
+      case "bookonline.tatamotors.com":
+        razor_key = "rzp_live_partner_Et2MDhsc5ExeDW";
+        break;
+      default:
+        razor_key = "rzp_test_ZuG4AsF333ZWT4";
+        break;
+    }
 
-  //   let options: any = {
-  //     key: razor_key,
-  //     amount: amount, // amount should be in paise format to display Rs 1255 without decimal point
-  //     currency: "INR",
-  //     name: "TATA CV", // company name or product name
-  //     description: "TATA CV", // product description
-  //     image: `https://bookonline.tatamotors.com/cv/favicon.ico`, // company logo or product image
-  //     order_id: order_id, // order_id created by you in backend
-  //     account_id,
-  //     modal: {
-  //       escape: false,
-  //     },
-  //     notes: {},
-  //     theme: {
-  //       color: "#0c238a",
-  //     },
-  //   }
+    let options: any = {
+      key: razor_key,
+      amount: amount, // amount should be in paise format to display Rs 1255 without decimal point
+      currency: "INR",
+      name: "Hey DJ", // company name or product name
+      description: "Hey DJ", // product description
+      image: `../../../assets/img/logo.png`, // company logo or product image
+      order_id: id, // order_id created by you in backend
+      // account_id,
+      modal: {
+        escape: false,
+      },
+      notes: {},
+      theme: {
+        color: "#0c238a",
+      },
+    }
     
-  //   options.handler = (response, error) => {
-  //     // options.response = response;
-  //     this.loading = true;
-  //     console.log(
-  //       "payWithRazor called  >>>>>>>>>>>>>>> ",
-  //       response,
-  //       "razorpay_order_id",
-  //       "razorpay_payment_id",
-  //       "razorpay_signature"
-  //     );
-  //     if (response) {
-  //       // this.loading = false;
-  //       this.formError = "";
-  //       this._api.payIdSignVerify(response).subscribe(
-  //         (data: any) => {
-  //           console.log(
-  //             "payIdSignVerify  >>>>>>>>>>>>>>>>>>>>>  ",
-  //             JSON.parse(atob(data))
-  //           );
-  //           if (data) {
-  //             // console.log('payIdSignVerify  >>>>>>>>>>>>>>>>>>>>>  ', JSON.parse(atob(data)));
-  //             data = JSON.parse(atob(data));
-  //             if (data.status == "1") {
-  //               sessionStorage.removeItem('custId');
-  //               window.location.href = data.response.redirect_url;
-  //               // this.loading = false;
-  //             } else {
-  //               this.loading = false;
-  //             }
-  //           }
-  //         },
-  //         (err) => {
-  //           console.log("error responce payIdSignVerify >>>>>>>>>>>>>  ", err);
-  //         }
-  //       );
-  //     } else if (error) {
-  //       console.log("payment error >>>>>>>>>>>  ", error);
-  //       this.loading = false;
-  //       this.formError = "Payment Failed";
-  //       setTimeout(() => {
-  //         this.otpError = "";
-  //         this.formError = "";
-  //       }, 5000);
-  //     }
-  //     // console.log('payWithRazor called  >>>>>>>>>>>>>>> ', options);
-  //     // call your backend api to verify payment signature & capture transaction
-  //   };
-  //   options.modal.ondismiss = () => {
-  //     // handle the case when user closes the form while transaction is in progress
-  //     console.log("Transaction cancelled.");
-  //   };
-  //   const rzp = new this.winRef.nativeWindow.Razorpay(options);
-  //   rzp.open();
+    options.handler = (response, error) => {
+      // options.response = response;
+      //this.helper.presentLoading(); 
+      console.log(
+        "payWithRazor called  >>>>>>>>>>>>>>> ",
+        response,
+        "razorpay_order_id",
+        "razorpay_payment_id",
+        "razorpay_signature"
+      );
+      if (response) {
+        this.helper.presentToast('Your Payment is successfully done' , 'success')
+        console.log('response coming >>>>>>>>>' , response);
+        // this.helper.hideLoading();
+      } else if (error) {
+        // this.helper.hideLoading();
+        console.log('error coming >>>>>>>>' , error);
+      }
+      // console.log('payWithRazor called  >>>>>>>>>>>>>>> ', options);
+      // call your backend api to verify payment signature & capture transaction
+    };
+    options.modal.ondismiss = () => {
+      // handle the case when user closes the form while transaction is in progress
+      console.log("Transaction cancelled.");
+    };
+    const rzp = new this.winRef.nativeWindow.Razorpay(options);
+    rzp.open();
 
-  //   rzp.on("payment.failed", (response) => {
-  //     console.log("payment failed  >>>>>>>>>>>>>>  ", response);
-  //     // alert('Error code:'+ ' '+response.error.code+ ' ' +'Error description:'+ ' '+response.error.description+ ' ' +'Metadata is:'+' ' +response.error.metadata.order_id+ ' '+response.error.metadata.payment_id);
-  //     // rzp.clos;
-  //     this.loading = true;
+    rzp.on("payment.failed", (response) => {
+      console.log("payment failed  >>>>>>>>>>>>>>  ", response);
+      // this.loading = true;
+      // let payload = {
+      //   razorpay_order_id: response.error.metadata.order_id,
+      //   razorpay_payment_id: response.error.metadata.payment_id,
+      //   build_pin: sessionStorage.getItem("buildPin"),
+      //   reason: "payment-failed",
+      // };
 
-  //     let payload = {
-  //       razorpay_order_id: response.error.metadata.order_id,
-  //       razorpay_payment_id: response.error.metadata.payment_id,
-  //       build_pin: sessionStorage.getItem("buildPin"),
-  //       reason: "payment-failed",
-  //     };
+      // console.log("payment failed  api call data >>>>>>>>>>>>>>  ", payload);
 
-  //     console.log("payment failed  api call data >>>>>>>>>>>>>>  ", payload);
-
-  //     this._api.paymentFail(payload).subscribe(
-  //       (data: any) => {
-  //         console.log(
-  //           "paymentFail  >>>>>>>>>>>>>>>>>>>>>  ",
-  //           JSON.parse(atob(data))
-  //         );
-  //         if (data) {
-  //           // console.log('payIdSignVerify  >>>>>>>>>>>>>>>>>>>>>  ', JSON.parse(atob(data)));
-  //           data = JSON.parse(atob(data));
-  //           if (data.status == "1") {
-  //             sessionStorage.removeItem('custId');
-  //             window.location.href = data.response.redirect_url;
-  //             // this.loading = false;
-  //           } else {
-  //             this.loading = false;
-  //           }
-  //         } else {
-  //           this.loading = false;
-  //         }
-  //       },
-  //       (err) => {
-  //         console.log("error responce paymentFail >>>>>>>>>>>>>  ", err);
-  //       }
-  //     );
-  //   });
-  // }
+      // this._api.paymentFail(payload).subscribe(
+      //   (data: any) => {
+      //     console.log(
+      //       "paymentFail  >>>>>>>>>>>>>>>>>>>>>  ",
+      //       JSON.parse(atob(data))
+      //     );
+      //     if (data) {
+      //       data = JSON.parse(atob(data));
+      //       if (data.status == "1") {
+      //         sessionStorage.removeItem('custId');
+      //         window.location.href = data.response.redirect_url;
+      //       } else {
+      //         this.loading = false;
+      //       }
+      //     } else {
+      //       this.loading = false;
+      //     }
+      //   },
+      //   (err) => {
+      //     console.log("error responce paymentFail >>>>>>>>>>>>>  ", err);
+      //   }
+      // );
+    });
+  }
 }

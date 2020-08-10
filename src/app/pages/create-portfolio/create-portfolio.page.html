@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
       <ion-title>My Portfolio</ion-title>
     </ion-buttons>
   </ion-toolbar>
@@ -17,38 +17,36 @@
 
   <div class="registration-form">
   <form [formGroup]="createPortfolio">
+
     <div class="form-group row">
-      <h3 class="col-sm-2" style="color: #FFF;">My Video</h3>
-      <label for="inputtext" class="col-sm-2 col-form-label">Video Url</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputtext" formControlName="youtubeurl">
-        <button type="submit" class="cstm-btn" (click)= "addPortFolioUrls()">ADD</button>
+      <label for="inputtext" class="col-12 col-form-label">Video Url</label>
+      <div class="col-8">
+        <input type="text" class="form-control" placeholder="Enter Youtube Url" id="inputtext" formControlName="youtubeurl">
+      </div>
+        <div class="col-4">
+        <button type="submit" class="cstm-btn" (click) = "addPortFolioUrls()">ADD</button>
       </div>
     </div>
 
+
     <div class="form-group row">
-      <h3 class="col-sm-2" style="color: #FFF;">My Spotify</h3>
-      <label for="inputtext" class="col-sm-2 col-form-label">Spotify Url</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputtext" formControlName="spotifyurl">
-        <button type="submit" class="cstm-btn" (click)= "addPortFolioUrls()">ADD</button>
+      <label for="inputtext" class="col-12 col-form-label">My Spotify</label>
+      <div class="col-8">
+        <input type="text" placeholder="Enter Spotify Url" class="form-control" id="inputtext" formControlName="youtubeurl">
+      </div>
+        <div class="col-4">
+        <button type="submit" class="cstm-btn" (click) = "addSpotifyUrls()">ADD</button>
       </div>
     </div>
+
   </form>
-</div>
-<div id="instructions">
-	<video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px" controls preload="none"
-		poster='http://video-js.zencoder.com/oceans-clip.jpg'
-		data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-		<source src="https://vjs.zencdn.net/v/oceans.mp4" type='video/mp4' />
-	</video>
-	<button (click)="playPause()">Play/Pause</button>
-	<button (click)="makeBig()">Big</button>
-	<button (click)="makeSmall()">Small</button>
-	<button (click)="makeNormal()">Normal</button>
-	<button (click)="restart();">Restart</button>
-	<button (click)="skip(-10)">Rewind</button>
-	<button (click)="skip(10)">Fastforward</button>
+  <div *ngIf = 'isVideo === true' id="instructions" class="main">
+    <iframe *ngFor = 'let videos of youtubeUrls' width="350" height="150" id="my_video_1" class="video-js vjs-default-skin"
+    [src]="videos" frameborder="0"
+      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+    <button class="btn btn-danger newb" (click)="deleteVideo()">Remove</button>
+  </div>
 </div>
 </ion-content>
 
