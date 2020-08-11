@@ -9,10 +9,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'support', canActivate: [ActiveGuardService],
-    loadChildren: () => import('./pages/support/support.module').then(m => m.SupportModule)
-  },
-  {
     path: 'tutorial',
     loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialModule),
   },

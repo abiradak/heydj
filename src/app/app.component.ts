@@ -170,4 +170,18 @@ export class AppComponent implements OnInit {
        this.router.navigate(['mainhome']);
     }
   }
+
+  async login() {
+    this.router.navigate(['tutorial']);
+  }
+
+  async logOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
+    let isDj = localStorage.getItem('dj');
+    if(isDj == 'dj') {
+      localStorage.removeItem('dj');
+    }
+    this.helper.presentToast('Successfully Logged Out' , 'success');
+  }
 }

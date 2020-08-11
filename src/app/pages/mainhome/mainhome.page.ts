@@ -120,20 +120,8 @@ export class MainhomePage  {
     }
   }
 
-  process(){
+  async process() {
     this.router.navigate(['tutorial']);
   }
-
-  logout(){
-    localStorage.removeItem('token');
-    localStorage.removeItem('userInfo');
-    let isDj = localStorage.getItem('dj');
-    if(isDj == 'dj') {
-      localStorage.removeItem('dj');
-    }
-    this.logoText();
-    this.helper.presentToast('Successfully Logged Out' , 'success');
-  }
-
   
 }
