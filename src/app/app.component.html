@@ -23,14 +23,14 @@
         <ion-list lines="none">
           <ion-menu-toggle autoHide="false">
 
-            <ion-item *ngIf = "loggedIn == 'false'">
+            <ion-item *ngIf = "checkLoginStatus() == false">
               <ion-icon slot="start" name="log-in"></ion-icon>
               <ion-label (click) = login()>
                 Login
               </ion-label>
             </ion-item>
 
-            <ion-item *ngIf = "loggedIn == 'true'">
+            <ion-item *ngIf = "checkLoginStatus() == true">
               <ion-icon slot="start" name="log-out"></ion-icon>
               <ion-label (click) = "logOut()">
                 Logout

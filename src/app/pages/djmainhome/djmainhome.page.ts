@@ -23,6 +23,8 @@ export class DjmainhomePage {
   checkbox = false;
   contentArray: any[] = [];
   isGreen = false;
+  isTicked: boolean = false;
+  tickedItem: any;
 
   constructor(
     public apiGenerate: ApiGenerateService,
@@ -35,19 +37,13 @@ export class DjmainhomePage {
   ) {
    }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.getUserInfo();
     this.getDjAllContent();
   }
 
-  logout(){
-    localStorage.removeItem('token');
-    localStorage.removeItem('userInfo');
-    this.router.navigate(['mainhome']);
-    this.helper.presentToast('Successfully Logged Out' , 'success');
-  }
-
   getUserInfo() {
+    console.log('entering >>>>>>>>>>');
     // this.helper.presentLoading();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
@@ -58,9 +54,8 @@ export class DjmainhomePage {
       this.image = success.profileImage;
       // this.helper.hideLoading();
     }, err => {
+      console.log('dj err >>>>>' , err);
       this.helper.presentToast(err.error, 'danger');
-      this.getUserInfo();
-      // this.helper.hideLoading();
     })
   }
 
@@ -144,8 +139,16 @@ export class DjmainhomePage {
   }
 
   async songs(id) {
+    this.isTicked = true;
     this.contentArray.push(id);
     console.log('songs array >>>>>' , this.contentArray);
+  }
+
+  async deleteSongs(id) {
+    let position  = this.contentArray.indexOf(id);
+    this.contentArray.splice(position , 1);
+    // this.isTicked = false;
+
   }
  
   async addPlaylist() {

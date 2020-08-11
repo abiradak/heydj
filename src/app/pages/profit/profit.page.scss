@@ -1,0 +1,55 @@
+.header-logo{
+    width: 100%;
+    background: #4d4b58;
+    text-align: center;
+    padding:10px 0px;
+  }
+  .header-logo img{
+    width: 70px;
+  }
+
+  .menubar{
+    z-index: 999;
+    top: -31px;
+    left: 22px;
+    background: #000000;
+  }
+
+  .registration-form {
+    width: 100%;
+    height: 100%;
+    background: #202020;
+    padding: 15px 25px 50px 15px;
+    font-family: 'Gotham Narrow';
+  }
+  
+  .registration-form  .col-form-label{
+    padding-right: 0px;
+    font-size: 14px;
+    color: #fff;
+  }
+  .ccode{
+    padding-right: 0px;
+  }
+  .registration-form p{
+    margin: 0px;
+    font-size: 12px;
+    display: block;
+    line-height: 20px;
+    color: #fff;
+    padding-top: 3px;
+  }
+
+  .textcol {
+    color: #FFF;
+    margin-left: 20px;
+    font-size: larger;
+    margin-top: 10px;
+  }
+
+  .newbtn {
+    margin-top: 40px;
+  }
+  .headingcol {
+    color: #FFF;
+  }

@@ -31,11 +31,10 @@
             </ul> -->
           </div>
         </div>
-        <div class="dj-profile">
-          <!-- <i *ngIf="text === 'Login'" class="fa fa-sign-in" (click)="process()" aria-hidden="true"></i> -->
+        <!-- <div class="dj-profile">
           <i class="fa fa-sign-out" (click)="logout()" aria-hidden="true"></i>
           <span>Logout</span>
-        </div>
+        </div> -->
       </div>
       </div>
     </div>
@@ -87,7 +86,7 @@
     <div class="row">
         <div class="profile-recomend">
           <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Works</a>
             </li>
             <li class="nav-item">
@@ -98,7 +97,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Following</a>
-            </li>
+            </li> -->
             <li>
               <ion-button class="editbtn1" size="small" color="success" (click) = "addPlaylist()">Add Playlist</ion-button>
             </li>
@@ -145,7 +144,9 @@
                         <i class="fa fa-trash iconc" aria-hidden="true" (click)="deleteCotent(audios.id)"></i>
                       </span>
                       <span *ngIf = "checkbox === true">
-                        <i class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i>
+                        <!-- <i [ngClass]="isTicked === true && contentArray.indexOf(audios.id) > -1 ? 'fa fa-check-square-o newc' : 'fa fa-check-square-o'" aria-hidden="true" (click)="songs(audios.id)"></i> -->
+                        <i *ngIf = 'isTicked === true && contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(audios.id)"></i>
+                        <i *ngIf = '!contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i>
                       </span>
 										</div>
 									</div></li>

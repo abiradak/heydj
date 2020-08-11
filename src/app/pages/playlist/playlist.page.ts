@@ -5,7 +5,7 @@ import { MusicService } from '../../music.service';
 import { HelperService } from '../../helper.service';
 import { AlertController } from '@ionic/angular';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { WindowRefService } from "../../window-ref.service";
+declare var RazorpayCheckout: any;
 
 const opts = {
   static: true,
@@ -50,11 +50,9 @@ export class PlaylistPage implements  AfterViewInit {
     private helper: HelperService,
     private alertCtrl: AlertController,
     private keyboard: Keyboard,
-    private winRef: WindowRefService,
   ) { }
 
   ionViewWillEnter() {
-    this.playAudio();
     this.getPlaylist();
   }
 
@@ -63,12 +61,6 @@ export class PlaylistPage implements  AfterViewInit {
     this._bindPlayerEvents();
   }
 
-  playAudio(){
-    let audio = new Audio();
-    audio.src = "../../../assets/audio/alarm.wav";
-    audio.load();
-    audio.play();
-  }
   
   // https://heydj-images-bucket-rt3ea5hg-dev.s3.ap-south-1.amazonaws.com/music/1593726681354-testSong.mp3
   play(url): void {
@@ -197,7 +189,7 @@ export class PlaylistPage implements  AfterViewInit {
               this.apiGenerate.sendHttpCallWithToken(time , `/api/playlist/${id}/subscribe?now=true`, 'put').subscribe((response) => {
                 console.log('subs >>>>>', response);
                 this.helper.hideLoading();
-                this.payWithRazor(response);
+                this.payWithrazor(response);
               }, err => {
                 this.helper.hideLoading();
                 this.helper.presentToast(err.error, 'warning');
@@ -269,7 +261,7 @@ export class PlaylistPage implements  AfterViewInit {
               this.apiGenerate.sendHttpCallWithToken(time , `/api/playlist/${id}/subscribe`, 'put').subscribe((response) => {
                 console.log('subs >>>>>', response);
                 this.helper.hideLoading();
-                this.payWithRazor(response);
+                this.payWithrazor(response);
               }, err => {
                 this.helper.hideLoading();
                 this.helper.presentToast(err.error, 'warning');
@@ -289,10 +281,8 @@ export class PlaylistPage implements  AfterViewInit {
 
 
   // Razor Pay Code //
-  
-  payWithRazor(val) {
-    console.log("payWithRazor called  >>>>>>>>>>>>>>> ");
 
+  payWithrazor(val) {
     const { amount, id } = val;
     console.log(
       "payWithRazor called  >>>>>>>>>>>>>>> ",
@@ -333,69 +323,15 @@ export class PlaylistPage implements  AfterViewInit {
         color: "#0c238a",
       },
     }
-    
-    options.handler = (response, error) => {
-      // options.response = response;
-      //this.helper.presentLoading(); 
-      console.log(
-        "payWithRazor called  >>>>>>>>>>>>>>> ",
-        response,
-        "razorpay_order_id",
-        "razorpay_payment_id",
-        "razorpay_signature"
-      );
-      if (response) {
-        this.helper.presentToast('Your Payment is successfully done' , 'success')
-        console.log('response coming >>>>>>>>>' , response);
-        // this.helper.hideLoading();
-      } else if (error) {
-        // this.helper.hideLoading();
-        console.log('error coming >>>>>>>>' , error);
-      }
-      // console.log('payWithRazor called  >>>>>>>>>>>>>>> ', options);
-      // call your backend api to verify payment signature & capture transaction
+
+    var successCallback = function (payment_id) {
+      alert('payment_id: ' + payment_id);
     };
-    options.modal.ondismiss = () => {
-      // handle the case when user closes the form while transaction is in progress
-      console.log("Transaction cancelled.");
+
+    var cancelCallback = function (error) {
+      alert(error.description + ' (Error ' + error.code + ')');
     };
-    const rzp = new this.winRef.nativeWindow.Razorpay(options);
-    rzp.open();
 
-    rzp.on("payment.failed", (response) => {
-      console.log("payment failed  >>>>>>>>>>>>>>  ", response);
-      // this.loading = true;
-      // let payload = {
-      //   razorpay_order_id: response.error.metadata.order_id,
-      //   razorpay_payment_id: response.error.metadata.payment_id,
-      //   build_pin: sessionStorage.getItem("buildPin"),
-      //   reason: "payment-failed",
-      // };
-
-      // console.log("payment failed  api call data >>>>>>>>>>>>>>  ", payload);
-
-      // this._api.paymentFail(payload).subscribe(
-      //   (data: any) => {
-      //     console.log(
-      //       "paymentFail  >>>>>>>>>>>>>>>>>>>>>  ",
-      //       JSON.parse(atob(data))
-      //     );
-      //     if (data) {
-      //       data = JSON.parse(atob(data));
-      //       if (data.status == "1") {
-      //         sessionStorage.removeItem('custId');
-      //         window.location.href = data.response.redirect_url;
-      //       } else {
-      //         this.loading = false;
-      //       }
-      //     } else {
-      //       this.loading = false;
-      //     }
-      //   },
-      //   (err) => {
-      //     console.log("error responce paymentFail >>>>>>>>>>>>>  ", err);
-      //   }
-      // );
-    });
+    RazorpayCheckout.open(options, successCallback, cancelCallback);
   }
 }

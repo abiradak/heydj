@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
   pages: Array<{ title: string; component: any }>;
   
   loggedIn = false;
-  // dark = false;
   nav: any;
   token: string;
   isLoggedIn: boolean;
@@ -120,12 +119,7 @@ export class AppComponent implements OnInit {
         },
         {
           title: 'Earnings',
-          url: '/mainhome',
-          icon: 'information-circle'
-        },
-        {
-          title: 'Earnings',
-          url: '/mainhome',
+          url: '/profit',
           icon: 'information-circle'
         },
       ]  
@@ -164,10 +158,10 @@ export class AppComponent implements OnInit {
   checkLoginStatus() {
     this.token = localStorage.getItem('token');
     if (this.token) {
-      this.isLoggedIn = true;
+      return true;
     } else {
-       this.isLoggedIn = false;
-       this.router.navigate(['mainhome']);
+      return false;
+      // this.router.navigate(['mainhome']);
     }
   }
 
@@ -181,7 +175,9 @@ export class AppComponent implements OnInit {
     let isDj = localStorage.getItem('dj');
     if(isDj == 'dj') {
       localStorage.removeItem('dj');
+      this.router.navigate(['mainhome']);
     }
+    this.initializeApp();
     this.helper.presentToast('Successfully Logged Out' , 'success');
   }
 }

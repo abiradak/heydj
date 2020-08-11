@@ -32,10 +32,10 @@ const routes: Routes = [
     path: 'mainhome',
     loadChildren: () => import('./pages/mainhome/mainhome.module').then( m => m.MainhomePageModule)
   },
-  {
-    path: 'userdashboard', canActivate: [ActiveGuardService],
-    loadChildren: () => import('./pages/userdashboard/userdashboard.module').then( m => m.UserdashboardPageModule)
-  },
+  // {
+  //   path: 'userdashboard', canActivate: [ActiveGuardService],
+  //   loadChildren: () => import('./pages/userdashboard/userdashboard.module').then( m => m.UserdashboardPageModule)
+  // },
   {
     path: 'editdjprofile', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/editdjprofile/editdjprofile.module').then( m => m.EditdjprofilePageModule)
@@ -76,6 +76,11 @@ const routes: Routes = [
     path: 'myplaylist', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/myplaylist/myplaylist.module').then( m => m.MyplaylistPageModule)
   },
+  {
+    path: 'profit', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./pages/profit/profit.module').then( m => m.ProfitPageModule)
+  },
+
 
 ];
 
