@@ -42,7 +42,7 @@ export class ApiGenerateService {
           return this.http.post<any>(apiUrl + url, (data), httpOptions );
 
         case 'get':
-          console.log(data);
+          console.log('this is it' , data);
           return this.http.get<any>(apiUrl + url, httpOptions);
 
         case 'put':

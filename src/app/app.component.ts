@@ -14,9 +14,9 @@ import { HelperService } from './helper.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit {
+export class AppComponent  {
   selectedPage: any;
   pages: Array<{ title: string; component: any }>;
   
@@ -41,10 +41,13 @@ export class AppComponent implements OnInit {
     this.sideMenu();
     this.initializeApp();
   }
+  
+  // ionViewWillEnter() {
+  //   this.sideMenu();
+  // }
 
-  async ngOnInit() {
-    
-    //this.listenForLoginEvents();
+  ionViewWillEnter() {
+    this.sideMenu();
     this.swUpdate.available.subscribe(async res => {
       const toast = await this.toastCtrl.create({
         message: 'Update available!',
@@ -62,8 +65,6 @@ export class AppComponent implements OnInit {
         .then(() => this.swUpdate.activateUpdate())
         .then(() => window.location.reload());
     });
-
-    //this.checkConnection();
   }
 
   isDj() {
@@ -79,6 +80,7 @@ export class AppComponent implements OnInit {
   }
 
   sideMenu(){
+    console.log('calling');
     const isdj = localStorage.getItem('dj');
     if(isdj == 'dj') {
       this.appPages = [
@@ -177,7 +179,7 @@ export class AppComponent implements OnInit {
       localStorage.removeItem('dj');
       this.router.navigate(['mainhome']);
     }
-    this.initializeApp();
+    this.sideMenu();
     this.helper.presentToast('Successfully Logged Out' , 'success');
   }
 }

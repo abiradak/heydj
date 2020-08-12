@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HelperService } from '../../helper.service';
 import { ApiGenerateService } from '../../api-generate.service';
 import { MusicService } from '../../music.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { MusicService } from '../../music.service';
 })
 
 export class MainhomePage  {
+  searchForm: FormGroup;
   text: string;
   songslist: any;
   pausebutton: boolean;
@@ -25,13 +27,19 @@ export class MainhomePage  {
   lessfe = false;
   featureList: any;
   portfolioList: any;
+  totalSongs: any[] = []
 
   constructor(
     private router : Router,
     public helper: HelperService,
     public apiGenerate: ApiGenerateService,
     private music: MusicService,
-  ) { }
+    private formBuilder: FormBuilder
+  ) {
+    this.searchForm = formBuilder.group({
+      search: ['',[Validators.required]],
+    });
+   }
 
 
   ionViewWillEnter() {
@@ -123,5 +131,15 @@ export class MainhomePage  {
   async process() {
     this.router.navigate(['tutorial']);
   }
+
   
+
+  async search() {
+    if(this.searchForm.value.search) {
+
+      console.log('geting >>>>>>>>' , this.searchForm.value.search);
+    } else {
+
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { MenuController, IonSlides } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ModalController } from '@ionic/angular';
@@ -30,6 +31,7 @@ export class TutorialPage implements OnInit{
     public apiGenerate: ApiGenerateService,
     public helper: HelperService,
     public iab: InAppBrowser,
+    private route: NavController
   ) {}
 
   ngOnInit() {
@@ -55,21 +57,13 @@ export class TutorialPage implements OnInit{
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         if(userInfo.role == 'dj') {
           localStorage.setItem('dj' , userInfo.role);
-          this.router.navigate(['djmainhome']);
+          this.route.navigateRoot(['djmainhome']);
         } else {
-          this.router.navigate(['mainhome']);
+          this.route.navigateRoot(['mainhome']);
         }
         this.helper.presentToast('Login Successfull', 'success');
       }
     });
-
-    // if (browser.on('exit').subscribe)
-    // browser.on('exit').subscribe((e: InAppBrowserEvent) => {
-    //   console.log('exit >>>>>>>>>' , e);
-    //   if (e.url){
-        
-    //   }
-    // });
   }
  
   signInWithFB(): void {

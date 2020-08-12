@@ -5,8 +5,6 @@ import { Router } from '@angular/router';
 import { MusicService } from '../../music.service';
 import { Media } from '@ionic-native/media/ngx';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
-
 
 
 @Component({
@@ -38,7 +36,7 @@ export class DjmainhomePage {
    }
 
   ionViewWillEnter() {
-    this.getUserInfo();
+    console.log('whats going wrong ????');
     this.getDjAllContent();
   }
 
@@ -54,14 +52,14 @@ export class DjmainhomePage {
       this.image = success.profileImage;
       // this.helper.hideLoading();
     }, err => {
-      console.log('dj err >>>>>' , err);
+      console.log('dj errb >>>>>' , err);
       this.helper.presentToast(err.error, 'danger');
     })
   }
 
   async getDjAllContent(){
     this.apiGenerate.sendHttpCallWithToken('' , '/api/dj/content' , 'get').subscribe((success: any) => {
-      if(success.contents.length > 0){
+      if(success.contents && success.contents.length > 0){
         this.audioContent = success.contents.filter( function(item) {
           return item.type == 'audio';
         })
@@ -71,7 +69,10 @@ export class DjmainhomePage {
       } else {
         this.helper.presentToast('You Dont Have Any Content' , 'warning');
       }
+      this.getUserInfo();
       console.log('getting contents >>>>>>>>>' , this.videoContent);
+    } , (error) => {
+      console.log('error coming >>>>>>>' , error);
     })
   }
 

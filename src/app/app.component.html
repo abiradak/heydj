@@ -8,9 +8,20 @@
           <!-- <div class="card-title">XCART</div>
           <div class="card-subtitle">Keep Shopping</div> -->
         </ion-card>
-        <ion-list lines="none">
+        <!-- <ion-list lines="none">
           <ion-menu-toggle autoHide="false" *ngFor="let p of appPages; let i = index">
             <ion-item [routerLink]="p.url" routerDirection="root" detail="false">
+              <ion-icon slot="start" [name]="p.icon + '-outline'"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list> -->
+
+        <ion-list lines="none">
+          <ion-menu-toggle autoHide="true" *ngFor="let p of appPages">
+            <ion-item [routerLink]="p.url" routerDirection="forward">
               <ion-icon slot="start" [name]="p.icon + '-outline'"></ion-icon>
               <ion-label>
                 {{p.title}}
