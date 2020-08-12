@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiGenerateService } from '../../api-generate.service';
 import { MusicService } from '../../music.service';
@@ -24,7 +23,6 @@ export class ProfitPage  {
     private music: MusicService,
     private helper: HelperService,
     private alertCtrl: AlertController,
-    private keyboard: Keyboard,
   ) { }
 
   ionViewWillEnter() {
