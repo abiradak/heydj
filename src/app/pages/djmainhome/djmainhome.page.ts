@@ -4,8 +4,10 @@ import { HelperService } from '../../helper.service';
 import { Router } from '@angular/router';
 import { MusicService } from '../../music.service';
 import { Media } from '@ionic-native/media/ngx';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { AppComponent } from '../../app.component';
+import { NgZone  } from '@angular/core';
+
 
 
 @Component({
@@ -33,16 +35,21 @@ export class DjmainhomePage {
     private media: Media,
     private alertCtrl: AlertController,
     public modalController: ModalController,
-    private appComponent: AppComponent 
-  ) {
-   }
+    private appComponent: AppComponent,
+    private ngZone: NgZone ,
+    private navCtrl: NavController
+  ) { }
 
   ionViewWillEnter() {
     this.appComponent.sideMenu();
-    console.log('whats going wrong ????');
     this.getDjAllContent();
   }
 
+  refresh() {
+    this.ngZone.run(() => {
+      console.log('force update the screen');
+    });
+  }
   getUserInfo() {
     console.log('entering >>>>>>>>>>');
     // this.helper.presentLoading();
@@ -75,6 +82,7 @@ export class DjmainhomePage {
       this.getUserInfo();
       console.log('getting contents >>>>>>>>>' , this.videoContent);
     } , (error) => {
+      this.refresh();
       console.log('error coming >>>>>>>' , error);
     })
   }

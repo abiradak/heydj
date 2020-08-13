@@ -18,8 +18,11 @@ const opts = {
 })
 export class PlaylistPage implements  AfterViewInit {
   
-  @Input() src: string;
-  @ViewChild('player', opts) playerElementRef: ElementRef; 
+  // @Input() public src: string;
+  // @ViewChild('player', opts) playerElementRef: ElementRef;  
+
+  @ViewChild('player', { static: false }) public playerElementRef:  ElementRef;
+
 
   isPlaying = false;
   isLoading = false;
@@ -39,6 +42,7 @@ export class PlaylistPage implements  AfterViewInit {
   bottomSongname: any;
   playing = false;
   price: any;
+  songUrl: any = '';
   // songUrl: 'https://heydj-images-bucket-rt3ea5hg-dev.s3.ap-south-1.amazonaws.com/music/1593726681354-testSong.mp3';
   
 
@@ -61,15 +65,23 @@ export class PlaylistPage implements  AfterViewInit {
     this._bindPlayerEvents();
   }
 
-  
-  // https://heydj-images-bucket-rt3ea5hg-dev.s3.ap-south-1.amazonaws.com/music/1593726681354-testSong.mp3
-  play(url): void {
+  async play(url) {
     this.playing = true;
-    // this.songUrl = url;
-    // console.log('hello >>>>>>>>>' , this.songUrl);
-    this.src = url;
-    console.log('hello >>>>>>>>>' , this.src);
+    this.songUrl = url;
+    
     this._player.play();
+
+    // var playPromise = this._player.play();
+
+    // if (playPromise !== undefined) {
+    //   playPromise.then(_ => {
+    //     console.log('cghghhv');
+    //   })
+    //   .catch(error => {
+    //     console.log('error >>' , error);
+    //   });
+    // }
+    console.log('src >>>>><<<<' , this._player.currentSrc);
   }
 
   pause(): void {
@@ -90,9 +102,11 @@ export class PlaylistPage implements  AfterViewInit {
           this.isPlaying = false;
       });
 
-      this._player.addEventListener('timeupdate', () => {
-          this.currentTime = Math.floor(this._player.currentTime);
-      });
+      // this._player.addEventListener('timeupdate', () => {
+      //     this.currentTime = Math.floor(this._player.currentTime);
+      // });
+
+
 
       this._player.addEventListener('seeking', () => {
           this.isLoading = true;
@@ -110,6 +124,8 @@ export class PlaylistPage implements  AfterViewInit {
           this.isLoading = false;
           this.duration = Math.floor(this._player.duration);
       });
+      console.log('src >>>>><<<<' , this._player.currentSrc);
+      // this._player.load();
   }
 
   async back() {
@@ -127,14 +143,14 @@ export class PlaylistPage implements  AfterViewInit {
       this.noSongs = this.songsList.length;
       this.sampleUrl = success.body.sampleContent;
       this.price = success.body.price;
-      this.firstPlaySong();
+      this.firstPlaySong(this.sampleUrl);
     })
   }
 
 
-  async firstPlaySong() {
+  async firstPlaySong(url) {
     if(this.data == 'audio') {
-      this.play(this.sampleUrl);
+      this.play(url);
       this.playing = true; 
       this.bottomSongImg = this.img;
       this.bottomSongname = this.playListName;
@@ -190,7 +206,7 @@ export class PlaylistPage implements  AfterViewInit {
                 console.log('subs >>>>>', response);
                 this.helper.hideLoading();
                 this.payWithrazor(response);
-              }, err => {
+              }, (err) => {
                 this.helper.hideLoading();
                 this.helper.presentToast(err.error, 'warning');
               });
@@ -282,7 +298,7 @@ export class PlaylistPage implements  AfterViewInit {
 
   // Razor Pay Code //
 
-  payWithrazor(val) {
+  async payWithrazor(val) {
     const { amount, id } = val;
     console.log(
       "payWithRazor called  >>>>>>>>>>>>>>> ",

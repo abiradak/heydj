@@ -15,10 +15,10 @@
         <div class="dj-logo"><img src="../../../assets/img/logo.png"></div>
         <div class="dj-menu-list">
           <div class="search">
-            <form [formGroup]="searchForm">
-              <input type="text" placeholder="Search" formControlName="search">
+            <!-- <form [formGroup]="searchForm"> -->
+              <input type="text" placeholder="Search" (keyup)="onKeyup(searchvalue)" [(ngModel)] = "searchvalue" >
               <button type="submit" class="srch-song"><i class="fa fa-search" aria-hidden="true" (click)="search()"></i></button>
-            </form>
+            <!-- </form> -->
           </div>
         </div>
         <!-- <div class="dj-profile">
@@ -29,10 +29,10 @@
       </div>
     </div>
     </div>
-    <!-- header -->
+    
 
     <div class="row">
-      <div class="play-list-content">
+      <div *ngIf = "isSearched === false" class="play-list-content">
       <div class="featured-play-list">
         <h3>Featured Playlists
           <!-- <span (click)="showMorefe()">More</span>
@@ -49,76 +49,93 @@
         </div>
       </div>
       </div>
-      <div class="play-list-content">
-      <div class="featured-play-list">
-        <h3>Genres
-          <span (click)="showMoregen()">More</span>
-          <span *ngIf = "lessgen === true" (click)="showLessgen()">Less</span>
-        </h3>
-        <div class="genrs-list">
-          <ul>
-            <li *ngFor = "let genrelist of genereList | slice:start:endgen">
-              <div class="track-list">
-										<img src="../../../assets/img/genres-1.png" [routerLink] = "['/playlist/', genrelist.id]">
-										<!-- <div class="ttl">
-											<h3>{{ genrelist.name }}</h3> -->
-											<!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
-										<!-- </div> -->
-									</div>
-            </li>
+      <div *ngIf = "isSearched === false" class="play-list-content">
+        <div class="featured-play-list">
+          <h3>Genres
+            <span (click)="showMoregen()">More</span>
+            <span *ngIf = "lessgen === true" (click)="showLessgen()">Less</span>
+          </h3>
+          <div class="genrs-list">
+            <ul>
+              <li *ngFor = "let genrelist of genereList | slice:start:endgen">
+                <div class="track-list">
+                      <img src="../../../assets/img/genres-1.png">
+                      <!-- <div class="ttl">
+                        <h3>{{ genrelist.name }}</h3> -->
+                        <!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
+                      <!-- </div> -->
+                    </div>
+              </li>
 
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf = "isSearched === false" class="play-list-content">
+        <div class="featured-play-list">
+          <h3>All Playlists
+            <span (click)="showMore()">More</span>
+            <span *ngIf = "less === true" (click)="showLess()">Less</span>
+          </h3>
+          <div class="genrs-list">
+            <ul>
+              <li *ngFor = "let songs of songslist | slice:start:endall">
+                <div class="list-of-song">
+                  <div *ngIf = "!songs.thumbnail" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
+                  <div *ngIf = "songs.thumbnail" class="song-dp"><img src="{{ songs.thumbnail }}" [routerLink] = "['/playlist/', songs.id]"></div>
+                  <div class="song-ttl">
+                    <h4>{{ songs.title }}</h4>
+                    <p>{{ songs.sampleType }}</p>
+                    <!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          </div>
+      </div>
+
+      <div *ngIf = "isSearched === false" class="play-list-content">
+        <div class="featured-play-list">
+          <h3> Artist
+            <span (click)="showMore()">More</span>
+            <span *ngIf = "less === true" (click)="showLess()">Less</span>
+          </h3>
+          <div class="genrs-list">
+            <ul>
+              <li *ngFor = "let portfolio of portfolioList | slice:start:endgen">
+                <div class="list-of-song">
+                  <div *ngIf = "!portfolio.profileImage" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
+                  <div *ngIf = "portfolio.profileImage" class="song-dp"><img src="{{ portfolio.profileImage }}" [routerLink] = "['/portfolio/', portfolio.id]"></div>
+                  <div class="song-ttl">
+                    <h4>{{ portfolio.firstName }} {{ portfolio.lastName }}</h4>
+                    <!-- <p>{{ portfolio.role }}</p> -->
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          </div>
+      </div>
+
+      <div *ngIf = "isSearched === true" class="search-list-song">
+        <div class="on-select-tab">
+          <span>All </span>
+          <span>Track </span>
+          <span>Album</span>
+          <ul>
+            <li *ngFor = "let searchSongs of newArray">
+              <div class="song-src-dp"><img src="{{ searchSongs.thumbnail }}" [routerLink] = "['/playlist/', searchSongs.id]"></div>
+              <div class="src-song-ttl" [routerLink] = "['/playlist/', searchSongs.id]">
+                <h4>{{ searchSongs.title }}</h4>
+                <p>Price {{ searchSongs.price }}/- Rs </p>
+              </div>
+              <div class="src-songelips"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div>
+            </li>
           </ul>
         </div>
       </div>
-    </div>
-
-    <div class="play-list-content">
-      <div class="featured-play-list">
-        <h3>All Playlists
-          <span (click)="showMore()">More</span>
-          <span *ngIf = "less === true" (click)="showLess()">Less</span>
-        </h3>
-        <div class="genrs-list">
-          <ul>
-            <li *ngFor = "let songs of songslist | slice:start:endall">
-              <div class="list-of-song">
-                <div *ngIf = "!songs.thumbnail" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
-                <div *ngIf = "songs.thumbnail" class="song-dp"><img src="{{ songs.thumbnail }}" [routerLink] = "['/playlist/', songs.id]"></div>
-                <div class="song-ttl">
-                  <h4>{{ songs.title }}</h4>
-                  <p>{{ songs.sampleType }}</p>
-                  <!-- <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> -->
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        </div>
-    </div>
-
-    <div class="play-list-content">
-      <div class="featured-play-list">
-        <h3> Artist
-          <span (click)="showMore()">More</span>
-          <span *ngIf = "less === true" (click)="showLess()">Less</span>
-        </h3>
-        <div class="genrs-list">
-          <ul>
-            <li *ngFor = "let portfolio of portfolioList | slice:start:endgen">
-              <div class="list-of-song">
-                <div *ngIf = "!portfolio.profileImage" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
-                <div *ngIf = "portfolio.profileImage" class="song-dp"><img src="{{ portfolio.profileImage }}" [routerLink] = "['/portfolio/', portfolio.id]"></div>
-                <div class="song-ttl">
-                  <h4>{{ portfolio.firstName }} {{ portfolio.lastName }}</h4>
-                  <!-- <p>{{ portfolio.role }}</p> -->
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        </div>
-    </div>
-
     
     </div>
   </div>

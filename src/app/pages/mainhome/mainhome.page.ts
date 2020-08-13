@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HelperService } from '../../helper.service';
 import { ApiGenerateService } from '../../api-generate.service';
-import { MusicService } from '../../music.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
@@ -13,7 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 
 export class MainhomePage  {
-  searchForm: FormGroup;
+  // searchForm: FormGroup;
   text: string;
   songslist: any;
   pausebutton: boolean;
@@ -29,19 +28,19 @@ export class MainhomePage  {
   portfolioList: any;
   totalSongs: any[] = [];
   newArray: any[] = [];
-  searchValue: any;
+  searchvalue: any = '';
+  isSearched: boolean = false;
   
 
   constructor(
     private router : Router,
     public helper: HelperService,
     public apiGenerate: ApiGenerateService,
-    private music: MusicService,
     private formBuilder: FormBuilder
   ) {
-    this.searchForm = formBuilder.group({
-      search: ['',[Validators.required]],
-    });
+      // this.searchForm = formBuilder.group({
+      //   search: ['',[Validators.required]],
+      // });
    }
 
 
@@ -138,29 +137,48 @@ export class MainhomePage  {
   }
 
   async songArraymake() {
-    console.log('hhbjaebf');
     if(this.songslist && this.genereList && this.featureList && this.featureList) {
-      console.log('hhbjaebf');
       this.totalSongs = this.songslist.concat(this.genereList , this.featureList ,this.featureList);
-      console.log('new song array >>>>>>' , this.totalSongs);
+    }
+  }
+
+  async onKeyup(key) {
+    if(key && key.length > 0) {
+      this.isSearched = true;
+      var search = this.searchvalue.toLowerCase();
+      this.newArray = this.totalSongs.filter(function(item) {
+        if(item.title && item.title.toLowerCase().indexOf(search) > -1) {
+          return item;
+        } 
+        // else if(item.name.indexOf(search) > -1) {
+        //   return item;
+        // } else if(`${item.firstName} ${item.lastName}`.indexOf(search) > -1) {
+        //   return item;
+        // }
+      });
+      console.log('filtered item >>>>>>>' , this.newArray);
+    } else {
+      this.isSearched = false;
     }
   }
 
   async search() {
-    if(this.searchForm.value.search) {
-      this.searchValue = this.searchForm.value.search;
-      this.newArray =  this.totalSongs.filter(function(item) {
-        if(item.title === this.searchValue) {
-          return item;
-        } else if(item.name === this.searchValue) {
-          return item;
-        } else if(`${item.firstName} ${item.lastName}` === this.searchValue) {
+    if(this.searchvalue) {
+      this.isSearched = true;
+      var search = this.searchvalue.toLowerCase();
+      this.newArray = this.totalSongs.filter(function(item) {
+        if(item.title && item.title.toLowerCase().indexOf(search) > -1) {
           return item;
         }
       });
       console.log('filtered item >>>>>>>' , this.newArray);
     } else {
-
+      this.helper.presentToast('Please Enter a keyword' , 'warning');
     }
+  }
+
+  ionViewWillLeave() {
+    this.isSearched = false;
+    this.searchvalue = '';
   }
 }
