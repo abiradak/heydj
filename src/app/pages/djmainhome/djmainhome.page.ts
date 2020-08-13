@@ -35,11 +35,10 @@ export class DjmainhomePage {
     public modalController: ModalController,
     private appComponent: AppComponent 
   ) {
-
-    this.appComponent.sideMenu();
    }
 
   ionViewWillEnter() {
+    this.appComponent.sideMenu();
     console.log('whats going wrong ????');
     this.getDjAllContent();
   }

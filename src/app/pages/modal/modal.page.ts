@@ -133,6 +133,7 @@ export class ModalPage implements OnInit {
               this.helper.presentLoading();
               this.apiGenerate.sendHttpCall('', '/api/auth/otp/verify?phonenumber=' + OTPdata.phone + '&' + 'code=' + OTPdata.OTP, 'get').subscribe((response) => {
                 if (response) {
+                  console.log('login Response >>>>>>>' , response);
                   this.helper.hideLoading();
                   this.dismiss();
                   this.token = response.headers.get('x-auth-token');
