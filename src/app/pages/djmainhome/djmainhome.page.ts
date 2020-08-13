@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MusicService } from '../../music.service';
 import { Media } from '@ionic-native/media/ngx';
 import { AlertController, ModalController } from '@ionic/angular';
+import { AppComponent } from '../../app.component';
 
 
 @Component({
@@ -32,7 +33,10 @@ export class DjmainhomePage {
     private media: Media,
     private alertCtrl: AlertController,
     public modalController: ModalController,
+    private appComponent: AppComponent 
   ) {
+
+    this.appComponent.sideMenu();
    }
 
   ionViewWillEnter() {

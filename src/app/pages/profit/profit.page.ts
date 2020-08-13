@@ -4,7 +4,6 @@ import { ApiGenerateService } from '../../api-generate.service';
 import { MusicService } from '../../music.service';
 import { HelperService } from '../../helper.service';
 import { AlertController } from '@ionic/angular';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 
 @Component({

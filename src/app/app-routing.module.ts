@@ -32,10 +32,6 @@ const routes: Routes = [
     path: 'mainhome',
     loadChildren: () => import('./pages/mainhome/mainhome.module').then( m => m.MainhomePageModule)
   },
-  // {
-  //   path: 'userdashboard', canActivate: [ActiveGuardService],
-  //   loadChildren: () => import('./pages/userdashboard/userdashboard.module').then( m => m.UserdashboardPageModule)
-  // },
   {
     path: 'editdjprofile', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/editdjprofile/editdjprofile.module').then( m => m.EditdjprofilePageModule)
