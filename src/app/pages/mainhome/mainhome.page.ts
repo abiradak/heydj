@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HelperService } from '../../helper.service';
 import { ApiGenerateService } from '../../api-generate.service';
@@ -27,7 +27,10 @@ export class MainhomePage  {
   lessfe = false;
   featureList: any;
   portfolioList: any;
-  totalSongs: any[] = []
+  totalSongs: any[] = [];
+  newArray: any[] = [];
+  searchValue: any;
+  
 
   constructor(
     private router : Router,
@@ -43,7 +46,6 @@ export class MainhomePage  {
 
 
   ionViewWillEnter() {
-    this.logoText();
     this.getAllContents();
     this.getGenreList();
     this.allFeaturePlaylist();
@@ -84,8 +86,9 @@ export class MainhomePage  {
   async getAllContents(){
     this.apiGenerate.sendHttpCall('', `/api/playlist?all=true`,
     'get').subscribe((response) => {
-      console.log('music list>>>>>>>>', response.body);
+      console.log('music list>>>>>>>>', response.body.playlists);
       this.songslist = response.body.playlists;
+      this.songArraymake();
     }, error => {
       console.log('music list>>>>>>>>', error.error);
     });
@@ -96,48 +99,66 @@ export class MainhomePage  {
     this.apiGenerate.sendHttpCall('' , '/api/genre' , 'get').subscribe((success) => {
       console.log('genere list >>>' , success.body.genres);
       this.genereList = success.body.genres;
-    })
+      this.songArraymake();
+    },error => {
+      console.log('music list>>>>>>>>', error.error);
+    });
   }
 
   async getAllPlaylistByGenre(genreid) {
     this.apiGenerate.sendHttpCall('' , '/api/playlist?genre=' + genreid , 'get').subscribe((success) => {
       console.log('genre playlist >>>>>>' , success);
-    })
+    } , error => {
+      console.log('music list>>>>>>>>', error.error);
+    });
   }
 
   async allFeaturePlaylist() {
     this.apiGenerate.sendHttpCall('' , '/api/featured' , 'get').subscribe((success) => {
       console.log('feature list >>>>>>' , success.body.playlists);
       this.featureList = success.body.playlists;
-    })
+      this.songArraymake();
+    } , error => {
+      console.log('music list>>>>>>>>', error.error);
+    });
   }
 
   async getAllArtist() {
     this.apiGenerate.sendHttpCall('' , '/api/user/dj' , 'get').subscribe((success) => {
       this.portfolioList = success.body.djs;
+      this.songArraymake();
       console.log('Artist >>>>>>>>>>>>' , this.portfolioList);
-    })
-  }
-
-  logoText() {
-    let token = JSON.parse(localStorage.getItem('token'));
-    if(token) {
-      this.text = 'Logout';
-    } else {
-      this.text = 'Login';
-    }
+    } , error => {
+      console.log('music list>>>>>>>>', error.error);
+    });
   }
 
   async process() {
     this.router.navigate(['tutorial']);
   }
 
-  
+  async songArraymake() {
+    console.log('hhbjaebf');
+    if(this.songslist && this.genereList && this.featureList && this.featureList) {
+      console.log('hhbjaebf');
+      this.totalSongs = this.songslist.concat(this.genereList , this.featureList ,this.featureList);
+      console.log('new song array >>>>>>' , this.totalSongs);
+    }
+  }
 
   async search() {
     if(this.searchForm.value.search) {
-
-      console.log('geting >>>>>>>>' , this.searchForm.value.search);
+      this.searchValue = this.searchForm.value.search;
+      this.newArray =  this.totalSongs.filter(function(item) {
+        if(item.title === this.searchValue) {
+          return item;
+        } else if(item.name === this.searchValue) {
+          return item;
+        } else if(`${item.firstName} ${item.lastName}` === this.searchValue) {
+          return item;
+        }
+      });
+      console.log('filtered item >>>>>>>' , this.newArray);
     } else {
 
     }

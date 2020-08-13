@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController, ToastController, LoadingController, NavController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Storage } from '@ionic/storage';
 export const apiUrl = 'https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/dev';
 
 @Injectable({
@@ -15,7 +14,6 @@ export class ApiGenerateService {
   token = JSON.parse(localStorage.getItem('token'));
 
   constructor(
-    private storage: Storage,
     public http: HttpClient,
     public alertController: AlertController,
     public toastController: ToastController,
@@ -38,19 +36,15 @@ export class ApiGenerateService {
       console.log('check' , httpOptions);
       switch (method) {
         case 'post':
-          console.log(data);
           return this.http.post<any>(apiUrl + url, (data), httpOptions );
 
         case 'get':
-          console.log('this is it' , data);
           return this.http.get<any>(apiUrl + url, httpOptions);
 
         case 'put':
-          console.log(data);
           return this.http.put<any>(apiUrl + url, (data), httpOptions);
 
         case 'delete':
-          console.log(data);
           return this.http.delete<any>(apiUrl + url, httpOptions);
 
         default:
