@@ -53,15 +53,12 @@ export class DjmainhomePage {
   // }
   getUserInfo() {
     console.log('entering >>>>>>>>>>');
-    // this.helper.presentLoading();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
     'get').subscribe((success: any) => {
       console.log('get api result >>>>>>>>>', success);
-      // this.helper.hideLoading();
       this.djProfile = success;
       this.image = success.profileImage;
-      // this.helper.hideLoading();
     }, err => {
       console.log('dj errb >>>>>' , err);
       this.helper.presentToast(err.error, 'danger');

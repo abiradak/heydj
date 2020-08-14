@@ -74,15 +74,13 @@ export class EditdjprofilePage  {
   }
 
  async getUserInfo() {
-    const loading = await this.loadingCtrl.create({
-      backdropDismiss: true
-    });
+    this.helper.presentLoading();
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     console.log(userInfo);
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
     'get').subscribe((success: any) => {
       console.log('get api result >>>>>>>>>' , success);
-      loading.dismiss();
+      this.helper.hideLoading();
       this.successImage = success.profileImage;
       this.updateProfile.patchValue({
         phone: userInfo.phoneNumber.slice(2,12),
@@ -93,8 +91,8 @@ export class EditdjprofilePage  {
         city: success.city
       });
     } , err => {
+      this.helper.hideLoading();
       this.helper.presentToast(err.error, 'danger');
-      loading.dismiss();
     })
   }
 

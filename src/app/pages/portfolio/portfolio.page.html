@@ -11,6 +11,7 @@
 <div class="profile-folio">
   <div class="container">
     <div class="row">
+      
       <div class="col-12">
         <div class="user-dp">
           <img src="{{ userInfo.profileImage }}">
@@ -29,23 +30,8 @@
           <!-- <p>www.johndoe.co.in</p> -->
         </div>
       </div>
-      <!-- <div class="col-12">
-        <div class="featured-play">
-          <span>Featured Playlists <a href="#">More</a></span>
-          <div class="featured-playlist">
-          <ul>
-            <li><img src="../../../assets/img/playlist-1.png"></li>
-            <li><img src="../../../assets/img/playlist-2.png"></li>
-            <li><img src="../../../assets/img/playlist-3.png"></li>
-            <li><img src="../../../assets/img/playlist-4.png"></li>
-            <li><img src="../../../assets/img/playlist-5.png"></li>
-          </ul>
-          </div>
-        </div>
-      </div> -->
 
-      <div *ngIf = 'isVideo === true' id="instructions" class="main">
-        <!-- <h6>{{ videos }}</h6> -->
+      <div *ngIf = 'isVideo === true' id="instructions" class="main"> 
         <iframe *ngFor = 'let videos of youtubeUrls' width="400" height="200" id="my_video_1" class="video-js vjs-default-skin"
         [src]="videos" frameborder="0"
           allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>

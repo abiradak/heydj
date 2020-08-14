@@ -2,22 +2,18 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-      <ion-title>My Portfolio</ion-title>
+      <ion-title>Void DJ</ion-title>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="header-logo">
-    <img src="../../../assets/img/logo.png">
-  </div>
   <div class="menubar">
     <img src="assets/img/back.png" (click)="back()">
   </div>
 
   <div class="registration-form">
   <form [formGroup]="createPortfolio">
-
     <div class="form-group row">
       <label for="inputtext" class="col-12 col-form-label">Video Url</label>
       <div class="col-8">
@@ -41,11 +37,15 @@
 
   </form>
   <div *ngIf = 'isVideo === true' id="instructions" class="main">
-    <iframe *ngFor = 'let videos of youtubeUrls' width="350" height="150" id="my_video_1" class="video-js vjs-default-skin"
-    [src]="videos" frameborder="0"
-      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-    </iframe>
-    <button class="btn btn-danger newb" (click)="deleteVideo()">Remove</button>
+    <ul>
+      <li *ngFor = 'let videos of youtubeUrls' class="videos">
+        <iframe width="350" height="150" id="my_video_1" class="video-js vjs-default-skin"
+        [src]="videos" frameborder="0"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+        <button class="btn btn-danger newb" (click)="deleteVideo(videos)">Remove</button>
+      </li>
+    </ul>
   </div>
 </div>
 </ion-content>

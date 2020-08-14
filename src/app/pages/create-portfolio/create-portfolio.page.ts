@@ -21,6 +21,8 @@ export class CreatePortfolioPage {
   url: any;
   isVideo = false;
   youtubeUrls: any = [];
+  djProfile: any;
+  image: any;
 
   constructor(
     public router: Router,
@@ -39,6 +41,7 @@ export class CreatePortfolioPage {
   }
 
   ionViewWillEnter() {
+    this.profileInfo();
     this.myPortFolio();
   }
 
@@ -82,13 +85,35 @@ export class CreatePortfolioPage {
 
   ////// Video Code //////
 
+  async profileInfo() {
+    console.log('entering >>>>>>>>>>');
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
+    'get').subscribe((success: any) => {
+      console.log('get api result >>>>>>>>>', success);
+      this.djProfile = success;
+      this.image = success.profileImage;
+    }, err => {
+      console.log('dj errb >>>>>' , err);
+      this.helper.presentToast(err.error, 'danger');
+    })
+  }
+
   async myPortFolio() {
     this.apiGenerate.sendHttpCallWithToken('' , '/api/dj/portfolio' , 'get').subscribe((success) => {
       this.youtubeVideoUrls = success.videoUrls;
       if(this.youtubeVideoUrls.length > 0) {
         this.isVideo = true;
         this.youtubeVideoUrls.forEach((element: string) => {
-          element = element.replace('https://www.youtube.com/watch?v=', 'https://youtube.com/embed/'); 
+          // switch (element) {
+          //   case 'https://www.youtube.com/watch?v=':
+              
+          //     break;
+          
+          //   default:
+          //     break;
+          // }
+          element = element.replace('https://youtu.be/', 'https://youtube.com/embed/'); 
           this.url = this.sanitizer.bypassSecurityTrustResourceUrl(element);
           this.youtubeUrls.push(this.url);
           console.log('new array >>>>>>>>>>' , this.youtubeUrls);
@@ -104,18 +129,19 @@ export class CreatePortfolioPage {
     })
   }
 
-  async addYoutubeUrls() {
-    if(this.createPortfolio.value.youtubeurl) {
-      console.log('fghjk' , this.youtubeVideoUrls);
+  async addPortFolioUrls(urls = null) {
+    if(this.createPortfolio.value.youtubeurl || urls != null) {
       if(this.youtubeVideoUrls.length > 0) {
-          let Urls = [
-            this.createPortfolio.value.youtubeurl
-          ]
-          let videoUrls = Urls.concat(this.youtubeVideoUrls);
-          var sendData = {
-            videoUrls: videoUrls
-          }
-          console.log('prepared array >>>>>>>' , sendData);
+        if(urls != null) {
+          
+        }
+        let Urls = [
+          this.createPortfolio.value.youtubeurl
+        ]
+        let videoUrls = Urls.concat(this.youtubeVideoUrls);
+        var sendData = {
+          videoUrls: videoUrls
+        }
         var method = 'put';
       } else {
         let sendData = {
@@ -129,7 +155,7 @@ export class CreatePortfolioPage {
         console.log('adding urs >>>>>>>>>' , success);
         this.helper.presentToast('Video Added To Portfolio' , 'success');
         this.createPortfolio.reset();
-        this.myPortFolio();
+        this.ionViewWillEnter();
       } , (error) => {
         console.log('errors >>>>>>>' , error);
       });
@@ -142,7 +168,10 @@ export class CreatePortfolioPage {
     this.helper.goBack();
   }
 
-  async deleteVideo() {
+  async deleteVideo(url) {
+    var preparedUrl = url.changingThisBreaksApplicationSecurity.replace('https://youtube.com/embed/' ,'https://www.youtube.com/watch?v=');
+    console.log('delete >>>>>>>>>' , preparedUrl);
+
     this.helper.presentAlert('Process is not Completed','Success');
   }
 }
