@@ -34,14 +34,10 @@ export class DjmainhomePage {
     private music: MusicService,
     private media: Media,
     private alertCtrl: AlertController,
-    public modalController: ModalController,
-    private appComponent: AppComponent,
-    private ngZone: NgZone ,
-    private navCtrl: NavController
+    public modalController: ModalController
   ) { }
 
   ionViewWillEnter() {
-    this.appComponent.sideMenu();
     this.getDjAllContent();
   }
 

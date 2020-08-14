@@ -14,6 +14,9 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 })
 export class MyplaylistPage  {
   playlist: any;
+  djProfile: any;
+  image: any;
+  checkbox: false;
 
   constructor(
     public apiGenerate: ApiGenerateService,
@@ -27,6 +30,21 @@ export class MyplaylistPage  {
 
   ionViewWillEnter() {
     this.myPlaylist();
+    this.getUserInfo();
+  }
+
+  getUserInfo() {
+    console.log('entering >>>>>>>>>>');
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
+    'get').subscribe((success: any) => {
+      console.log('get api result >>>>>>>>>', success);
+      this.djProfile = success;
+      this.image = success.profileImage;
+    }, err => {
+      console.log('dj errb >>>>>' , err);
+      this.helper.presentToast(err.error, 'danger');
+    })
   }
 
   async myPlaylist() {

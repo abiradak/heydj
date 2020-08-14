@@ -1,94 +1,95 @@
 ion-avatar {
-    height: 100%;
-    width: 100%;
-    margin-left: 12px;
+  height: 100%;
+  width: 100%;
+  margin-left: 12px;
 }
 .editICon {
-    position: absolute;
-    bottom: 10%;
-    left: 80%;
-    height: 25px;
-    width: 25px;
-    border-radius: 50%;
+  position: absolute;
+  bottom: 10%;
+  left: 80%;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
 }
 
 .editICon ion-icon {
-    position: absolute;
-    font-size: 25px;
-    left: -2px;
-    top: 2px;
+  position: absolute;
+  font-size: 25px;
+  left: -2px;
+  top: 2px;
 }
 .imgupload {
-  font-size: 18px;
-  height: 80px;
-  text-transform: capitalize;
-  width: 60%;
+font-size: 18px;
+height: 80px;
+text-transform: capitalize;
+width: 60%;
 }
 
 .button {
-    text-align: center;
+  text-align: center;
 }
 ion-button {
-    font-size: 18px;
-    height: 45px;
-    text-transform: capitalize;
-    width: 80%;
+  font-size: 18px;
+  height: 45px;
+  text-transform: capitalize;
+  width: 80%;
 }
 
 ion-progress-bar.progressbar.ion-color.ion-color-secondary.md.progress-bar-determinate.hydrated {
-    margin-top: 60%;
-    height: 20px;
-    width: 300px;
-    margin-left: 55px;
+  margin-top: 60%;
+  height: 20px;
+  width: 300px;
+  margin-left: 55px;
 }
 .thumbnail {
-  margin-left: 25px;
-  height: 80px;
-  width: 80px;
+margin-left: 25px;
+height: 80px;
+width: 80px;
 }
 .ttext {
-  color: #fff;
-  margin-left: 20px;
-  font-size: 15px;
+color: #fff;
+margin-left: 20px;
+font-size: 15px;
 }
 .dtext {
-  color: #fff;
-  margin-left: 55px;
+color: #fff;
+margin-left: 55px;
 }
 
 .header-logo{
-  width: 100%;
-  background: #242232;
-  text-align: center;
-  padding:10px 0px;
+width: 100%;
+background: #242232;
+text-align: center;
+padding:10px 0px;
 }
 .header-logo img{
-  width: 70px;
+width: 70px;
 }
 
 .registration-form {
-  height: 100%;
-  width: 100%;
-  background: #202020;
-  padding: 15px 25px 50px 15px;
-  font-family: 'Gotham Narrow';
+height: 100%;
+width: 100%;
+margin-top: -6px;
+background: #202020;
+padding: 15px 25px 50px 15px;
+font-family: 'Gotham Narrow';
 }
 
 .registration-form  .col-form-label{
-  padding-right: 0px;
-  font-size: 14px;
-  color: #fff;
+padding-right: 0px;
+font-size: 14px;
+color: #fff;
 }
 .ccode{
-  padding-right: 0px;
+padding-right: 0px;
 }
 .registration-form p{
-  margin: 0px;
-  font-size: 12px;
-  display: block;
-  line-height: 20px;
-  color: #fff;
-  padding-top: 3px;
+margin: 0px;
+font-size: 12px;
+display: block;
+line-height: 20px;
+color: #fff;
+padding-top: 3px;
 }
 // .cstm-btn {
 //   width: 30%;
@@ -98,33 +99,105 @@ ion-progress-bar.progressbar.ion-color.ion-color-secondary.md.progress-bar-deter
 //   font-weight: bold;
 // }
 .form-group {
-  margin-bottom: 5px;
+margin-bottom: 5px;
 }
 .cstm-btn {
-  width: 100%;
-  border: none;
-  padding: 10px 20px;
-  // border-radius: 50px;
-  font-weight: bold;
-  // margin-top: 5%;
+width: 100%;
+border: none;
+padding: 10px 20px;
+// border-radius: 50px;
+font-weight: bold;
+// margin-top: 5%;
 }
 .validation {
-  color: red;
+color: red;
 }
 
 .menubar{
-  z-index: 999;
-  top: -31px;
-  left: 22px;
-  background: #000000;
+z-index: 999;
+top: -31px;
+left: 22px;
+background: #000000;
 }
 .main{
-  margin-top: 50px;
+margin-top: 50px;
 }
 .sizes {
-  width: 70%;
+width: 70%;
 }
 
+.user-dp{
+width: 50%;
+float: left;
+text-align: center;
+padding-top: 4%;
+}
+.user-dp img{
+width: 100px;
+height: 100px;
+border-radius: 100px;
+}
+.user-info{
+width: 50%;
+text-align: center;
+color: #fff;
+float: left;
+}
+.user-info h4{
+font-size: 16px;
+margin: 0px;
+}
+.user-info ul{
+padding: 0px;
+margin: 0px;
+}
+.user-info p{
+margin: 0;
+padding-top: 2px;
+font-size: 12px;
+}
+.user-info ul li a{
+text-decoration: none;
+color: #fff;
+margin: 5px 8px;
+font-size: 17px;
+display: inline-block;
+}
+.user-info ul li {
+display: inline;
+}
+.videos {
+margin-left: -40px;
+}
+.user-info{
+width: 50%;
+text-align: center;
+color: #fff;
+float: left;
+}
+.user-info h4{
+font-size: 16px;
+margin: 0px;
+}
+.user-info ul{
+padding: 0px;
+margin: 0px;
+}
+.user-info p{
+margin: 0;
+padding-top: 2px;
+font-size: 12px;
+}
+.user-info ul li a{
+text-decoration: none;
+color: #fff;
+margin: 5px 8px;
+font-size: 17px;
+display: inline-block;
+}
+.user-info ul li {
+display: inline;
+}
 .user-dp{
   width: 50%;
   float: left;
@@ -136,35 +209,9 @@ width: 100px;
 height: 100px;
 border-radius: 100px;
 }
-.user-info{
-  width: 50%;
-  text-align: center;
-  color: #fff;
-  float: left;
-}
-.user-info h4{
-  font-size: 16px;
-  margin: 0px;
-}
-.user-info ul{
-  padding: 0px;
-  margin: 0px;
-}
-.user-info p{
-  margin: 0;
-  padding-top: 2px;
-  font-size: 12px;
-}
-.user-info ul li a{
-  text-decoration: none;
-  color: #fff;
-  margin: 5px 8px;
-  font-size: 17px;
+.profile-folio {
+width: 100%;
+  background: #242232;
+  padding: 25px 0px;
   display: inline-block;
-}
-.user-info ul li {
-  display: inline;
-}
-.videos {
-  margin-left: -40px;
 }

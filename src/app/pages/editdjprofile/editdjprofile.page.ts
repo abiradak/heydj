@@ -29,6 +29,7 @@ export class EditdjprofilePage  {
   userInfo: any;
   image: string;
   imageURI: any;
+  successImage: any
 
   options: CameraOptions = {
     quality: 30,
@@ -39,7 +40,6 @@ export class EditdjprofilePage  {
     correctOrientation: true,
     sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
   };
-  successImage: any;
 
   constructor(
     public router: Router,
@@ -103,14 +103,17 @@ export class EditdjprofilePage  {
         type: file.type
       });
       const formData = new FormData();
-      // formData.append('name', 'ionic');
+      
       formData.append('profileImage', imgBlob, file.name);
       let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      this.helper.presentLoading();
       this.apiGenerate.sendHttpCallWithToken(formData, `/api/user/${userInfo.id}`,
         'put').subscribe((success) => {
+          this.helper.hideLoading();
           console.log('profile image upload >>>>>>' , success);
           this.successImage = success.profileImage
         }, err => {
+          this.helper.hideLoading();
           console.log('profile image error >>>>>>' , err.error);
         })
     };

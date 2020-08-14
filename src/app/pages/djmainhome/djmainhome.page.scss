@@ -155,7 +155,7 @@
     width: 100%;
     background-color: #242232;
     // height: 150px;
-    padding: 60px 0px 90px;
+    padding: 20px 0px;
   }
   .editt {
     width: 100%;
@@ -326,4 +326,51 @@
 
 .newc {
   color: #00ffa9;
+}
+
+
+.user-info{
+  width: 50%;
+  text-align: center;
+  color: #fff;
+  float: left;
+}
+.user-info h4{
+  font-size: 16px;
+  margin: 0px;
+}
+.user-info ul{
+  padding: 0px;
+  margin: 0px;
+}
+.user-info p{
+  margin: 0;
+  padding-top: 2px;
+  font-size: 12px;
+}
+.user-info ul li a{
+  text-decoration: none;
+  color: #fff;
+  margin: 5px 8px;
+  font-size: 17px;
+  display: inline-block;
+}
+.user-info ul li {
+  display: inline;
+}
+.user-dp{
+    width: 50%;
+    float: left;
+    text-align: center;
+    padding-top: 4%;
+}
+.user-dp img{
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+}
+@media only screen and (max-width:375px){
+  .editbtn1{
+    margin-left: 240px;
+  }
 }

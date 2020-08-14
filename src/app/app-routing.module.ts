@@ -13,10 +13,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialModule),
   },
   {
-    path: 'listerner-profile', canActivate: [ActiveGuardService],
-    loadChildren: () => import('./pages/listerner-profile/listerner-profile.module').then(m => m.ListernerProfilePageModule)
-  },
-  {
     path: 'createlistenrerprofile', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/createlistenrerprofile/createlistenrerprofile.module').then(m => m.CreatelistenrerprofilePageModule)
   },

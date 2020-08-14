@@ -10,7 +10,6 @@ import { Storage } from '@ionic/storage';
 import * as jwt_decode from "jwt-decode";
 
 
- 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.page.html',
@@ -19,10 +18,9 @@ import * as jwt_decode from "jwt-decode";
 export class ModalPage implements OnInit {
   loginForm: FormGroup;
   phone: AbstractControl
-  phonenumber: Promise<void>;
-  showSuccessTd: boolean;
+  phonenumber: any;
   token: any;
-  userInfo: Promise<void>;
+  userInfo = {};
   constructor(
     public formbuilder: FormBuilder,
     public modalController: ModalController,
@@ -142,7 +140,7 @@ export class ModalPage implements OnInit {
                   this.helper.presentToast('Login Successfull', 'success');
                   if (response.body.role === 'dj') {
                     localStorage.setItem('dj' , response.body.role);
-                    this.router.navigate(['djmainhome']);
+                    this.router.navigate(['create-portfolio']);
                   } else {
                     this.router.navigate(['mainhome']);
                   }
@@ -163,7 +161,6 @@ export class ModalPage implements OnInit {
     });
     await alert.present();
   }
-
   getDecodedAccessToken(token: string): any {
     try {
       return jwt_decode(token);

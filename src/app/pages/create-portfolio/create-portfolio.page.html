@@ -11,7 +11,26 @@
   <div class="menubar">
     <img src="assets/img/back.png" (click)="back()">
   </div>
-
+  <div class="profile-folio">
+  <div class="col-12">
+    <div class="user-dp">
+      <img src="{{ image }}">
+    </div>
+    <div class="user-info">
+      <h4>{{ djProfile?.firstName }} {{ djProfile?.lastName }}</h4>
+      <p><i class="fa fa-map-marker"></i> {{ djProfile?.city }}, India</p>
+      <ul>
+        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
+      </ul>
+      <p>+{{ djProfile?.phoneNumber }}</p>
+      <!-- <p>{{ userInfo.emailId }}</p> -->
+      <!-- <p>www.johndoe.co.in</p> -->
+    </div>
+  </div>
+  </div>
   <div class="registration-form">
   <form [formGroup]="createPortfolio">
     <div class="form-group row">

@@ -7,6 +7,8 @@ import { Storage } from '@ionic/storage';
 import { HelperService } from '../../helper.service';
 import { DomSanitizer} from '@angular/platform-browser';
 import { error } from 'protractor';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { AppComponent } from '../../app.component';
 
 
 @Component({
@@ -32,7 +34,9 @@ export class CreatePortfolioPage {
     public loadingCtrl: LoadingController,
     public helper: HelperService,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private alertCtrl: AlertController,
+    private appComponent: AppComponent,
   ) {
     this.createPortfolio = formBuilder.group({
       youtubeurl: [''],
@@ -41,6 +45,7 @@ export class CreatePortfolioPage {
   }
 
   ionViewWillEnter() {
+    this.appComponent.sideMenu();
     this.profileInfo();
     this.myPortFolio();
   }
@@ -86,7 +91,6 @@ export class CreatePortfolioPage {
   ////// Video Code //////
 
   async profileInfo() {
-    console.log('entering >>>>>>>>>>');
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.apiGenerate.sendHttpCallWithToken('', `/api/user/${userInfo.id}`,
     'get').subscribe((success: any) => {
@@ -100,6 +104,7 @@ export class CreatePortfolioPage {
   }
 
   async myPortFolio() {
+    this.youtubeUrls = [];
     this.apiGenerate.sendHttpCallWithToken('' , '/api/dj/portfolio' , 'get').subscribe((success) => {
       this.youtubeVideoUrls = success.videoUrls;
       if(this.youtubeVideoUrls.length > 0) {
@@ -129,12 +134,10 @@ export class CreatePortfolioPage {
     })
   }
 
-  async addPortFolioUrls(urls = null) {
-    if(this.createPortfolio.value.youtubeurl || urls != null) {
+  async addPortFolioUrls() {
+    this.helper.presentLoading();
+    if(this.createPortfolio.value.youtubeurl) {
       if(this.youtubeVideoUrls.length > 0) {
-        if(urls != null) {
-          
-        }
         let Urls = [
           this.createPortfolio.value.youtubeurl
         ]
@@ -151,12 +154,15 @@ export class CreatePortfolioPage {
         }
         var method = 'post';
       }
+      
       this.apiGenerate.sendHttpCallWithToken(sendData , '/api/dj/portfolio' , method).subscribe((success) => {
         console.log('adding urs >>>>>>>>>' , success);
         this.helper.presentToast('Video Added To Portfolio' , 'success');
         this.createPortfolio.reset();
-        this.ionViewWillEnter();
+        this.helper.hideLoading();
+        this.myPortFolio();
       } , (error) => {
+        this.helper.hideLoading();
         console.log('errors >>>>>>>' , error);
       });
     } else {
@@ -169,9 +175,48 @@ export class CreatePortfolioPage {
   }
 
   async deleteVideo(url) {
-    var preparedUrl = url.changingThisBreaksApplicationSecurity.replace('https://youtube.com/embed/' ,'https://www.youtube.com/watch?v=');
-    console.log('delete >>>>>>>>>' , preparedUrl);
 
-    this.helper.presentAlert('Process is not Completed','Success');
+    const alert = await this.alertCtrl.create({
+      header: 'Warning',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'cancelbtn',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Delete',
+          cssClass: 'deletebtn',
+          handler: () => {
+            this.helper.presentLoading();
+            const preparedUrl = url.changingThisBreaksApplicationSecurity.replace('https://youtube.com/embed/' ,'https://youtu.be/');
+            const mainArray: any[] = this.youtubeVideoUrls;
+            const outPutArray: any[] = [];
+            for (let i = 0 ; i < mainArray.length ; i++) {
+              if(mainArray[i] != preparedUrl) {
+                outPutArray.push(mainArray[i]);
+              }
+            }
+            var sendData = {
+              videoUrls: outPutArray
+            }
+            this.apiGenerate.sendHttpCallWithToken(sendData , '/api/dj/portfolio' , 'put').subscribe((response: any) => {
+              this.helper.presentToast('Video Deleted', 'success');
+              this.helper.hideLoading();
+              this.myPortFolio();
+            }, err => {
+              console.log(err.error);
+              this.helper.presentToast(err.error , 'danger');
+              this.helper.hideLoading();
+            });
+          }
+        },
+      ]
+    });
+    await alert.present();
   }
 }
+

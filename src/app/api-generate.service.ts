@@ -6,12 +6,12 @@ export const apiUrl = 'https://xug5l9nwo4.execute-api.ap-south-1.amazonaws.com/d
 @Injectable({
   providedIn: 'root'
 })
-
 export class ApiGenerateService {
   alert: any;
   globaldata: any;
   settedValue: any;
-  token = JSON.parse(localStorage.getItem('token'));
+  token: any;
+  
 
   constructor(
     public http: HttpClient,
@@ -20,6 +20,12 @@ export class ApiGenerateService {
     public loadingController: LoadingController,
     public navCtrl: NavController,
     public alertCtrl: AlertController) {
+      this.token = JSON.parse(localStorage.getItem('token'));
+    }
+
+  getToken() {
+    this.token = JSON.parse(localStorage.getItem('token'));
+    return this.token;
   }
 
 
@@ -30,7 +36,7 @@ export class ApiGenerateService {
       const httpOptions = {
         headers: new HttpHeaders({
           'accept': 'aplication/json',
-          Authorization: this.token
+           Authorization: this.getToken()
         })
       };
       console.log('check' , httpOptions);

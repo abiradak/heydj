@@ -88,6 +88,7 @@ export class CreatelistenrerprofilePage  {
           console.log('profile image upload >>>>>>' , success);
           this.successImage = success.profileImage
         }, err => {
+          this.helper.hideLoading();
           console.log('profile image error >>>>>>' , err.error);
         })
     };

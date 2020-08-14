@@ -34,14 +34,14 @@
           <button class="subs-crib" (click) = subLater()>Subscribe Later</button>
         </div>
         <div class="download">
-          <p>Get Subscription</p><span class="custi">{{ price }}<i class="fa fa-usd" aria-hidden="true"></i></span>
+          <p>Get Subscription</p><span class="custi">{{ price }}<i class="fa fa-inr" aria-hidden="true"></i></span>
         </div>
         <div *ngFor = 'let list of songsList' class="artist-song-list">
           <div class="ttl">
             <p>{{ list.title }}</p>
             <span>{{ list.title }} - Nevlin, Richy George, Chow mane</span>
           </div>
-          <div class="dwnld"><svg height="20" viewBox="0 0 512 512" width="20" fill="#a2a2a2" xmlns="http://www.w3.org/2000/svg"><path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0"/></svg></div>
+          <!-- <div class="dwnld"><svg height="20" viewBox="0 0 512 512" width="20" fill="#a2a2a2" xmlns="http://www.w3.org/2000/svg"><path d="m409.785156 278.5-153.785156 153.785156-153.785156-153.785156 28.285156-28.285156 105.5 105.5v-355.714844h40v355.714844l105.5-105.5zm102.214844 193.5h-512v40h512zm0 0"/></svg></div> -->
           <div class="track-option"><i class="fa  fa-ellipsis-v"></i></div>
         </div>
         <ion-range

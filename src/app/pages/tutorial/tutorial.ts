@@ -57,7 +57,7 @@ export class TutorialPage implements OnInit{
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         if(userInfo.role == 'dj') {
           localStorage.setItem('dj' , userInfo.role);
-          this.route.navigateRoot(['djmainhome']);
+          this.route.navigateRoot(['create-portfolio']);
         } else {
           this.route.navigateRoot(['mainhome']);
         }
@@ -83,7 +83,7 @@ export class TutorialPage implements OnInit{
 
           if(userInfo.role == 'dj') {
             localStorage.setItem('dj' , userInfo.role);
-            this.router.navigate(['djmainhome']);
+            this.router.navigate(['create-portfolio']);
           } else {
             this.router.navigate(['mainhome']);
           }

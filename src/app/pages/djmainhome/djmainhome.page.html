@@ -44,43 +44,29 @@
         <img *ngIf= "image" src="{{ image }}">
         <img *ngIf= "!image" src="">
       </div> -->
-      <div class="profile-dj">
-        <form >
-          <div class="row">
-           <div class="col-4">
-              <div class="socoal-link">
-                <a href=""><i class="fa fa-facebook"></i></a>
-                <a href=""><i class="fa fa-linkedin"></i></a>
-                <a href=""><i class="fa fa-instagram"></i></a>
-                <a href=""><i class="fa fa-youtube-play"></i></a>
-              </div>
-            </div>
-           <div class="col-4">
-              <div class="divImage">
-                <!-- <img  [src]="base64Image"> -->
-                <!-- <img *ngIf="base64Image=='' && pflImg==''" src="../../../assets/img/defaultImg.jpg"> -->
-                <img *ngIf= "image" src="{{ image }}">
-                <img *ngIf= "!image" src="">
-                <!-- <img *ngIf="base64Image=='' && pflImg!=''" [src]="pflImg"> -->
-                <span class="editICon">
-                  <ion-icon name="add-circle"></ion-icon>
-                </span>
-                <div class="profile-details">
-                  <h4>{{ djProfile?.firstName }} {{ djProfile?.lastName }}</h4>
-                  <p>+{{ djProfile?.phoneNumber }}</p>
-                  <p><i class="fa fa-map-marker"></i> {{ djProfile?.city }}</p>
-                  <!-- <a href="#">More Info</a> -->
-                </div>
-              </div>
 
-            </div>
-            <div class="col-4">
-              <div class="editt">
-                <ion-button class="editbtn" size="small" color="success" routerLink = "/editdjprofile">Edit</ion-button>
-              </div>
+
+      <div class="profile-dj">
+        <div class="col-12">
+          <div class="user-dp">
+            <img src="{{ image }}">
+          </div>
+          <div class="user-info">
+            <h4>{{ djProfile?.firstName }} {{ djProfile?.lastName }}</h4>
+            <p><i class="fa fa-map-marker"></i> {{ djProfile?.city }}, India</p>
+            <ul>
+              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+              <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
+            </ul>
+            <p>+{{ djProfile?.phoneNumber }}</p>
+            <div class="editt">
+              <ion-button class="editbtn" size="small" color="" routerLink = "/editdjprofile"><i class="fa fa-edit"></i></ion-button>
             </div>
           </div>
-          </form>
+
+      </div>
       </div>
     </div>
     <div class="row">
@@ -146,7 +132,7 @@
                       <span *ngIf = "checkbox === true">
                         <!-- <i [ngClass]="isTicked === true && contentArray.indexOf(audios.id) > -1 ? 'fa fa-check-square-o newc' : 'fa fa-check-square-o'" aria-hidden="true" (click)="songs(audios.id)"></i> -->
                         <i *ngIf = 'isTicked === true && contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(audios.id)"></i>
-                        <i *ngIf = '!contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i>
+                        <!-- <i *ngIf = '!contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i> -->
                       </span>
 										</div>
 									</div></li>

@@ -4,7 +4,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>My-Playlists</ion-title>
+    <ion-title>DJ-Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,44 +22,88 @@
               <button type="submit" class="srch-song"><i class="fa fa-search" aria-hidden="true"></i></button>
             </form>
           </div>
-        </div>
-      </div>
-      </div>
-      <div class="tab-content">
-        <div class="tab-pane active" id="tabs-1" role="tabpanel">
-          <div class="song-tag-list">
-            <h6 class="song-tag">My Playlists <span>More</span></h6>
-          <div class="fe-song-list">
-            <ul>
-              <li *ngFor = "let item of playlist" class="edit-select">
-                <div class="track-list b-r1">
-                <img src="{{ item?.thumbnail }}" (click) = "playVideo(videos)">
-                <div class="ttl">
-                  <h3>{{ item?.title }}</h3>
-                  <span *ngIf = "checkbox === false">
-                    <i class="fa fa-edit" aria-hidden="true" [routerLink] = "['/content-update/', videos.id]"></i>
-                  </span>
-                  <span *ngIf = "checkbox === false">
-                    <i class="fa fa-trash iconc" aria-hidden="true" (click) = "deletePlaylist(videos.id)"></i>
-                  </span>
-                </div>
-                </div>
-              </li>
-  
-            </ul>
+          <div class="menu-list">
+            <!-- <ul>
+              <li>Home</li>
+              <li>Browse</li>
+              <li>Podcasts</li>
+              <li>My Music</li>
+            </ul> -->
           </div>
-          </div>
-          
         </div>
-        
+        <!-- <div class="dj-profile">
+          <i class="fa fa-sign-out" (click)="logout()" aria-hidden="true"></i>
+          <span>Logout</span>
+        </div> -->
+      </div>
       </div>
     </div>
-  </div>
-    
+    <!-- header -->
+    <div class="row">
+      <!-- <div class="profile-bg">
+        <img *ngIf= "image" src="{{ image }}">
+        <img *ngIf= "!image" src="">
+      </div> -->
+
+
+      <div class="profile-dj">
+        <div class="col-12">
+          <div class="user-dp">
+            <img src="{{ image }}">
+          </div>
+          <div class="user-info">
+            <h4>{{ djProfile?.firstName }} {{ djProfile?.lastName }}</h4>
+            <p><i class="fa fa-map-marker"></i> {{ djProfile?.city }}, India</p>
+            <ul>
+              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+              <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
+            </ul>
+            <p>+{{ djProfile?.phoneNumber }}</p>
+          </div>
+
+      </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="profile-recomend">
+          <ul class="nav nav-tabs" role="tablist">
+            <li>
+              <ion-button class="editbtn1" size="small" color="success" [routerLink] = "['/djmainhome']">Add Playlist</ion-button>
+            </li>
+
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+              <div class="song-tag-list">
+                <h6 class="song-tag">My All Playlists <span>More</span></h6>
+              <div class="fe-song-list">
+                <ul>
+                  <li *ngFor = "let videos of playlist" class="edit-select">
+                    <div class="track-list b-r1">
+										<img src="{{ videos?.thumbnail }}" (click) = "playVideo(videos)">
+										<div class="ttl">
+											<h3>{{ videos?.title }}</h3>
+                      <span *ngIf = "checkbox === false">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                      </span>
+                      <span *ngIf = "checkbox === false">
+                        <i class="fa fa-trash iconc" aria-hidden="true"></i>
+                      </span>
+                      <span *ngIf = "checkbox === true">
+                        <i class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(videos.id)"></i>
+                      </span>
+										</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
 </ion-content>
-
-
-
-
-
 
