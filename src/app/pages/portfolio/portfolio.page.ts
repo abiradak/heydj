@@ -39,6 +39,10 @@ export class PortfolioPage {
     this.getPortFolioDetails();
   }
 
+  back() {
+    this.helper.goBack();
+  }
+
   async getPortFolioDetails() {
     const id = this.route.snapshot.paramMap.get('id');
     this.apiGenerate.sendHttpCall('' , `/api/portfolio/${id}` , 'get').subscribe((success) => {
@@ -56,6 +60,9 @@ export class PortfolioPage {
       } else {
         console.log('no video found >>>>>>>');
       }
+    } , (err) => {
+      this.helper.presentToast(err.error , 'danger');
+      this.router.navigate(['mainhome']);
     });
   }
 

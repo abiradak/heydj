@@ -45,11 +45,12 @@ export class DjmainhomePage {
     this.getDjAllContent();
   }
 
-  refresh() {
-    this.ngZone.run(() => {
-      console.log('force update the screen');
-    });
-  }
+  // refresh() {
+  //   this.ngZone.run(() => {
+  //     console.log('Hiii');
+  //     this.getDjAllContent();
+  //   });
+  // }
   getUserInfo() {
     console.log('entering >>>>>>>>>>');
     // this.helper.presentLoading();
@@ -82,7 +83,6 @@ export class DjmainhomePage {
       this.getUserInfo();
       console.log('getting contents >>>>>>>>>' , this.videoContent);
     } , (error) => {
-      this.refresh();
       console.log('error coming >>>>>>>' , error);
     })
   }

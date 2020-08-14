@@ -5,6 +5,9 @@
 </ion-header>
 
 <ion-content>
+  <div class="menubar">
+    <img src="assets/img/back.png" (click)="back()">
+  </div>
 <div class="profile-folio">
   <div class="container">
     <div class="row">
@@ -47,13 +50,6 @@
         [src]="videos" frameborder="0"
           allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
         </iframe>
-        <!-- <button (click)="playPause()">Play/Pause</button>
-        <button (click)="makeBig()">Big</button>
-        <button (click)="makeSmall()">Small</button>
-        <button (click)="makeNormal()">Normal</button>
-        <button (click)="restart();">Restart</button>
-        <button (click)="skip(-10)">Rewind</button>
-        <button (click)="skip(10)">Fastforward</button> -->
       </div>
 
       <div class="paly-song"></div>
