@@ -71,7 +71,11 @@ const routes: Routes = [
   {
     path: 'profit', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/profit/profit.module').then( m => m.ProfitPageModule)
+  },  {
+    path: 'subscriptions',
+    loadChildren: () => import('./pages/subscriptions/subscriptions.module').then( m => m.SubscriptionsPageModule)
   },
+
 
 
 ];

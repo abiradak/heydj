@@ -105,7 +105,7 @@ export class CreatePlaylistPage  {
       }
     }, (err) => {
       console.log('error >>>>>>>>>', err);
-    })
+    });
   }
 
   async sampleContenForVideo() {
@@ -215,5 +215,9 @@ export class CreatePlaylistPage  {
           })
         }
     })
+  }
+
+  back() {
+    this.router.navigate(['djmainhome']);
   }
 }

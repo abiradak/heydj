@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { MusicService } from '../../music.service';
 import { Media } from '@ionic-native/media/ngx';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
-import { AppComponent } from '../../app.component';
-import { NgZone  } from '@angular/core';
+
 
 
 
@@ -38,6 +37,8 @@ export class DjmainhomePage {
   ) { }
 
   ionViewWillEnter() {
+    this.checkbox = false;
+    this.isTicked = false;
     this.getDjAllContent();
   }
 
@@ -152,8 +153,6 @@ export class DjmainhomePage {
   async deleteSongs(id) {
     let position  = this.contentArray.indexOf(id);
     this.contentArray.splice(position , 1);
-    // this.isTicked = false;
-
   }
  
   async addPlaylist() {
