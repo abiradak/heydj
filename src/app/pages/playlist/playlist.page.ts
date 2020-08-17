@@ -23,7 +23,6 @@ export class PlaylistPage implements  AfterViewInit {
 
   @ViewChild('player', { static: false }) public playerElementRef:  ElementRef;
 
-
   isPlaying = false;
   isLoading = false;
   currentTime = 0;
@@ -43,9 +42,7 @@ export class PlaylistPage implements  AfterViewInit {
   playing = false;
   price: any;
   songUrl: any = '';
-  // songUrl: 'https://heydj-images-bucket-rt3ea5hg-dev.s3.ap-south-1.amazonaws.com/music/1593726681354-testSong.mp3';
   
-
   constructor(
     public router: Router,
     private route: ActivatedRoute,
@@ -297,7 +294,6 @@ export class PlaylistPage implements  AfterViewInit {
 
 
   // Razor Pay Code //
-
   async payWithrazor(val) {
     const { amount, id } = val;
     console.log(
@@ -328,7 +324,7 @@ export class PlaylistPage implements  AfterViewInit {
       currency: "INR",
       name: "Hey DJ", // company name or product name
       description: "Hey DJ", // product description
-      image: `../../../assets/img/logo.png`, // company logo or product image
+      image: "../../../assets/img/logo.png", // company logo or product image
       order_id: id, // order_id created by you in backend
       // account_id,
       modal: {
@@ -341,13 +337,20 @@ export class PlaylistPage implements  AfterViewInit {
     }
 
     var successCallback = function (payment_id) {
-      alert('payment_id: ' + payment_id);
+      // alert('payment_id: ' + payment_id);
+      this.successPayment(payment_id);
     };
 
     var cancelCallback = function (error) {
-      alert(error.description + ' (Error ' + error.code + ')');
+      // alert(error.description + ' (Error ' + error.code + ')');
+      //  this.cancelError(error);
     };
 
     RazorpayCheckout.open(options, successCallback, cancelCallback);
+  }
+
+  successPayment(payment_id) {
+    this.helper.presentToast('Payment Successfully Done' , 'success');
+    this.router.navigate(['subscriptions']);
   }
 }

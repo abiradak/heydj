@@ -1,9 +1,88 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>subscriptions</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Subscriptions</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+<div class="container">
+  <div class="row">
+    <div class="dj-header">
+      <div class="col-md-12">
+      <div class="dj-logo"><img src="../../../assets/img/logo.png"></div>
+      <div class="dj-menu-list">
+        <div class="search">
+          <input type="text" placeholder="Search" (keyup)="onKeyup(searchvalue)" [(ngModel)] = "searchvalue" >
+          <button type="submit" class="srch-song"><i class="fa fa-search" aria-hidden="true" (click)="search()"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 
+  
+
+  <div class="row">
+    <div class="play-list-content">
+      <div class="featured-play-list">
+        <h3>Current Subscriptions
+          <span>More</span>
+        </h3>
+        <h3 *ngIf = "empty1 === true">No Subscription Avialable For Now!</h3>
+        <div *ngIf = "empty1 === false" class="genrs-list">
+          <ul>
+            <li *ngFor = "let current of nowSub">
+              <div class="track-list">
+                    <img src="../../../assets/img/genres-1.png" [routerLink] = "['/nowplay/', current.id]">
+                    <div class="ttl">
+                      <h3>Bollywood</h3>
+                    </div>
+                  </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="featured-play-list">
+        <h3>Upcoming Subscriptions
+          <span>More</span>
+        </h3>
+        <h3 *ngIf = "empty3 === true">No Subscription Avialable For Now!</h3>
+        <div *ngIf = "empty3 === false" class="genrs-list">
+          <ul>
+            <li *ngFor = "let coming of upcomingSub">
+              <div class="track-list">
+                <img src="../../../assets/img/genres-1.png" [routerLink] = "['/laterplay/', coming.id]">
+                <div class="ttl">
+                  <h3>Bollywood</h3>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="featured-play-list">
+        <h3>Expired Subscriptions
+          <span>More</span>
+        </h3>
+        <h3 *ngIf = "empty2 === true">No Subscription Avialable For Now!</h3>
+        <div *ngIf = "empty2 === false" class="genrs-list">
+          <ul>
+            <li *ngFor = "let expire of expiredSub">
+              <div class="track-list">
+                    <img src="../../../assets/img/genres-1.png">
+                    <div class="ttl">
+                      <h3>Bollywood</h3>
+                    </div>
+                  </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </ion-content>

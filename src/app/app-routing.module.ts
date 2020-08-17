@@ -71,13 +71,20 @@ const routes: Routes = [
   {
     path: 'profit', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/profit/profit.module').then( m => m.ProfitPageModule)
-  },  {
-    path: 'subscriptions',
+  },
+  {
+    path: 'subscriptions', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/subscriptions/subscriptions.module').then( m => m.SubscriptionsPageModule)
   },
+  {
+    path: 'nowplay/:id', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./pages/nowplay/nowplay.module').then( m => m.NowplayPageModule)
+  },
 
-
-
+  {
+    path: 'laterplay/:id', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./pages/laterplay/laterplay.module').then( m => m.LaterplayPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,30 @@
+
+
+<ion-content>
+  <div class="menubar">
+    <img src="assets/img/back.png" (click)="back()">
+  </div>
+  <div class="profile-folio">
+    <div class="container">
+      <div class="row">
+       <div class="col-12">
+         <div class="single-track">
+           <h2 class="test">{{ response.title }}</h2>
+           <div class="div-song">
+             <div class="song-dp"><img class="mainimg" src="{{ response.thumbnail }}"></div>
+             <div class="song-txt" *ngFor = "let content of response.content">
+               <p><span>Title:</span>{{ content.title }}</p>
+               <p><span>Duration:</span>{{content.duration }} mins</p>
+               <a (click) = "playContent(content.content)">Play</a>
+             </div>
+           </div>
+           <div class="strt-end-time">
+            <p><span>Started At: </span>{{ this.start }} {{ startTime }}</p>
+            <p><span>Ends At: </span>{{ this.start }} {{ startTime }}</p>
+           </div>
+         </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

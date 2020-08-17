@@ -1,0 +1,52 @@
+.profile-folio {
+    width: 100%;
+    background: #242232;
+    height: 100%;
+    padding: 25px 0px;
+  }
+  .single-track h1, .single-track h3{
+    color: #fff;
+  }
+  .div-song {
+    width: 100%;
+    display: inline-block;
+  }
+  .song-dp {
+    width: 30%;
+      float: left;
+      border-radius: 10px;
+      overflow: hidden;
+  }
+  .song-txt {
+    width: 70%;
+    float: left;
+    padding-left: 15px;
+  }
+  .strt-end-time p, .song-txt p{
+    color: #fff;
+    margin: 0;
+    font-size: 12px;
+    padding-bottom: 5px;
+  }
+  .song-txt p span, .strt-end-time p span{
+    color: #00c4ff;
+  }
+  .song-txt a{
+    color: #fff;
+      background: #00c4ff;
+      padding: 5px 35px;
+      border-radius: 30px;
+      font-size: 14px;
+  }
+  .menubar{
+    z-index: 999;
+    top: -31px;
+    left: 22px;
+    background: #000000;
+  }
+  .test {
+    color: #fff;
+  }
+  .mainimg {
+    height: 180px;
+  }

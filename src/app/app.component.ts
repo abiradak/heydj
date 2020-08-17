@@ -142,7 +142,7 @@ export class AppComponent  {
         },
         {
           title: 'Subcription',
-          url: '/mainhome',
+          url: '/subscriptions',
           icon: 'information-circle'
         },
       ]  
