@@ -32,7 +32,6 @@ import { Network } from '@ionic-native/network/ngx';
 
 
 
-
 @NgModule({
   imports: [
     BrowserModule,

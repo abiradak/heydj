@@ -74,6 +74,7 @@
     "cordova-sqlite-storage": "^5.0.0",
     "core-js": "^3.6.4",
     "firebase": "^7.15.5",
+    "howler": "^2.2.0",
     "ionic-plugin-deeplinks": "^1.0.20",
     "jwt-decode": "^2.2.0",
     "rxjs": "^6.5.4",

@@ -8,11 +8,13 @@ import { ApiGenerateService } from '../../api-generate.service';
   templateUrl: './nowplay.page.html',
   styleUrls: ['./nowplay.page.scss'],
 })
+
 export class NowplayPage {
   response = {};
   start: any;
   startTime: any;
   endtime: any;
+  audio: HTMLAudioElement;
 
   constructor(
     private router : Router,
@@ -34,19 +36,20 @@ export class NowplayPage {
     const id = this.route.snapshot.paramMap.get('id');
     this.apiGenerate.sendHttpCallWithToken('' , `/api/subscription/${id}` ,'get').subscribe((success) => {
       console.log('response coming >>>>>>>' , success);
+      
       const starting = success.startFrom.split("T");
       this.start = starting[0];
       const startingTime = starting[1].split("+");
       this.startTime = startingTime[0];
       const lastTime = this.startTime.split(":");
-      this.getPlalist(success.playlistId);
+      this.getPlaylist(success.playlistId);
       console.log('endtime>>>>>>>>' , this.endtime);
     }, (error) => {
       console.log('errors coming >>>>>>' , error);
     })
   }
 
-  async getPlalist(id) {
+  async getPlaylist(id) {
     this.apiGenerate.sendHttpCallWithToken('' , `/api/playlist/${id}` , 'get').subscribe((success) => {
       console.log('gettin playlist >>>>>>>>' , success);
       this.response = success;
@@ -56,9 +59,18 @@ export class NowplayPage {
   }
 
   async playContent(content) {
-    var audio = new Audio();
-    audio.src = content;
-    audio.load();
-    audio.play();
+    console.log('content >>>>>>', content);
+    this.audio = new Audio();
+    this.audio.src = content;
+    this.audio.load();
+    this.audio.play();
+  }
+  
+  pause() {
+    this.audio.pause();
+  }
+
+  seek(){
+    this.audio.fastSeek(3);
   }
 }

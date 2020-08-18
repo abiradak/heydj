@@ -15,7 +15,7 @@
              <div class="song-txt" *ngFor = "let content of response.content">
                <p><span>Title:</span>{{ content.title }}</p>
                <p><span>Duration:</span>{{content.duration }} mins</p>
-               <a (click) = "playContent(content.content)">Play</a>
+               <a (click) = "playContent(response.content)">Play</a>
              </div>
            </div>
            <div class="strt-end-time">
@@ -26,5 +26,25 @@
        </div>
       </div>
     </div>
+    <div class="player-controls">
+      <button ion-button (click)="skipBackward()">
+        <ion-icon name="skip-backward"></ion-icon>
+      </button>
+      <button ion-button (click)="rewind()">
+        <ion-icon name="rewind"></ion-icon>
+      </button>
+
+      <button ion-button (click)="fastForward()">
+        <ion-icon name="fastforward"></ion-icon>
+      </button>
+      <button ion-button (click)="skipForward()">
+        <ion-icon name="skip-forward"></ion-icon>
+      </button>
+    </div>
+
+    <div class="player-progress">
+      <div class="player-progress--inner" [style.width.%]="progress"></div>
+    </div>
   </div>
+  
 </ion-content>
