@@ -126,6 +126,11 @@ export class AppComponent  {
     } else {
       this.appPages = [
         {
+          title: 'Home',
+          url: '/mainhome',
+          icon: 'people-circle',
+        },
+        {
           title: 'Profile',
           url: '/createlistenrerprofile',
           icon: 'people-circle',

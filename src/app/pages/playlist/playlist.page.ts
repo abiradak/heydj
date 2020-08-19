@@ -18,7 +18,7 @@ const opts = {
 })
 export class PlaylistPage implements  AfterViewInit {
   
-  // @Input() public src: string;
+   @Input() public src: string;
   // @ViewChild('player', opts) playerElementRef: ElementRef;  
 
   @ViewChild('player', { static: false }) public playerElementRef:  ElementRef;
@@ -67,17 +67,6 @@ export class PlaylistPage implements  AfterViewInit {
     this.songUrl = url;
     
     this._player.play();
-
-    // var playPromise = this._player.play();
-
-    // if (playPromise !== undefined) {
-    //   playPromise.then(_ => {
-    //     console.log('cghghhv');
-    //   })
-    //   .catch(error => {
-    //     console.log('error >>' , error);
-    //   });
-    // }
     console.log('src >>>>><<<<' , this._player.currentSrc);
   }
 
