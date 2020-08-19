@@ -30,6 +30,8 @@ export class MainhomePage  {
   newArray: any[] = [];
   searchvalue: any = '';
   isSearched: boolean = false;
+  audio = [];
+  video = [];
   
 
   constructor(
@@ -45,6 +47,8 @@ export class MainhomePage  {
 
 
   ionViewWillEnter() {
+    this.audio = [];
+    this.video = [];
     this.getAllContents();
     this.getGenreList();
     this.allFeaturePlaylist();
@@ -116,6 +120,16 @@ export class MainhomePage  {
     this.apiGenerate.sendHttpCall('' , '/api/featured' , 'get').subscribe((success) => {
       console.log('feature list >>>>>>' , success.body.playlists);
       this.featureList = success.body.playlists;
+      console.log('audio array >>>>>>>>' , this.featureList);
+      this.featureList.forEach(element => {
+        if(element.sampleType == 'audio') {
+          this.audio.push(element)
+        } else if(element.sampleType == 'video') {
+          this.video.push(element);
+        }
+      });
+      console.log('audio array >>>>>>>>' , this.audio);
+      console.log('video array >>>>>>>>' , this.video);
       this.songArraymake();
     } , error => {
       console.log('music list>>>>>>>>', error.error);

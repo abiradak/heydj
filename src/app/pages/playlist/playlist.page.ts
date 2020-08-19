@@ -18,7 +18,7 @@ const opts = {
 })
 export class PlaylistPage implements  AfterViewInit {
   
-   @Input() public src: string;
+  // @Input() public src: string;
   // @ViewChild('player', opts) playerElementRef: ElementRef;  
 
   @ViewChild('player', { static: false }) public playerElementRef:  ElementRef;
@@ -41,7 +41,7 @@ export class PlaylistPage implements  AfterViewInit {
   bottomSongname: any;
   playing = false;
   price: any;
-  songUrl: any = '';
+  
   
   constructor(
     public router: Router,
@@ -64,10 +64,8 @@ export class PlaylistPage implements  AfterViewInit {
 
   async play(url) {
     this.playing = true;
-    this.songUrl = url;
-    
+    this._player.src = url;
     this._player.play();
-    console.log('src >>>>><<<<' , this._player.currentSrc);
   }
 
   pause(): void {
@@ -78,6 +76,8 @@ export class PlaylistPage implements  AfterViewInit {
   seek({ detail: { value } }: { detail: { value: number } }): void {
       this._player.currentTime = value;
   }
+
+  
 
   private _bindPlayerEvents(): void {
       this._player.addEventListener('playing', () => {

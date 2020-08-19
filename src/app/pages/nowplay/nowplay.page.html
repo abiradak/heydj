@@ -1,7 +1,7 @@
 
 <audio
     #player
-    [src]="src">
+    src = "">
 </audio>
 <ion-content>
   <div class="menubar">
@@ -17,8 +17,7 @@
              <div class="song-dp"><img class="mainimg" src="{{ response.thumbnail }}"></div>
              <div class="song-txt" *ngFor = "let content of contentUrl">
                <p><span>Title:</span>{{ content.title }}</p>
-               <!-- <p><span>Duration:</span>{{content.duration }} mins</p> -->
-               <a (click) = "playContent(content.content)">Play</a>
+               <a (click) = "playContent(content.content , content.type)">Play</a>
              </div>
            </div>
            <div class="strt-end-time">
@@ -44,9 +43,17 @@
           <li><i class="fa fa-forward" (click)= "seek()"></i></li>
         </ul>
       </div>
-      <div class="progress-bar">
-
-      </div>
+      <!-- <div class="progress-bar"> -->
+        <!-- <ion-range
+          min="0"
+          [max]="duration"
+          [value]="currentTime"
+          (ionChange)="seeking($event)"
+          color="light">
+          <ion-label color="light" slot="start">{{ currentTime }}</ion-label>
+          <ion-label color="light" slot="end">{{ duration }}</ion-label>
+        </ion-range> -->
+      <!-- </div> -->
 </div>
   </div>
   

@@ -82,17 +82,11 @@
                 <ul>
                   <li *ngFor = "let videos of playlist" class="edit-select">
                     <div class="track-list b-r1">
-										<img src="{{ videos?.thumbnail }}" (click) = "playVideo(videos)">
+										<img src="{{ videos?.thumbnail }}">
 										<div class="ttl">
 											<h3>{{ videos?.title }}</h3>
-                      <span *ngIf = "checkbox === false">
-                        <i class="fa fa-edit" aria-hidden="true"></i>
-                      </span>
-                      <span *ngIf = "checkbox === false">
+                      <span>
                         <i class="fa fa-trash iconc" aria-hidden="true"></i>
-                      </span>
-                      <span *ngIf = "checkbox === true">
-                        <i class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(videos.id)"></i>
                       </span>
 										</div>
                     </div>

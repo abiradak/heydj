@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input } from '
 import { Router, ActivatedRoute } from '@angular/router';
 import { HelperService } from '../../helper.service';
 import { ApiGenerateService } from '../../api-generate.service';
+import { MusicService } from '../../music.service';
 
 @Component({
   selector: 'app-nowplay',
@@ -12,7 +13,6 @@ import { ApiGenerateService } from '../../api-generate.service';
 
 export class NowplayPage implements  AfterViewInit {
 
-  // @Input() public src: string;
   @ViewChild('player', { static: false }) public playerElementRef:  ElementRef;
 
   isPlay = false;
@@ -20,9 +20,6 @@ export class NowplayPage implements  AfterViewInit {
   currentTime = 0;
   duration = 0;
   private _player: HTMLAudioElement;
-
-
-
 
   response = {};
   start: any;
@@ -32,18 +29,15 @@ export class NowplayPage implements  AfterViewInit {
   contentUrl = [];
   isPlaying = false;
   showPlay = false;
-  songUrl: any;
-  src: string;
+
 
   constructor(
     private router : Router,
     public helper: HelperService,
     public apiGenerate: ApiGenerateService,
     private route: ActivatedRoute,
+    private music: MusicService,
   ) { }
-
-  ngOnInit() {
-  }
 
   ionViewWillEnter() {
     this.subdetails();
@@ -54,9 +48,15 @@ export class NowplayPage implements  AfterViewInit {
     this._bindPlayerEvents();
   }
 
-  // ffh
-  async playContent(url) {
-    console.log('src 000>>>>><<<<' , url);
+  async playContent(url , type) {
+    if(type == 'audio') {
+      this.play(url);
+    } else if(type == 'video') {
+      this.music.PlayVideo(url);
+    }
+  }
+
+  async play(url) {
     this.isPlaying = true;
     this.showPlay = true;
     this._player.src = url;
@@ -73,8 +73,12 @@ export class NowplayPage implements  AfterViewInit {
     this._player.play();
   }
 
-  seek({ detail: { value } }: { detail: { value: number } }): void {
-      this._player.currentTime = value;
+  seeking({ detail: { value } }: { detail: { value: number } }): void {
+    this._player.currentTime = value;
+  }
+
+  seek(): void {
+    this._player.currentTime = this._player.currentTime + 10;
   }
 
   private _bindPlayerEvents(): void {
@@ -87,10 +91,8 @@ export class NowplayPage implements  AfterViewInit {
       });
 
       // this._player.addEventListener('timeupdate', () => {
-      //     this.currentTime = Math.floor(this._player.currentTime);
+      //   this.currentTime = Math.floor(this._player.currentTime);
       // });
-
-
 
       this._player.addEventListener('seeking', () => {
           this.isLoading = true;
@@ -108,10 +110,12 @@ export class NowplayPage implements  AfterViewInit {
           this.isLoading = false;
           this.duration = Math.floor(this._player.duration);
       });
-      console.log('src >>>>><<<<' , this._player.currentSrc);
-      // this._player.load();
+
+      this._player.addEventListener('ended' , () => {
+        this.showPlay = false;
+      });
   }
-  // jdbfvbs
+  
 
   back() {
     this.router.navigate(['subscriptions']);
@@ -141,27 +145,4 @@ export class NowplayPage implements  AfterViewInit {
       console.log('errors >>>>' , error);
     });
   }
-
-  // async playContent(content) {
-  //   this.isPlaying = true;
-  //   this.showPlay = true;
-  //   this.audio = new Audio();
-  //   this.audio.src = content;
-  //   this.audio.load();
-  //   this.audio.currentTime = 0;
-  //   this.audio.play();
-  // }
-  
-  // pause() {
-  //   this.showPlay = false;
-  //   this.audio.pause();
-  // }
-
-  // resume() {
-  //   this.showPlay = true;
-  //   this.audio.play();
-  // }
-  // seek(){
-  //   this.audio.fastSeek(10);
-  // }
 }

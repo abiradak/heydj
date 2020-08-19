@@ -78,9 +78,9 @@ export class AppComponent  {
   }
 
   sideMenu(){
-    console.log('calling');
     const isdj = localStorage.getItem('dj');
-    if(isdj == 'dj') {
+    const token = localStorage.getItem('token');
+    if(isdj == 'dj' && token) {
       this.appPages = [
         {
           title: 'Dashboard',
@@ -123,7 +123,7 @@ export class AppComponent  {
           icon: 'information-circle'
         },
       ]  
-    } else {
+    } else if(token) {
       this.appPages = [
         {
           title: 'Home',
@@ -151,6 +151,29 @@ export class AppComponent  {
           icon: 'information-circle'
         },
       ]  
+    } else {
+      this.appPages = [
+        {
+          title: 'Home',
+          url: '/mainhome',
+          icon: 'people-circle',
+        },
+        {
+          title: 'Profile',
+          url: '/createlistenrerprofile',
+          icon: 'people-circle',
+        },
+        {
+          title: 'Playlist',
+          url: '/userdashboard',
+          icon: 'map'
+        },
+        {
+          title: 'Messages',
+          url: '/mainhome',
+          icon: 'information-circle'
+        },
+      ]  
     }
   }
 
@@ -166,7 +189,6 @@ export class AppComponent  {
       return true;
     } else {
       return false;
-      // this.router.navigate(['mainhome']);
     }
   }
 
@@ -183,6 +205,7 @@ export class AppComponent  {
       this.router.navigate(['mainhome']);
     }
     this.sideMenu();
+    this.router.navigate(['mainhome']);
     this.helper.presentToast('Successfully Logged Out' , 'success');
   }
 }

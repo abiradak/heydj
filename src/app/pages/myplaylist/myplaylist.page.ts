@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { MusicService } from '../../music.service';
 import { Media } from '@ionic-native/media/ngx';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
+
 
 @Component({
   selector: 'app-myplaylist',
@@ -51,9 +51,12 @@ export class MyplaylistPage  {
     this.apiGenerate.sendHttpCallWithToken('', '/api/dj/playlist' ,'get').subscribe((success) => {
       console.log('getting plalist' , success);
       this.playlist = success.playlists;
-      this.helper.presentAlert('Work In Progress(Code Done)' , 'warning')
     }, (error) => {
 
     });
+  }
+
+  async deletePlaylist() {
+    
   }
 }
