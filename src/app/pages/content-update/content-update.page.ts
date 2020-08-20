@@ -12,7 +12,7 @@ import { File } from '@ionic-native/file/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
 @Component({
   selector: 'app-content-update',

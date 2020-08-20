@@ -14,7 +14,7 @@ import { File } from '@ionic-native/file/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 100 * 1024 * 1024;
 const ALLOWED_MIME_TYPE_VIDEO = 'video/mp4';
 const ALLOWED_MIME_TYPE_AUDIO = 'audio/mpeg';
 
@@ -175,8 +175,12 @@ export class CreatePlaylistPage  {
           console.log("Upload progress");
           const comingtotal =  event.total/1000000;
           const comingprogress = event.loaded/1000000;
-          this.total = comingtotal.toFixed(1);
-          this.progress = comingprogress.toFixed(1);
+          const tot = JSON.parse(comingtotal.toFixed(1));
+          const up = JSON.parse(comingprogress.toFixed(1));
+          this.total = tot;
+          const pro = up/tot;
+          const newP = pro.toFixed(1);
+          this.progress = JSON.stringify(newP);
         }
         if (event.type === HttpEventType.Response) {
           console.log('Upload Complete');
@@ -197,8 +201,13 @@ export class CreatePlaylistPage  {
               console.log("Upload progress");
               const comingtotal =  event.total/1000000;
               const comingprogress = event.loaded/1000000;
-              this.total = comingtotal.toFixed(1);
-              this.progress = comingprogress.toFixed(1);
+              const tot = JSON.parse(comingtotal.toFixed(1));
+              const up = JSON.parse(comingprogress.toFixed(1));
+              this.total = tot;
+              const pro = up/tot;
+              const newP = pro.toFixed(1);
+              this.progress = JSON.stringify(newP);
+              
             }
             if (event.type === HttpEventType.Response) {
               this.helper.presentToast('Playlist Created' , 'success');
