@@ -80,7 +80,10 @@ export class AppComponent  {
   sideMenu(){
     const isdj = localStorage.getItem('dj');
     const token = localStorage.getItem('token');
+    console.log('isdj here >>>>>>>' , isdj);
+    console.log('isdj here >>>>>>>' , token);
     if(isdj == 'dj' && token) {
+      console.log('dj here >>>>>>>');
       this.appPages = [
         {
           title: 'Dashboard',
@@ -124,6 +127,7 @@ export class AppComponent  {
         },
       ]  
     } else if(token) {
+      console.log('user here >>>>>>>');
       this.appPages = [
         {
           title: 'Home',
@@ -152,6 +156,7 @@ export class AppComponent  {
         },
       ]  
     } else {
+      console.log('Login here >>>>>>>');
       this.appPages = [
         {
           title: 'Home',

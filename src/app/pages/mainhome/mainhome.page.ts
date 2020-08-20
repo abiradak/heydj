@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HelperService } from '../../helper.service';
 import { ApiGenerateService } from '../../api-generate.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AppComponent } from '../../app.component';
 
 
 @Component({
@@ -39,13 +40,15 @@ export class MainhomePage  {
     private router : Router,
     public helper: HelperService,
     public apiGenerate: ApiGenerateService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private appComponent: AppComponent,
   ) {
     
    }
 
 
   ionViewWillEnter() {
+    this.appComponent.sideMenu();
     this.audio = [];
     this.video = [];
     this.getAllContents();
