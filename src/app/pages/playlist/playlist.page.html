@@ -16,10 +16,10 @@
             <h6>Hey DJ</h6>
             <p>Queue {{ noSongs }} Songs</p>
             <ul>
-              <li><i class="fa fa-angle-double-left"></i></li>
-              <li><i *ngIf = "playing === false" class="fa fa-play" (click)="play()"></i></li>
+              <li><i class="fa fa-angle-double-left" (click) = "seek(-10)"></i></li>
+              <li><i *ngIf = "playing === false" class="fa fa-play" (click)="resume()"></i></li>
               <li><i *ngIf = "playing === true" class="fa fa-pause" (click)="pause()"></i></li>
-              <li><i class="fa fa-angle-double-right"></i></li>
+              <li><i class="fa fa-angle-double-right" (click) = "seek(10)"></i></li>
             </ul>
           </div>
         <div class="subscrip-btn">
@@ -46,7 +46,7 @@
           <ion-label color="light" slot="start">{{ currentTime }}</ion-label>
           <ion-label color="light" slot="end">{{ duration }}</ion-label>
         </ion-range> -->
-        <div *ngIf = "playing === true" class="fixed-play-pause">
+        <!-- <div *ngIf = "playing === true" class="fixed-play-pause">
 
         <div class="song-icon">
           <img src="{{ bottomSongImg }}">
@@ -56,7 +56,7 @@
             <span>{{ bottomSongname }} - Nevlin</span>
         </div>
         <div class="song-paly"><i class="fa fa-play"></i></div>
-        </div>
+        </div> -->
         </div>
       </div>
     </div>

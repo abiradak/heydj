@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { ApiGenerateService } from '../../api-generate.service';
 import { HelperService } from '../../helper.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MusicService } from '../../music.service';
 import { Media } from '@ionic-native/media/ngx';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 
+
 @Component({
-  selector: 'app-djmainhome',
-  templateUrl: './djmainhome.page.html',
-  styleUrls: ['./djmainhome.page.scss'],
+  selector: 'app-editplaylist',
+  templateUrl: './editplaylist.page.html',
+  styleUrls: ['./editplaylist.page.scss'],
 })
-export class DjmainhomePage {
+export class EditplaylistPage {
 
   djProfile: any;
   image: any;
@@ -30,7 +31,8 @@ export class DjmainhomePage {
     private music: MusicService,
     private media: Media,
     private alertCtrl: AlertController,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private route: ActivatedRoute
   ) { }
 
   ionViewWillEnter() {
@@ -155,8 +157,70 @@ export class DjmainhomePage {
   async addPlaylist() {
     this.checkbox = true;
   }
+
+  
   async playList() {
-    this.router.navigate(['create-playlist', this.contentArray]);
+    const alert = await this.alertCtrl.create({
+      header: 'Update PlayList',
+      inputs: [
+        {
+          name: 'title',
+          type: 'text',
+          placeholder: 'Enter Title'
+        },
+        {
+          name: 'price',
+          type: 'number',
+          placeholder: 'Enter Price'
+        },
+        {
+          name: 'sampletype',
+          type: 'text',
+          placeholder: 'Enter Type(Only Audio or Video)'
+        },
+        
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'cancelbtn',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Update',
+          cssClass: 'deletebtn',
+           handler: (data) => {
+            if (data.sampletype && data.title && data.price) {
+              const type = data.sampletype.toLowerCase();
+              const id = this.route.snapshot.paramMap.get('id');
+              const form = new FormData();
+              form.append('title' , data.title);
+              form.append('price' , data.price);
+              form.append('content' , JSON.stringify(this.contentArray));
+              this.helper.presentLoading();
+              this.apiGenerate.sendHttpCallWithToken(form , `/api/dj/playlist/${id}/?sampleType=${type}
+              `, 'put').subscribe((response) => {
+                console.log('subs >>>>>', response);
+                this.helper.presentToast('Playlist Updated Successfully' , 'success');
+                this.helper.hideLoading();
+                this.router.navigate(['myplaylist']);
+              }, (err) => {
+                this.helper.hideLoading();
+                this.helper.presentToast(err.error, 'warning');
+              });
+              this.helper.hideLoading();
+            }
+            else {
+              this.helper.presentToast('Enter All Fields' , 'warning');
+            }
+          }
+        },
+      ]
+    });
+    await alert.present();
   }
 
   back() {

@@ -16,10 +16,7 @@ const opts = {
   templateUrl: './playlist.page.html',
   styleUrls: ['./playlist.page.scss'],
 })
-export class PlaylistPage implements  AfterViewInit {
-  
-  // @Input() public src: string;
-  // @ViewChild('player', opts) playerElementRef: ElementRef;  
+export class PlaylistPage implements  AfterViewInit {  
 
   @ViewChild('player', { static: false }) public playerElementRef:  ElementRef;
 
@@ -63,19 +60,39 @@ export class PlaylistPage implements  AfterViewInit {
   }
 
   async play(url) {
-    this.playing = true;
-    this._player.src = url;
-    this._player.play();
+    if(this.data == 'audio') {
+      this.playing = true;
+      this._player.src = url;
+      this._player.play();
+    } else if(this.data == 'video'){
+      this.helper.presentToast('Video Playing With Player' , 'success');
+      this.playing = true; 
+      this.music.PlayVideo(url);
+    }
+  }
+
+  resume(): void {
+    if(this.data == 'audio') {
+      this._player.play();
+      this.playing = true;
+    } else if(this.data == 'video'){
+      this.helper.presentToast('Video Playing With Player' , 'success');
+      this.playing = true; 
+      this.music.PlayVideo(this.sampleUrl);
+    }
   }
 
   pause(): void {
     this._player.pause();
     this.playing = false;
   }
-
-  seek({ detail: { value } }: { detail: { value: number } }): void {
-      this._player.currentTime = value;
+  seek(number): void {
+    this._player.currentTime = this._player.currentTime+number;
   }
+
+  // seek({ detail: { value } }: { detail: { value: number } }): void {
+  //     this._player.currentTime = value;
+  // }
 
   
 
@@ -91,8 +108,6 @@ export class PlaylistPage implements  AfterViewInit {
       // this._player.addEventListener('timeupdate', () => {
       //     this.currentTime = Math.floor(this._player.currentTime);
       // });
-
-
 
       this._player.addEventListener('seeking', () => {
           this.isLoading = true;
@@ -315,7 +330,6 @@ export class PlaylistPage implements  AfterViewInit {
       description: "Hey DJ", // product description
       image: "../../../assets/img/logo.png", // company logo or product image
       order_id: id, // order_id created by you in backend
-      // account_id,
       modal: {
         escape: false,
       },

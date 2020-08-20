@@ -12,7 +12,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 
 export class MainhomePage  {
-  // searchForm: FormGroup;
   text: string;
   songslist: any;
   pausebutton: boolean;
@@ -32,6 +31,8 @@ export class MainhomePage  {
   isSearched: boolean = false;
   audio = [];
   video = [];
+  audioAll = [];
+  videoAll = [];
   
 
   constructor(
@@ -40,9 +41,7 @@ export class MainhomePage  {
     public apiGenerate: ApiGenerateService,
     private formBuilder: FormBuilder
   ) {
-      // this.searchForm = formBuilder.group({
-      //   search: ['',[Validators.required]],
-      // });
+    
    }
 
 
@@ -91,6 +90,13 @@ export class MainhomePage  {
     'get').subscribe((response) => {
       console.log('music list>>>>>>>>', response.body.playlists);
       this.songslist = response.body.playlists;
+      this.songslist.forEach(element => {
+        if(element.sampleType == 'audio') {
+          this.audioAll.push(element)
+        } else if(element.sampleType == 'video') {
+          this.videoAll.push(element);
+        }
+      });
       this.songArraymake();
     }, error => {
       console.log('music list>>>>>>>>', error.error);
@@ -128,8 +134,6 @@ export class MainhomePage  {
           this.video.push(element);
         }
       });
-      console.log('audio array >>>>>>>>' , this.audio);
-      console.log('video array >>>>>>>>' , this.video);
       this.songArraymake();
     } , error => {
       console.log('music list>>>>>>>>', error.error);

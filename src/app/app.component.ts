@@ -158,21 +158,6 @@ export class AppComponent  {
           url: '/mainhome',
           icon: 'people-circle',
         },
-        {
-          title: 'Profile',
-          url: '/createlistenrerprofile',
-          icon: 'people-circle',
-        },
-        {
-          title: 'Playlist',
-          url: '/userdashboard',
-          icon: 'map'
-        },
-        {
-          title: 'Messages',
-          url: '/mainhome',
-          icon: 'information-circle'
-        },
       ]  
     }
   }

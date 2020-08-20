@@ -84,9 +84,12 @@
                     <div class="track-list b-r1">
 										<img src="{{ videos?.thumbnail }}">
 										<div class="ttl">
-											<h3>{{ videos?.title }}</h3>
+                      <h3>{{ videos?.title }}</h3>
                       <span>
-                        <i class="fa fa-trash iconc" aria-hidden="true"></i>
+                        <i class="fa fa-eye iconcd" [routerLink] = "['/editplaylist' , videos.id]" aria-hidden="true"></i>
+                      </span>
+                      <span>
+                        <i class="fa fa-trash iconc" (click) = "deletePlaylist(videos.id)" aria-hidden="true"></i>
                       </span>
 										</div>
                     </div>

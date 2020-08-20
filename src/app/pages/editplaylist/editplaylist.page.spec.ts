@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { LaterplayPage } from './laterplay.page';
+import { EditplaylistPage } from './editplaylist.page';
 
-describe('LaterplayPage', () => {
-  let component: LaterplayPage;
-  let fixture: ComponentFixture<LaterplayPage>;
+describe('EditplaylistPage', () => {
+  let component: EditplaylistPage;
+  let fixture: ComponentFixture<EditplaylistPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LaterplayPage ],
+      declarations: [ EditplaylistPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LaterplayPage);
+    fixture = TestBed.createComponent(EditplaylistPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

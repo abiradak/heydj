@@ -1,0 +1,73 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit PlayList</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="row">
+        <div class="profile-recomend">
+          <ul class="nav nav-tabs" role="tablist">
+            <li>
+              <ion-button *ngIf = "checkbox === false" class="editbtn1" size="small" color="success" (click) = "addPlaylist()">Choose New</ion-button>
+            </li>
+
+          </ul><!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+              <div class="song-tag-list">
+                <h6 class="song-tag">Videos <span>More</span></h6>
+              <div class="fe-song-list">
+                <ul>
+                  <li *ngFor = "let videos of videoContent" class="edit-select">
+                    <div class="track-list b-r1">
+										<img src="{{ videos?.thumbnail }}" (click) = "playVideo(videos)">
+										<div class="ttl">
+											<h3>{{ videos?.title }}</h3>
+                      <span *ngIf = "checkbox === true">
+                        <i *ngIf = 'isTicked === true && contentArray.indexOf(videos.id) > -1' class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(videos.id)"></i>
+                        <i *ngIf = '!contentArray.indexOf(videos.id) > -1' class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(videos.id)"></i>
+                      </span>
+										</div>
+                    </div>
+                  </li>
+
+                </ul>
+              </div>
+              </div>
+              <div class="song-tag-list">
+                <h6 class="song-tag">Audios <span>More</span></h6>
+              <div class="fe-song-list ado">
+                <ul>
+                  <li *ngFor = "let audios of audioContent" class="edit-select">
+                    <div class="track-list">
+										<img src="{{ audios?.thumbnail }}" (click) = "playMusic(audios)">
+										<div class="ttl">
+											<h3>{{ audios?.title }}</h3>
+                      <span *ngIf = "checkbox === true">
+                        <!-- <i [ngClass]="isTicked === true && contentArray.indexOf(audios.id) > -1 ? 'fa fa-check-square-o newc' : 'fa fa-check-square-o'" aria-hidden="true" (click)="songs(audios.id)"></i> -->
+                        <i *ngIf = 'isTicked === true && contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(audios.id)"></i>
+                        <i *ngIf = '!contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i>
+                      </span>
+										</div>
+									</div></li>
+                </ul>
+              </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tabs-2" role="tabpanel">
+              <p>Second Panel</p>
+            </div>
+            <div class="tab-pane" id="tabs-3" role="tabpanel">
+              <p>Third Panel</p>
+            </div>
+          </div>
+
+          <ion-button *ngIf = "checkbox === true" class="editbtn2" size="small" color="success" (click) = "playList()">Update Playlist</ion-button>
+        </div>
+    </div>
+    </div>
+</ion-content>
+

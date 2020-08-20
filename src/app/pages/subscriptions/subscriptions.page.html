@@ -34,7 +34,7 @@
           <ul>
             <li *ngFor = "let current of nowSub">
               <div class="track-list">
-                    <img src="../../../assets/img/genres-1.png" [routerLink] = "['/nowplay/', current.id]">
+                    <img src="../../../assets/img/genres-1.png" [routerLink] = "['/nowplay/', current.id , 'now']">
                     <div class="ttl">
                       <h3>Bollywood</h3>
                     </div>
@@ -52,7 +52,7 @@
           <ul>
             <li *ngFor = "let coming of upcomingSub">
               <div class="track-list">
-                <img src="../../../assets/img/genres-1.png" [routerLink] = "['/laterplay/', coming.id]">
+                <img src="../../../assets/img/genres-1.png" [routerLink] = "['/nowplay/', coming.id , 'later']">
                 <div class="ttl">
                   <h3>Bollywood</h3>
                 </div>

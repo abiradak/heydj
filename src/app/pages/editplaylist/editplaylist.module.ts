@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LaterplayPageRoutingModule } from './laterplay-routing.module';
+import { EditplaylistPageRoutingModule } from './editplaylist-routing.module';
 
-import { LaterplayPage } from './laterplay.page';
+import { EditplaylistPage } from './editplaylist.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LaterplayPageRoutingModule
+    EditplaylistPageRoutingModule
   ],
-  declarations: [LaterplayPage]
+  declarations: [EditplaylistPage]
 })
-export class LaterplayPageModule {}
+export class EditplaylistPageModule {}

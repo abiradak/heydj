@@ -47,6 +47,7 @@
                 <source src="{{ feature.sampleContent }}"
                 type="video/webm">
               </video>
+              <span class="texts">Subscribe Here<i class="fa fa-plus-square-o icons" aria-hidden="true" [routerLink] = "['/playlist/', feature.id]"></i></span>
             </li>
           </ul>
         </div>
@@ -81,7 +82,7 @@
           </h3>
           <div class="genrs-list">
             <ul>
-              <li *ngFor = "let songs of songslist | slice:start:endall">
+              <li *ngFor = "let songs of audioAll | slice:start:endall">
                 <div class="list-of-song">
                   <div *ngIf = "!songs.thumbnail" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
                   <div *ngIf = "songs.thumbnail" class="song-dp"><img src="{{ songs.thumbnail }}" [routerLink] = "['/playlist/', songs.id]"></div>
@@ -94,7 +95,18 @@
               </li>
             </ul>
           </div>
-          </div>
+        </div>
+        <div class="fe-song-list-all">
+          <ul>
+            <li *ngFor = "let feature of videoAll">
+              <video controls width="200">
+                <source src="{{ feature.sampleContent }}"
+                type="video/webm">
+              </video>
+              <span class="texts">Subscribe Here<i class="fa fa-plus-square-o icons" aria-hidden="true" [routerLink] = "['/playlist/', feature.id]"></i></span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div *ngIf = "isSearched === false" class="play-list-content">
@@ -103,21 +115,22 @@
             <span (click)="showMore()">More</span>
             <span *ngIf = "less === true" (click)="showLess()">Less</span>
           </h3>
-          <div class="genrs-list">
-            <ul>
-              <li *ngFor = "let portfolio of portfolioList | slice:start:endgen">
-                <div class="list-of-song">
-                  <div *ngIf = "!portfolio.profileImage" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
-                  <div *ngIf = "portfolio.profileImage" class="song-dp"><img src="{{ portfolio.profileImage }}" [routerLink] = "['/portfolio/', portfolio.id]"></div>
-                  <div class="song-ttl">
-                    <h4>{{ portfolio.firstName }} {{ portfolio.lastName }}</h4>
-                    <!-- <p>{{ portfolio.role }}</p> -->
-                  </div>
-                </div>
-              </li>
-            </ul>
           </div>
-          </div>
+
+      </div>
+      <div class="genrs-list">
+        <ul>
+          <li *ngFor = "let portfolio of portfolioList | slice:start:endgen">
+            <div class="list-of-song">
+              <div *ngIf = "!portfolio.profileImage" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
+              <div *ngIf = "portfolio.profileImage" class="song-dp"><img src="{{ portfolio.profileImage }}" [routerLink] = "['/portfolio/', portfolio.id]"></div>
+              <div class="song-ttl">
+                <h4>{{ portfolio.firstName }} {{ portfolio.lastName }}</h4>
+                <!-- <p>{{ portfolio.role }}</p> -->
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
 
       <div *ngIf = "isSearched === true" class="search-list-song">

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HelperService } from '../../helper.service';
 import { ApiGenerateService } from '../../api-generate.service';
 import { MusicService } from '../../music.service';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-nowplay',
@@ -29,7 +30,9 @@ export class NowplayPage implements  AfterViewInit {
   contentUrl = [];
   isPlaying = false;
   showPlay = false;
-
+  nowplay: boolean;
+  sampleContent: any;
+  sampleType: any;
 
   constructor(
     private router : Router,
@@ -37,7 +40,15 @@ export class NowplayPage implements  AfterViewInit {
     public apiGenerate: ApiGenerateService,
     private route: ActivatedRoute,
     private music: MusicService,
-  ) { }
+  ) {
+    const type = this.route.snapshot.paramMap.get('type');
+    if(type == 'now') {
+      this.nowplay = true;
+    } else if(type == 'later') {
+      this.helper.presentToast('Your Subscription Will Play later Enjoy The Sample!' , 'success');
+      this.nowplay = false;
+    }
+   }
 
   ionViewWillEnter() {
     this.subdetails();
@@ -124,14 +135,13 @@ export class NowplayPage implements  AfterViewInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.apiGenerate.sendHttpCallWithToken('' , `/api/subscription/${id}` ,'get').subscribe((success) => {
       console.log('response coming >>>>>>>' , success);
-      this.contentUrl = success.contents
+      this.contentUrl = success.contents;
       const starting = success.startFrom.split("T");
       this.start = starting[0];
       const startingTime = starting[1].split("+");
       this.startTime = startingTime[0];
       const lastTime = this.startTime.split(":");
       this.getPlaylist(success.playlistId);
-      console.log('endtime>>>>>>>>' , this.endtime);
     }, (error) => {
       console.log('errors coming >>>>>>' , error);
     })
@@ -139,7 +149,7 @@ export class NowplayPage implements  AfterViewInit {
 
   async getPlaylist(id) {
     this.apiGenerate.sendHttpCallWithToken('' , `/api/playlist/${id}` , 'get').subscribe((success) => {
-      console.log('gettin playlist >>>>>>>>' , success);
+      console.log('jfgfh' ,success);
       this.response = success;
     }, (error) => {
       console.log('errors >>>>' , error);

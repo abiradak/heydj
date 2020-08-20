@@ -56,7 +56,40 @@ export class MyplaylistPage  {
     });
   }
 
-  async deletePlaylist() {
-    
+  async deletePlaylist(id) {
+    const alert = await this.alertCtrl.create({
+      header: 'Are you sure ?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'cancelbtn',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Delete',
+          cssClass: 'deletebtn',
+          handler: () => {
+            this.helper.presentLoading();
+            this.apiGenerate.sendHttpCallWithToken('', '/api/dj//playlist/' + id, 'delete').subscribe((response: any) => {
+              console.log('delete res >>>>>>>>>' , response)
+              this.helper.presentToast(response, 'success');
+              this.helper.hideLoading();
+              this.myPlaylist();
+              this.getUserInfo();
+            }, err => {
+              console.log('errors' ,err);
+              this.helper.presentToast(err.error , 'danger');
+              this.helper.hideLoading();
+              this.myPlaylist();
+              this.getUserInfo();
+            });
+          }
+        },
+      ]
+    });
+    await alert.present();
   }
 }

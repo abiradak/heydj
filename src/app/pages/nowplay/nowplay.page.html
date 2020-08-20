@@ -13,13 +13,20 @@
        <div class="col-12">
          <div class="single-track">
            <h2 class="test">{{ response.title }}</h2>
-           <div class="div-song">
+           <div  *ngIf = "nowplay === true" class="div-song">
              <div class="song-dp"><img class="mainimg" src="{{ response.thumbnail }}"></div>
              <div class="song-txt" *ngFor = "let content of contentUrl">
                <p><span>Title:</span>{{ content.title }}</p>
-               <a (click) = "playContent(content.content , content.type)">Play</a>
+               <a *ngIf = "nowplay === true" (click) = "playContent(content.content , content.type)">Play</a>
              </div>
            </div>
+           <div *ngIf = "nowplay === false" class="div-song">
+            <div class="song-dp"><img class="mainimg" src="{{ response.thumbnail }}"></div>
+            <div class="song-txt">
+             <p><span>Title:</span>{{ response.title }}</p>
+             <a *ngIf = "nowplay === false" (click) = "playContent(response.sampleContent , response.sampleType)">Play Sample Content</a>
+           </div>
+          </div>
            <div class="strt-end-time">
             <p><span>Started At: </span>{{ this.start }} {{ startTime }}</p>
             <p><span>Ends At: </span>{{ this.start }} {{ startTime }}</p>
