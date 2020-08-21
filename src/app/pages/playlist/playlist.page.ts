@@ -106,9 +106,6 @@ export class PlaylistPage implements  AfterViewInit {
           this.isPlaying = false;
       });
 
-
-      this.currentTime = Math.floor(this._player.currentTime);
-
       // setInterval(() => {
       //   // this._player.addEventListener('timeupdate', () => {
       //     this.currentTime = Math.floor(this._player.currentTime);
@@ -116,9 +113,14 @@ export class PlaylistPage implements  AfterViewInit {
       //   console.log('gchbjn', this.currentTime);
       // }, 5000);
 
-      this._player.addEventListener('timeupdate', () => {
-        this.currentTime = Math.floor(this._player.currentTime);
-      }, true);
+      // this._player.addEventListener('timeupdate', () => {
+      //   this.currentTime = Math.floor(this._player.currentTime);
+      // }, true);
+
+      // this._player.ontimeupdate = (event) => {
+      //   console.log('The currentTime attribute has been updated. Again.', event);
+      //   this.currentTime = Math.floor(event.timeStamp/1000);
+      // };
 
       this._player.addEventListener('seeking', () => {
           this.isLoading = true;
@@ -136,8 +138,28 @@ export class PlaylistPage implements  AfterViewInit {
           this.isLoading = false;
           this.duration = Math.floor(this._player.duration);
       });
+
+      this._player.addEventListener('ended' , () => {
+        this.playing = false;
+      });
       
   }
+
+  // timeUpdate() {
+  //   console.log('started>>>>>>>>>>>> ');
+  //   this.currentTime = 0;
+  //   var interval = setInterval(time, 10000);
+  //   function time() {
+  //     this.currentTime = this.currentTime+1;
+  //     if (this.currentTime >= this.duration){
+  //       clearInterval(interval);
+  //     }
+  //     console.log('in>>>>>>>>>>>> ', this.currentTime);
+  //   }
+  //   console.log('>>>>>>>>>>>> ', this.currentTime);
+  // }
+
+  
 
   async back() {
     this.helper.goBack();
