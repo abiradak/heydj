@@ -17,6 +17,7 @@
     float: left;
     padding-top: 38px;
   }
+  .editbtn1{ background-color: #00a9c9;}
   .dj-logo {
       width: 15%;
       float: left;
@@ -228,7 +229,7 @@
   }
   .track-list img{
   width: 100%;
-  height: 100%;
+  height:auto;
   }
   .ttl {
   position: absolute;
@@ -237,6 +238,8 @@
   padding: 2px 4px;
     bottom: 0;
     height: 30px;
+    justify-content: center; align-items: center;
+    display: flex;
   }
   .ttl h3{
     margin: 0;
@@ -308,8 +311,10 @@
     font-size: 15px;
     height: 25px;
     text-transform: capitalize;
-    width: 27%;
+    width: 30%;
     margin-left: 260px;
+    border-radius: 4px;
+    color: #fff;
 }
 .editbtn2 {
   font-size: 15px;

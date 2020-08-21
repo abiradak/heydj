@@ -18,6 +18,7 @@ ion-avatar {
   left: -2px;
   top: 2px;
 }
+.protfolio-col{ width: 100%; height: 100vh; background: #242232;}
 .imgupload {
 font-size: 18px;
 height: 80px;
@@ -65,9 +66,10 @@ padding:10px 0px;
 .header-logo img{
 width: 70px;
 }
-
+.main ul{ list-style: none;}
+.main ul li .btn-danger{ padding: 0px 5px; margin-bottom: 15px;}
 .registration-form {
-height: 100%;
+height:auto;
 width: 100%;
 margin-top: -6px;
 background: #202020;
@@ -108,6 +110,7 @@ padding: 10px 20px;
 // border-radius: 50px;
 font-weight: bold;
 // margin-top: 5%;
+border-radius: 5px;
 }
 .validation {
 color: red;

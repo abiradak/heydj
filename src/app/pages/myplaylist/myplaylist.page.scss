@@ -19,7 +19,7 @@
   }
   .dj-logo {
       width: 15%;
-      float: left;
+      margin: 0px auto;
   }
   .dj-menu-list{
     width: 65%;
@@ -237,6 +237,9 @@
   padding: 2px 4px;
     bottom: 0;
     height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .ttl h3{
     margin: 0;
@@ -309,7 +312,7 @@
     font-size: 15px;
     height: 25px;
     text-transform: capitalize;
-    width: 27%;
+    width: 30%;
     margin-left: 260px;
 }
 .editbtn2 {
