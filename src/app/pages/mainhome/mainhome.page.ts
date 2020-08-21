@@ -49,8 +49,8 @@ export class MainhomePage  {
 
   ionViewWillEnter() {
     this.appComponent.sideMenu();
-    this.audio = [];
-    this.video = [];
+    // this.audio = [];
+    // this.video = [];
     this.getAllContents();
     this.getGenreList();
     this.allFeaturePlaylist();
@@ -93,13 +93,13 @@ export class MainhomePage  {
     'get').subscribe((response) => {
       console.log('music list>>>>>>>>', response.body.playlists);
       this.songslist = response.body.playlists;
-      this.songslist.forEach(element => {
-        if(element.sampleType == 'audio') {
-          this.audioAll.push(element)
-        } else if(element.sampleType == 'video') {
-          this.videoAll.push(element);
-        }
-      });
+      // this.songslist.forEach(element => {
+      //   if(element.sampleType == 'audio') {
+      //     this.audioAll.push(element)
+      //   } else if(element.sampleType == 'video') {
+      //     this.videoAll.push(element);
+      //   }
+      // });
       this.songArraymake();
     }, error => {
       console.log('music list>>>>>>>>', error.error);
