@@ -86,15 +86,16 @@ export class PlaylistPage implements  AfterViewInit {
     this._player.pause();
     this.playing = false;
   }
-  seek(number): void {
+  seeking(number): void {
     this._player.currentTime = this._player.currentTime+number;
   }
 
-  // seek({ detail: { value } }: { detail: { value: number } }): void {
-  //     this._player.currentTime = value;
-  // }
+  seek({ detail: { value } }: { detail: { value: number } }): void {
+      this._player.currentTime = value;
+  }
 
   
+
 
   private _bindPlayerEvents(): void {
       this._player.addEventListener('playing', () => {
@@ -105,9 +106,19 @@ export class PlaylistPage implements  AfterViewInit {
           this.isPlaying = false;
       });
 
-      // this._player.addEventListener('timeupdate', () => {
+
+      this.currentTime = Math.floor(this._player.currentTime);
+
+      // setInterval(() => {
+      //   // this._player.addEventListener('timeupdate', () => {
       //     this.currentTime = Math.floor(this._player.currentTime);
-      // });
+      //   // }, true);
+      //   console.log('gchbjn', this.currentTime);
+      // }, 5000);
+
+      this._player.addEventListener('timeupdate', () => {
+        this.currentTime = Math.floor(this._player.currentTime);
+      }, true);
 
       this._player.addEventListener('seeking', () => {
           this.isLoading = true;
@@ -125,8 +136,7 @@ export class PlaylistPage implements  AfterViewInit {
           this.isLoading = false;
           this.duration = Math.floor(this._player.duration);
       });
-      console.log('src >>>>><<<<' , this._player.currentSrc);
-      // this._player.load();
+      
   }
 
   async back() {

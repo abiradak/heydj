@@ -115,11 +115,11 @@ export class AppComponent  {
           url: '/create-portfolio',
           icon: 'home'
         },
-        {
-          title: 'Messages',
-          url: '/mainhome',
-          icon: 'information-circle'
-        },
+        // {
+        //   title: 'Messages',
+        //   url: '/mainhome',
+        //   icon: 'information-circle'
+        // },
         {
           title: 'Earnings',
           url: '/profit',
