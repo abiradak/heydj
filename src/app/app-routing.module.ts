@@ -84,6 +84,11 @@ const routes: Routes = [
     path: 'editplaylist/:id', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/editplaylist/editplaylist.module').then( m => m.EditplaylistPageModule)
   },
+  {
+    path: 'playlistdetails/:id', canActivate: [ActiveGuardService],
+    loadChildren: () => import('./pages/playlistdetails/playlistdetails.module').then( m => m.PlaylistdetailsPageModule)
+  },
+
 
 ];
 
