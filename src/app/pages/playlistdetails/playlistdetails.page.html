@@ -1,9 +1,71 @@
+<audio
+    #player
+    src="">
+</audio>
 <ion-header>
   <ion-toolbar>
-    <ion-title>playlistdetails</ion-title>
+    <ion-title>Playlist Contents</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="menubar">
+    <img src="assets/img/back.png" (click)="back()">
+  </div>
+  <div class="container">
+    <div class="row">
+        <div class="profile-recomend">
+          <ul class="nav nav-tabs" role="tablist">
+          </ul><!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+              <div class="song-tag-list">
+                <h6 class="song-tag">{{ playList.title }}</h6>
+              <div class="fe-song-list">
+                <ul>
+                  <li *ngFor = "let contents of playListContent" class="edit-select">
+                    <div class="track-list b-r1">
+										<img src="{{ contents?.thumbnail }}" (click) = "play(contents.content , contents.type)">
+										<div class="ttl">
+											<h3>{{ contents?.title }}</h3>
+										</div>
+                    </div>
+                  </li>
 
+                </ul>
+              </div>
+              </div>
+              
+            </div>
+        </div>
+        </div>
+        <div *ngIf = "isPlaying === true" class="player-controls">
+          <div class="song-dpp"><img src="{{ playList.thumbnail }}"></div>
+          <div class="song-ttl">
+            <ul *ngIf = "showPlay === false">
+              <li><i class="fa fa-backward" (click)= "seek()"></i></li>
+              <li><i class="fa fa-play" (click)= "resume()"></i></li>
+              <li><i class="fa fa-forward" (click)= "seek()"></i></li>
+            </ul>
+            <ul *ngIf = "showPlay === true">
+              <li><i class="fa fa-backward" (click)= "seek()"></i></li>
+              <li><i class="fa fa-pause" (click)= "pause()"></i></li>
+              <li><i class="fa fa-forward" (click)= "seek()"></i></li>
+            </ul>
+          </div>
+          <!-- <div class="progress-bar"> -->
+            <!-- <ion-range
+              min="0"
+              [max]="duration"
+              [value]="currentTime"
+              (ionChange)="seeking($event)"
+              color="light">
+              <ion-label color="light" slot="start">{{ currentTime }}</ion-label>
+              <ion-label color="light" slot="end">{{ duration }}</ion-label>
+            </ion-range> -->
+          <!-- </div> -->
+    </div>
+    </div>
+  </div>  
 </ion-content>
+

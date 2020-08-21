@@ -88,8 +88,6 @@ const routes: Routes = [
     path: 'playlistdetails/:id', canActivate: [ActiveGuardService],
     loadChildren: () => import('./pages/playlistdetails/playlistdetails.module').then( m => m.PlaylistdetailsPageModule)
   },
-
-
 ];
 
 @NgModule({
