@@ -181,9 +181,8 @@ export class CreateDJprofilePage {
         this.createDj.reset();
         this.createDj.disable();
       }, 2000);
-      this.apiGenerate.sendHttpForContentCreate(form, `/api/dj/v2/content`, 'post').subscribe((event: any) => {
+      this.apiGenerate.sendHttpForContentCreate(form, `/api/dj/content`, 'post').subscribe((event: any) => {
         console.log('hello success >>>>>>>>' , event);
-        // console.log('processing >>>>>>>>>>>' , event);
         if (event.type === HttpEventType.UploadProgress) {
           console.log("Upload progress");
           const comingtotal =  event.total/1000000;

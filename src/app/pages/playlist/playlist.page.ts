@@ -25,7 +25,8 @@ export class PlaylistPage implements  AfterViewInit {
   currentTime = 0;
   duration = 0;
   private _player: HTMLAudioElement;
-
+  // timeLeft: number = 60;
+  interval;
 
   songsList: any;
   fullData: any;
@@ -64,6 +65,7 @@ export class PlaylistPage implements  AfterViewInit {
       this.playing = true;
       this._player.src = url;
       this._player.play();
+      // this.startTimer();
     } else if(this.data == 'video'){
       this.helper.presentToast('Video Playing With Player' , 'success');
       this.playing = true; 
@@ -93,10 +95,7 @@ export class PlaylistPage implements  AfterViewInit {
   seek({ detail: { value } }: { detail: { value: number } }): void {
       this._player.currentTime = value;
   }
-
   
-
-
   private _bindPlayerEvents(): void {
       this._player.addEventListener('playing', () => {
           this.isPlaying = true;
@@ -106,21 +105,9 @@ export class PlaylistPage implements  AfterViewInit {
           this.isPlaying = false;
       });
 
-      // setInterval(() => {
-      //   // this._player.addEventListener('timeupdate', () => {
-      //     this.currentTime = Math.floor(this._player.currentTime);
-      //   // }, true);
-      //   console.log('gchbjn', this.currentTime);
-      // }, 5000);
-
-      // this._player.addEventListener('timeupdate', () => {
-      //   this.currentTime = Math.floor(this._player.currentTime);
-      // }, true);
-
-      // this._player.ontimeupdate = (event) => {
-      //   console.log('The currentTime attribute has been updated. Again.', event);
-      //   this.currentTime = Math.floor(event.timeStamp/1000);
-      // };
+      this._player.addEventListener('timeupdate', () => {
+        this.currentTime = Math.floor(this._player.currentTime);
+      }, true);
 
       this._player.addEventListener('seeking', () => {
           this.isLoading = true;
@@ -145,18 +132,24 @@ export class PlaylistPage implements  AfterViewInit {
       
   }
 
-  // timeUpdate() {
-  //   console.log('started>>>>>>>>>>>> ');
+  
+
+  // startTimer() {
   //   this.currentTime = 0;
-  //   var interval = setInterval(time, 10000);
-  //   function time() {
-  //     this.currentTime = this.currentTime+1;
-  //     if (this.currentTime >= this.duration){
-  //       clearInterval(interval);
+  //   this.interval = setInterval(() => {
+  //     if(this.currentTime < this.duration) {
+  //       console.log('hi');
+  //       this.currentTime = this.currentTime+1;
+  //       console.log('interval' , this.currentTime);
+  //     } else {
+  //       console.log('hello');
+  //       this.currentTime = this.duration;
   //     }
-  //     console.log('in>>>>>>>>>>>> ', this.currentTime);
-  //   }
-  //   console.log('>>>>>>>>>>>> ', this.currentTime);
+  //   },1000)
+  // }
+
+  // pauseTimer() {
+  //   clearInterval(this.interval);
   // }
 
   
