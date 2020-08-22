@@ -49,8 +49,7 @@
         <ion-range
           min="0"
           [max]="duration"
-          (touchend)="seek($event)"
-          (mouseup)="seek($event)"
+          (ionChange)="seek($event)"
           [value]="currentTime"
           debounce="500"
           color="light">

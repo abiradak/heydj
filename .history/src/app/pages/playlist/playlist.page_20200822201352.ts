@@ -103,7 +103,7 @@ export class PlaylistPage implements  AfterViewInit {
   seek(e): void {
       console.log('###  seek ', e);      
       console.log('###  seek ', e.target.value);      
-      this._player.currentTime = e.target.value;
+      // this._player.currentTime = value;
   }
   
   private _bindPlayerEvents(): void {
