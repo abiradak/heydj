@@ -150,6 +150,7 @@ export class DjmainhomePage {
   async deleteSongs(id) {
     let position  = this.contentArray.indexOf(id);
     this.contentArray.splice(position , 1);
+    console.log('songs array del >>>>>' , this.contentArray);
   }
  
   async addPlaylist() {

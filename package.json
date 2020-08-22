@@ -48,7 +48,6 @@
     "@ionic-native/streaming-media": "^5.27.0",
     "@ionic/angular": "^5.1.1",
     "@ionic/storage": "^2.2.0",
-    "@types/jquery": "^3.5.1",
     "angularx-social-login": "^3.0.1",
     "com.razorpay.cordova": "1.4.12",
     "cordova-android": "^8.1.0",

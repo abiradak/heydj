@@ -39,6 +39,7 @@ export class PlaylistPage implements  AfterViewInit {
   bottomSongname: any;
   playing = false;
   price: any;
+  isDJ: any;
   
   
   constructor(
@@ -49,7 +50,9 @@ export class PlaylistPage implements  AfterViewInit {
     private helper: HelperService,
     private alertCtrl: AlertController,
     private keyboard: Keyboard,
-  ) { }
+  ) {
+    this.isDJ = localStorage.getItem('dj');
+   }
 
   ionViewWillEnter() {
     this.getPlaylist();

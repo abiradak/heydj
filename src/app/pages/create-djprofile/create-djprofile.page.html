@@ -13,9 +13,9 @@
   </div>
 
   <div class="registration-form">
-  
-  <ion-progress-bar *ngIf = "progressbar === true"  class="progressbar" color="secondary" value = '{{ this.progress }}'></ion-progress-bar>  
-  <h4 *ngIf = "progressbar === true"  class="dtext">Your Content Is Uploading....{{ progress }}MB/{{ total }}MB</h4>
+    <ion-progress-bar *ngIf = "progressbar === true" type="indeterminate" color="secondary" class="progressbar"></ion-progress-bar>
+  <!-- <ion-progress-bar *ngIf = "progressbar === true"  class="progressbar" color="secondary" value = '{{ this.progress }}'></ion-progress-bar>   -->
+  <h4 *ngIf = "progressbar === true"  class="dtext">Your Content Is Uploading.... {{ progress }}MB / {{ total }} MB</h4>
   <h4 *ngIf = "progressbar === true"  class="dtext">Don Not turn off your Internet Connection</h4>
   <h4 *ngIf = "progressbar === true"  class="dtext">You Can upload another content after this!!</h4>
 

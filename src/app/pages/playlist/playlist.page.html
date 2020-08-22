@@ -22,7 +22,7 @@
               <li><i class="fa fa-angle-double-right" (click) = "seeking(10)"></i></li>
             </ul>
           </div>
-        <div class="subscrip-btn">
+        <div *ngIf = "isDJ !== 'dj'" class="subscrip-btn">
           <button class="subs-crib" (click) = subNow()>Subscribe Now</button>
           <button class="subs-crib" (click) = subLater()>Subscribe Later</button>
         </div>
