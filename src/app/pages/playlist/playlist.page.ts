@@ -375,16 +375,12 @@ export class PlaylistPage implements  AfterViewInit {
 
     options.handler = async (response, error) => {
       if (response) {
-        this.helper.presentToast('Payment Successfully Done' , 'success');
         this.router.navigate(["/subscriptions"]);
+        this.helper.presentToast('Payment Successfully Done' , 'success');
       } else if (error) {
         console.log("payment error >>>>>>>>>>>  ", error);
         // this.helper.presentToast('Payment Successfully Done' , 'success');
       }
-    };
-
-    options.modal.ondismiss = async () => {
-      this.helper.presentToast('Payment Canceled' , 'danger');
     };
 
     var successCallback = function (payment_id) {
@@ -404,7 +400,8 @@ export class PlaylistPage implements  AfterViewInit {
 
     RazorpayCheckout.on("payment.success", async (response) => {
       console.log("payment success  >>>>>>>>>>>>>>  ", response);
-      
+      this.router.navigate(["/subscriptions"]);
+      this.helper.presentToast('Payment Successfully Done' , 'success');
     });
   }
 
