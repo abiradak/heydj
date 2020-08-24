@@ -66,14 +66,14 @@ padding:10px 0px;
 .header-logo img{
 width: 70px;
 }
-.main ul{ list-style: none;}
+.main ul{ list-style: none; margin: 0px; padding: 0px;}
 .main ul li .btn-danger{ padding: 0px 5px; margin-bottom: 15px;}
 .registration-form {
 height:auto;
 width: 100%;
-margin-top: -6px;
+margin-top:0px;
 background: #202020;
-padding: 15px 25px 50px 15px;
+padding: 15px 15px 50px 15px;
 font-family: 'Gotham Narrow';
 }
 
@@ -118,9 +118,10 @@ color: red;
 
 .menubar{
 z-index: 999;
-top: -31px;
+top: 0px;
 left: 22px;
 background: #000000;
+padding: 10px;
 }
 .main{
 margin-top: 50px;
@@ -170,8 +171,10 @@ display: inline-block;
 display: inline;
 }
 .videos {
-margin-left: -40px;
+margin-left:0;
+width: 100%;
 }
+.videos iframe{ width: 100%;}
 .user-info{
 width: 50%;
 text-align: center;
