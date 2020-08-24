@@ -49,10 +49,8 @@
         <ion-range
           min="0"
           [max]="duration"
-          (touchend)="seek($event)"
-          (mouseup)="seek($event)"
+          (ionChange)="seek($event)"
           [value]="currentTime"
-          debounce="500"
           color="light">
           <ion-label color="light" slot="start">{{ currentTime }}</ion-label>
           <ion-label color="light" slot="end">{{ duration }}</ion-label>

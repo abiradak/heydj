@@ -5,7 +5,6 @@ import { MusicService } from '../../music.service';
 import { HelperService } from '../../helper.service';
 import { AlertController } from '@ionic/angular';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-// import { setInterval } from 'timers';
 declare var RazorpayCheckout: any;
 
 const opts = {
@@ -96,14 +95,8 @@ export class PlaylistPage implements  AfterViewInit {
     this._player.currentTime = this._player.currentTime+number;
   }
 
-  // seek({ detail: { value } }: { detail: { value: number } }): void {
-  //     console.log('###  seek ', value, this._player.currentTime);      
-  //     // this._player.currentTime = value;
-  // }
-  seek(e): void {
-      console.log('###  seek ', e);      
-      console.log('###  seek ', e.target.value);      
-      this._player.currentTime = e.target.value;
+  seek({ detail: { value } }: { detail: { value: number } }): void {
+      this._player.currentTime = value;
   }
   
   private _bindPlayerEvents(): void {
@@ -118,9 +111,12 @@ export class PlaylistPage implements  AfterViewInit {
 
       this._player.addEventListener('timeupdate', () => {
         // console.log('####  time ', this._player.currentTime, Math.floor(this._player.currentTime));
-        // console.log('####  test ', this._player.currentTime, this._player.currentTime % 1);
-        this.currentTime = Math.floor(this._player.currentTime);    
-        // this.currentTime = this._player.currentTime;    
+        console.log('####  test ', this._player.currentTime, this._player.currentTime % 1);
+        // this.currentTime = Math.floor(this._player.currentTime);
+        if((this._player.currentTime % 1) == 0){
+          console.log('####  matched ', this._player.currentTime, this._player.currentTime % 1);
+          this.currentTime = this._player.currentTime;
+        }
         
       }, false);
 
