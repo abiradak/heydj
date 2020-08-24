@@ -19,17 +19,17 @@ ion-avatar {
     top: 2px;
   }
   .imgupload {
-    font-size: 18px;
+    font-size: 16px;
     height: 80px;
     text-transform: capitalize;
-    width: 60%;
+    width: 100%;
   }
   
   .button {
     text-align: center;
   }
   ion-button {
-    font-size: 18px;
+    font-size: 16px;
     height: 45px;
     text-transform: capitalize;
     width: 80%;
@@ -117,4 +117,5 @@ ion-avatar {
     top: 29px;
     left: 20px;
     position: absolute;
+    padding: 10px;
   }
