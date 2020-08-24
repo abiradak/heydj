@@ -47,18 +47,6 @@
     <div class="row">
         <div class="profile-recomend">
           <ul class="nav nav-tabs" role="tablist">
-            <!-- <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Works</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Favourites</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Followers</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Following</a>
-            </li> -->
             <li>
               <button *ngIf = "checkbox === false" class="editbtn1" size="small" (click) = "addPlaylist()">Add Playlist</button>
             </li>
@@ -109,7 +97,7 @@
                       </span>
                       <span *ngIf = "checkbox === true">
                         <i *ngIf = "isTicked === true && contentArray.indexOf(audios.id) > -1" class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(audios.id)"></i>
-                        <i *ngIf = "!contentArray.indexOf(audios.id) > -1" class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i>
+                        <i *ngIf = '!contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i>
                       </span>
 										</div>
                   </div>

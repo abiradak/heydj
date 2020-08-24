@@ -6,12 +6,19 @@
 </ion-header>
 
 <ion-content>
+  <div class="header-logo">
+    <img src="../../../assets/img/logo.png">
+  </div>
+  <div class="menubar">
+    <img src="assets/img/back.png" (click)="back()">
+  </div>
   <div class="container">
     <div class="row">
         <div class="profile-recomend">
           <ul class="nav nav-tabs" role="tablist">
             <li>
-              <ion-button *ngIf = "checkbox === false" class="editbtn1" size="small" color="success" (click) = "addPlaylist()">Choose New</ion-button>
+              <button *ngIf = "checkbox === false" class="editbtn1" size="small" (click) = "addPlaylist()" style="background-color:#00a9c9;">Choose</button>
+              <!-- <ion-button *ngIf = "checkbox === false" class="editbtn1" size="small" color="success" (click) = "addPlaylist()">Choose New</ion-button> -->
             </li>
 
           </ul><!-- Tab panes -->
@@ -65,7 +72,8 @@
             </div>
           </div>
 
-          <ion-button *ngIf = "checkbox === true" class="editbtn2" size="small" color="success" (click) = "playList()">Update Playlist</ion-button>
+          <!-- <ion-button *ngIf = "checkbox === true" class="editbtn2" size="small" style="background-color:#00a9c9;"(click) = "playList()">Update Playlist</ion-button> -->
+          <button *ngIf = "checkbox === true" class="editbtn2" size="small" style="background-color:#00a9c9;" (click) = "playList()">Update Playlist</button>
         </div>
     </div>
     </div>

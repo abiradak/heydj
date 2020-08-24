@@ -19,7 +19,6 @@ export class DjmainhomePage {
   videoContent: any;
   checkbox = false;
   contentArray: any[] = [];
-  isGreen = false;
   isTicked: boolean = false;
   tickedItem: any;
 

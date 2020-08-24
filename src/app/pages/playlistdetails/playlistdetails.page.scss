@@ -379,14 +379,6 @@
     }
   }
 
-  .menubar{
-    z-index: 999;
-    top: -31px;
-    left: 22px;
-    background: #000000;
-  }
-  
-
   .song-dpp{
     width: 15%;
     float: left;
@@ -429,3 +421,21 @@
         background: #1c1a2d;
         padding: 5px 0px;
       }
+
+
+      .menubar{
+        z-index: 999999;
+        top: 29px;
+        left: 20px;
+        position: absolute;
+      }
+    
+      .header-logo{
+        width: 100%;
+        background: #242232;
+        text-align: center;
+        padding:10px 0px;
+        }
+        .header-logo img{
+        width: 70px;
+        }

@@ -4,7 +4,7 @@ import { HelperService } from '../../helper.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MusicService } from '../../music.service';
 import { Media } from '@ionic-native/media/ngx';
-import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { AlertController, ModalController, NavController } from '@ionic/angular'
   styleUrls: ['./editplaylist.page.scss'],
 })
 export class EditplaylistPage {
-
+  
   djProfile: any;
   image: any;
   audioContent: any;
@@ -36,6 +36,7 @@ export class EditplaylistPage {
   ) { }
 
   ionViewWillEnter() {
+    
     this.checkbox = false;
     this.isTicked = false;
     this.getDjAllContent();
@@ -104,43 +105,6 @@ export class EditplaylistPage {
     // this.apiGenerate.sendHttpCall(sendData , '/api/content/url' , 'post').subscribe((success) => {
     //   this.music.PlayVideo(success.url);
     // })
-  }
-
-  async deleteCotent(id) {
-    this.presentAlertPrompt(id);
-  }
-
-
-  async presentAlertPrompt(id) {
-    const alert = await this.alertCtrl.create({
-      header: 'Warning',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'cancelbtn',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        },
-        {
-          text: 'Delete',
-          cssClass: 'deletebtn',
-          handler: () => {
-            this.helper.presentLoading();
-            this.apiGenerate.sendHttpCallWithToken('', '/api/dj/content/' + id, 'delete').subscribe((response: any) => {
-              this.helper.presentToast( response, 'success');
-              this.helper.hideLoading();
-            }, err => {
-              console.log(err.error);
-              this.helper.presentToast(err.error , 'danger');
-              this.helper.hideLoading();
-            });
-          }
-        },
-      ]
-    });
-    await alert.present();
   }
 
   async songs(id) {
