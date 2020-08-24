@@ -32,11 +32,11 @@
         <h3 *ngIf = "empty1 === true">No Subscription Avialable For Now!</h3>
         <div *ngIf = "empty1 === false" class="genrs-list">
           <ul>
-            <li *ngFor = "let current of nowSub">
+            <li *ngFor = "let current of nowSub3">
               <div class="track-list">
-                    <img src="../../../assets/img/genres-1.png" [routerLink] = "['/nowplay/', current.id , 'now']">
+                    <img src="{{ current.thumbnail }}" [routerLink] = "['/nowplay/', current.id , 'now']">
                     <div class="ttl">
-                      <h3>Bollywood</h3>
+                      <h3>{{ current.title }}</h3>
                     </div>
                   </div>
             </li>
@@ -50,11 +50,11 @@
         <h3 *ngIf = "empty3 === true">No Subscription Avialable For Now!</h3>
         <div *ngIf = "empty3 === false" class="genrs-list">
           <ul>
-            <li *ngFor = "let coming of upcomingSub">
+            <li *ngFor = "let coming of upcomingsub2">
               <div class="track-list">
-                <img src="../../../assets/img/genres-1.png" [routerLink] = "['/nowplay/', coming.id , 'later']">
+                <img src="{{ coming.thumbnail }}" [routerLink] = "['/nowplay/', coming.id , 'later']">
                 <div class="ttl">
-                  <h3>Bollywood</h3>
+                  <h3>{{ coming.title }}</h3>
                 </div>
               </div>
             </li>
@@ -68,11 +68,11 @@
         <h3 *ngIf = "empty2 === true">No Subscription Avialable For Now!</h3>
         <div *ngIf = "empty2 === false" class="genrs-list">
           <ul>
-            <li *ngFor = "let expire of expiredSub">
+            <li *ngFor = "let expire of newExpire">
               <div class="track-list">
-                    <img src="../../../assets/img/genres-1.png">
+                    <img src="{{ expire.thumbnail }}">
                     <div class="ttl">
-                      <h3>Bollywood</h3>
+                      <h3>{{ expire.title }}</h3>
                     </div>
                   </div>
             </li>

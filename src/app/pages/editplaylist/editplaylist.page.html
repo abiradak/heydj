@@ -34,8 +34,8 @@
 										<div class="ttl">
 											<h3>{{ videos?.title }}</h3>
                       <span *ngIf = "checkbox === true">
-                        <i *ngIf = 'isTicked === true && contentArray.indexOf(videos.id) > -1' class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(videos.id)"></i>
-                        <i *ngIf = '!contentArray.indexOf(videos.id) > -1' class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(videos.id)"></i>
+                        <i *ngIf = "isTicked === true && contentArray.indexOf(videos.id) > -1" class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(videos.id)"></i>
+                        <i *ngIf = "!(contentArray.indexOf(videos.id) > -1)" class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(videos.id)"></i>
                       </span>
 										</div>
                     </div>
@@ -55,8 +55,8 @@
 											<h3>{{ audios?.title }}</h3>
                       <span *ngIf = "checkbox === true">
                         <!-- <i [ngClass]="isTicked === true && contentArray.indexOf(audios.id) > -1 ? 'fa fa-check-square-o newc' : 'fa fa-check-square-o'" aria-hidden="true" (click)="songs(audios.id)"></i> -->
-                        <i *ngIf = 'isTicked === true && contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(audios.id)"></i>
-                        <i *ngIf = '!contentArray.indexOf(audios.id) > -1' class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i>
+                        <i *ngIf = "isTicked === true && contentArray.indexOf(audios.id) > -1" class = "fa fa-check-square-o newc" aria-hidden="true" (click)="deleteSongs(audios.id)"></i>
+                        <i *ngIf = "!(contentArray.indexOf(audios.id) > -1)" class = "fa fa-check-square-o" aria-hidden="true" (click)="songs(audios.id)"></i>
                       </span>
 										</div>
 									</div></li>
