@@ -12,13 +12,14 @@ import { AlertController, ModalController } from '@ionic/angular';
 })
 export class SubscriptionsPage {
   currentSub: any;
-  expiredSub: any;
+  expiredSub = [];
   upcomingSub = [];
   empty1 = false;
   empty2 = false;
   nowSub = [];
   empty3 = false;
   songslist = [];
+
   nowSub3 = [];
   upcomingsub2 = [];
   newExpire = [];
@@ -37,9 +38,9 @@ export class SubscriptionsPage {
   
 
   ionViewWillEnter() {
+    this.newExpire =  [];
     this.nowSub3 = [];
     this.upcomingsub2 = [];
-    this.newExpire = [];
     this.nowSub = [];
     this.upcomingSub = [];
     this.getAllPlaylist();

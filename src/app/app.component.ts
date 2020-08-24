@@ -137,11 +137,6 @@ export class AppComponent  {
           icon: 'people-circle',
         },
         {
-          title: 'Playlist',
-          url: '/userdashboard',
-          icon: 'map'
-        },
-        {
           title: 'Messages',
           url: '/mainhome',
           icon: 'information-circle'

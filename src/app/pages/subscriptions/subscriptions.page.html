@@ -70,7 +70,7 @@
           <ul>
             <li *ngFor = "let expire of newExpire">
               <div class="track-list">
-                    <img src="{{ expire.thumbnail }}">
+                    <img src="{{ expire.thumbnail }}" [routerLink] = "['/nowplay/', expire.id , 'expire']">
                     <div class="ttl">
                       <h3>{{ expire.title }}</h3>
                     </div>

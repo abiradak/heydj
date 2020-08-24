@@ -112,15 +112,15 @@
       <div *ngIf = "isSearched === false" class="play-list-content">
         <div class="featured-play-list">
           <h3> Artist
-            <span (click)="showMore()">More</span>
-            <span *ngIf = "less === true" (click)="showLess()">Less</span>
+            <span (click)="showMoreArtist()">More</span>
+            <span *ngIf = "lessArtist === true" (click)="showLessArtist()">Less</span>
           </h3>
           </div>
 
       </div>
-      <div class="genrs-list arist-list">
+      <div *ngIf = "isSearched === false" class="genrs-list arist-list">
         <ul>
-          <li *ngFor = "let portfolio of portfolioList | slice:start:endgen">
+          <li *ngFor = "let portfolio of portfolioList | slice:start:endArtist">
             <div class="list-of-song">
               <div *ngIf = "!portfolio.profileImage" class="song-dp"><img src="../../../assets/img/playlist-1.png"></div>
               <div *ngIf = "portfolio.profileImage" class="song-dp"><img src="{{ portfolio.profileImage }}" [routerLink] = "['/portfolio/', portfolio.id]"></div>

@@ -28,7 +28,6 @@ export class PortfolioPage {
     public router: Router,
     private route: ActivatedRoute,
     public apiGenerate: ApiGenerateService,
-    // private music: MusicService,
     private helper: HelperService,
     private alertCtrl: AlertController,
     private keyboard: Keyboard,
