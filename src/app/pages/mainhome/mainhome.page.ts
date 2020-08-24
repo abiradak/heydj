@@ -21,6 +21,7 @@ export class MainhomePage  {
   endall : number = 6;
   endgen: number = 6 ;
   endfeture: number = 6;
+  endArtist: number = 6;
   less = false;
   lessgen = false;
   lessfe = false;
@@ -34,6 +35,8 @@ export class MainhomePage  {
   video = [];
   audioAll = [];
   videoAll = [];
+  lessArtist = false;
+  
   
 
   constructor(
@@ -88,6 +91,16 @@ export class MainhomePage  {
     this.lessfe = false;
   }
 
+  async showMoreArtist() {
+    this.lessArtist = true;
+    this.endArtist = this.endArtist+6;
+    
+  }
+  async showLessArtist() {
+    this.endArtist = 6;
+    this.lessArtist = false;
+  }
+
   async getAllContents(){
     this.apiGenerate.sendHttpCall('', `/api/playlist?all=true`,
     'get').subscribe((response) => {
@@ -105,7 +118,6 @@ export class MainhomePage  {
       console.log('music list>>>>>>>>', error.error);
     });
   }
-
 
   async getGenreList() {
     this.apiGenerate.sendHttpCall('' , '/api/genre' , 'get').subscribe((success) => {

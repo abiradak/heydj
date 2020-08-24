@@ -28,8 +28,8 @@
            </div>
           </div>
            <div class="strt-end-time">
-            <p><span>Started At: </span>{{ this.start }} {{ startTime }}</p>
-            <p><span>Ends At: </span>{{ this.start }} {{ startTime }}</p>
+            <p><span>Star: </span>{{ startTime }}</p>
+            <p><span>End: </span>{{ endtime }}</p>
            </div>
          </div>
        </div>
@@ -38,28 +38,30 @@
     <div *ngIf = "isPlaying === true" class="player-controls">
       <div class="song-dpp"><img src="{{ response.thumbnail }}"></div>
       <div class="song-ttl">
-        <p>lorem ipsum</p>
+        <p>{{ response.title }}</p>
         <ul *ngIf = "showPlay === false">
-          <li><i class="fa fa-backward" (click)= "seek()"></i></li>
+          <li><i class="fa fa-backward" (click)= "seeking(-10)"></i></li>
           <li><i class="fa fa-play" (click)= "resume()"></i></li>
-          <li><i class="fa fa-forward" (click)= "seek()"></i></li>
+          <li><i class="fa fa-forward" (click)= "seeking(10)"></i></li>
         </ul>
         <ul *ngIf = "showPlay === true">
-          <li><i class="fa fa-backward" (click)= "seek()"></i></li>
+          <li><i class="fa fa-backward" (click)= "seeking(-10)"></i></li>
           <li><i class="fa fa-pause" (click)= "pause()"></i></li>
-          <li><i class="fa fa-forward" (click)= "seek()"></i></li>
+          <li><i class="fa fa-forward" (click)= "seeking(10)"></i></li>
         </ul>
       </div>
       <!-- <div class="progress-bar"> -->
-        <!-- <ion-range
+        <ion-range
           min="0"
           [max]="duration"
+          (touchend)="seek($event)"
+          (mouseup)="seek($event)"
           [value]="currentTime"
-          (ionChange)="seeking($event)"
+          debounce="500"
           color="light">
           <ion-label color="light" slot="start">{{ currentTime }}</ion-label>
           <ion-label color="light" slot="end">{{ duration }}</ion-label>
-        </ion-range> -->
+        </ion-range>
       <!-- </div> -->
 </div>
   </div>

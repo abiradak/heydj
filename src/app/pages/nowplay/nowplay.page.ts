@@ -47,6 +47,9 @@ export class NowplayPage implements  AfterViewInit {
     } else if(type == 'later') {
       this.helper.presentToast('Your Subscription Will Play later Enjoy The Sample!' , 'success');
       this.nowplay = false;
+    } else if(type == 'expire') {
+      this.helper.presentToast('Subscribe This now' , 'success');
+      this.router.navigate(['mainhome']);
     }
    }
 
@@ -84,13 +87,15 @@ export class NowplayPage implements  AfterViewInit {
     this._player.play();
   }
 
-  seeking({ detail: { value } }: { detail: { value: number } }): void {
-    this._player.currentTime = value;
+  seeking(time): void {
+    this._player.currentTime = this._player.currentTime + time;
   }
 
-  seek(): void {
-    this._player.currentTime = this._player.currentTime + 10;
-  }
+  seek(e): void {
+    console.log('###  seek ', e);      
+    console.log('###  seek ', e.target.value);      
+    this._player.currentTime = e.target.value;
+}
 
   private _bindPlayerEvents(): void {
       this._player.addEventListener('playing', () => {
@@ -101,9 +106,9 @@ export class NowplayPage implements  AfterViewInit {
           this.isPlay = false;
       });
 
-      // this._player.addEventListener('timeupdate', () => {
-      //   this.currentTime = Math.floor(this._player.currentTime);
-      // });
+      this._player.addEventListener('timeupdate', () => {
+        this.currentTime = Math.floor(this._player.currentTime);
+      });
 
       this._player.addEventListener('seeking', () => {
           this.isLoading = true;
@@ -136,11 +141,13 @@ export class NowplayPage implements  AfterViewInit {
     this.apiGenerate.sendHttpCallWithToken('' , `/api/subscription/${id}` ,'get').subscribe((success) => {
       console.log('response coming >>>>>>>' , success);
       this.contentUrl = success.contents;
-      const starting = success.startFrom.split("T");
-      this.start = starting[0];
-      const startingTime = starting[1].split("+");
-      this.startTime = startingTime[0];
-      const lastTime = this.startTime.split(":");
+      this.startTime = new Date(success.startFrom);
+      var time = new Date(success.startFrom)
+      console.log('start >>>>>', this.startTime);
+      var hour = time.setHours(time.getHours() + parseInt(success.hours));
+      this.endtime = new Date(hour);
+      console.log('last >>>>>', this.endtime);
+      console.log('start 12>>>>>', this.startTime);
       this.getPlaylist(success.playlistId);
     }, (error) => {
       console.log('errors coming >>>>>>' , error);
@@ -149,7 +156,6 @@ export class NowplayPage implements  AfterViewInit {
 
   async getPlaylist(id) {
     this.apiGenerate.sendHttpCallWithToken('' , `/api/playlist/${id}` , 'get').subscribe((success) => {
-      console.log('jfgfh' ,success);
       this.response = success;
     }, (error) => {
       console.log('errors >>>>' , error);

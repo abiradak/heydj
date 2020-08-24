@@ -285,7 +285,7 @@ export class PlaylistPage implements  AfterViewInit {
         {
           name: 'date',
           type: 'date',
-          placeholder: 'Enter The Date'
+          placeholder: 'Enter The Date',
         },
         {
           name: 'time',
@@ -351,12 +351,6 @@ export class PlaylistPage implements  AfterViewInit {
       case "localhost":
         razor_key = "rzp_test_ZuG4AsF333ZWT4";
         break;
-      case "testbookonline.tatamotors.com":
-        razor_key = "rzp_test_partner_Et2MDRKfbn1S9w";
-        break;
-      case "bookonline.tatamotors.com":
-        razor_key = "rzp_live_partner_Et2MDhsc5ExeDW";
-        break;
       default:
         razor_key = "rzp_test_ZuG4AsF333ZWT4";
         break;
@@ -379,21 +373,43 @@ export class PlaylistPage implements  AfterViewInit {
       },
     }
 
+    options.handler = async (response, error) => {
+      if (response) {
+        this.helper.presentToast('Payment Successfully Done' , 'success');
+        this.router.navigate(["/subscriptions"]);
+      } else if (error) {
+        console.log("payment error >>>>>>>>>>>  ", error);
+        // this.helper.presentToast('Payment Successfully Done' , 'success');
+      }
+    };
+
+    options.modal.ondismiss = async () => {
+      this.helper.presentToast('Payment Canceled' , 'danger');
+    };
+
     var successCallback = function (payment_id) {
       // alert('payment_id: ' + payment_id);
+      // this.helper.presentToast('Payment Successfully Done' , 'success');
+      // this.router.navigate(['subscriptions']);
       this.successPayment(payment_id);
     };
 
     var cancelCallback = function (error) {
+      this.helper.presentToast(error.error , 'danger');
       // alert(error.description + ' (Error ' + error.code + ')');
       //  this.cancelError(error);
     };
 
     RazorpayCheckout.open(options, successCallback, cancelCallback);
+
+    RazorpayCheckout.on("payment.success", async (response) => {
+      console.log("payment success  >>>>>>>>>>>>>>  ", response);
+      
+    });
   }
 
-  successPayment(payment_id) {
-    this.helper.presentToast('Payment Successfully Done' , 'success');
-    this.router.navigate(['subscriptions']);
-  }
+  // successPayment(payment_id) {
+  //   this.helper.presentToast('Payment Successfully Done' , 'success');
+  //   this.router.navigate(['subscriptions']);
+  // }
 }

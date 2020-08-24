@@ -110,14 +110,6 @@ export class CreatePortfolioPage {
       if(this.youtubeVideoUrls.length > 0) {
         this.isVideo = true;
         this.youtubeVideoUrls.forEach((element: string) => {
-          // switch (element) {
-          //   case 'https://www.youtube.com/watch?v=':
-              
-          //     break;
-          
-          //   default:
-          //     break;
-          // }
           element = element.replace('https://youtu.be/', 'https://youtube.com/embed/'); 
           this.url = this.sanitizer.bypassSecurityTrustResourceUrl(element);
           this.youtubeUrls.push(this.url);
@@ -137,9 +129,11 @@ export class CreatePortfolioPage {
   async addPortFolioUrls() {
     this.helper.presentLoading();
     if(this.createPortfolio.value.youtubeurl) {
+      var url = this.createPortfolio.value.youtubeurl.replace(/\s+/, "");
+      console.log('url >>>>' , url);
       if(this.youtubeVideoUrls.length > 0) {
         let Urls = [
-          this.createPortfolio.value.youtubeurl
+          url
         ]
         let videoUrls = Urls.concat(this.youtubeVideoUrls);
         var sendData = {
